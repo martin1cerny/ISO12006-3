@@ -1,0 +1,235 @@
+SCHEMA ISO_12006_3_VERSION_3;
+
+TYPE xtdDate = STRING;
+END_TYPE;
+
+TYPE xtdGlobalUniqueID = STRING;
+END_TYPE;
+
+TYPE xtdLabel = STRING;
+END_TYPE;
+
+TYPE xtdText = STRING;
+END_TYPE;
+
+TYPE xtdToleranceTypeEnum = ENUMERATION OF
+  (REALVALUE,
+  PERCENTAGE);
+END_TYPE;
+
+TYPE xtdValueRoleEnum = ENUMERATION OF
+  (NOMINAL,
+  MAXIMUM,
+  MINIMUM);
+END_TYPE;
+
+TYPE xtdValueTypeEnum = ENUMERATION OF
+  (XTDSTRING,
+  XTDNUMBER,
+  XTDINTEGER,
+  XTDREAL,
+  XTDBOOLEAN,
+  XTDLOGICAL);
+END_TYPE;
+
+TYPE xtdVersionID = STRING;
+END_TYPE;
+
+ENTITY xtdActivity
+  SUBTYPE OF(xtdObject);
+END_ENTITY;
+
+ENTITY xtdActor
+  SUBTYPE OF(xtdObject);
+END_ENTITY;
+
+ENTITY xtdBag
+  SUBTYPE OF(xtdCollection);
+END_ENTITY;
+
+ENTITY xtdCollection
+  ABSTRACT SUPERTYPE OF (ONEOF(xtdNest, xtdBag))
+  SUBTYPE OF(xtdRoot);
+END_ENTITY;
+
+ENTITY xtdDescription
+  SUBTYPE OF(xtdLanguageRepresentation);
+    Description : xtdText;
+  INVERSE
+   is_description_of : SET [1:?] OF xtdRoot FOR Descriptions;
+END_ENTITY;
+
+ENTITY xtdExternalDocument;
+    UniqueID : xtdGlobalUniqueID;
+    Names : SET [1:?] OF xtdName;
+END_ENTITY;
+
+ENTITY xtdLanguage;
+    LanguageNameInEnglish : xtdLabel;
+    LanguageNameInSelf : OPTIONAL xtdLabel;
+    Comments : OPTIONAL LIST [1:?] OF xtdText;
+    UniqueID : xtdGlobalUniqueID;
+END_ENTITY;
+
+ENTITY xtdLanguageRepresentation
+  ABSTRACT SUPERTYPE OF (ONEOF(xtdName, xtdDescription));
+    LanguageName : xtdLanguage;
+    UniqueID : xtdGlobalUniqueID;
+END_ENTITY;
+
+ENTITY xtdMeasureWithUnit
+  SUBTYPE OF(xtdObject);
+    UnitComponent : OPTIONAL xtdUnit;
+    ValueDomain : OPTIONAL LIST [1:?] OF xtdValue;
+END_ENTITY;
+
+ENTITY xtdName
+  SUBTYPE OF(xtdLanguageRepresentation);
+    Name : xtdLabel;
+  INVERSE
+    is_name_of : SET [1:?] OF xtdRoot FOR Names;
+END_ENTITY;
+
+ENTITY xtdNest
+  SUBTYPE OF(xtdCollection);
+  WHERE
+    WR1 : SIZEOF(QUERY(Result <* SELF\xtdRelCollects.RelatedThings | NOT(TYPEOF(SELF\xtdRelCollects.RelatingCollection) = TYPEOF(Result)))) = 0 ;
+END_ENTITY;
+
+ENTITY xtdObject
+  ABSTRACT SUPERTYPE OF (ONEOF(xtdSubject, xtdActivity, xtdUnit, xtdProperty, xtdMeasureWithUnit, xtdActor, xtdValue))
+  SUBTYPE OF(xtdRoot);
+END_ENTITY;
+
+ENTITY xtdProperty
+  SUBTYPE OF(xtdObject);
+END_ENTITY;
+
+ENTITY xtdRelActsUpon
+  SUBTYPE OF(xtdRelAssociates);
+  WHERE
+    WR1 : SIZEOF(QUERY(Result <* RelatedObjects | RelatingObject:=: Result)) = 0;
+END_ENTITY;
+
+ENTITY xtdRelAssignsCollections
+  SUBTYPE OF(xtdRelationship);
+    RelatingObject : xtdObject;
+    RelatedCollections : SET [1:?] OF xtdCollection;
+END_ENTITY;
+
+ENTITY xtdRelAssignsMeasures
+  SUBTYPE OF(xtdRelationship);
+    RelatingProperty : xtdProperty;
+    RelatedMeasures : SET [1:?] OF xtdMeasureWithUnit;
+    MethodOfInterpretation : OPTIONAL xtdName;
+END_ENTITY;
+
+ENTITY xtdRelAssignsProperties
+  SUBTYPE OF(xtdRelationship);
+    RelatedProperties : SET [1:?] OF xtdProperty;
+    RelatingObject : xtdObject;
+END_ENTITY;
+
+ENTITY xtdRelAssignsPropertyWithValues
+  SUBTYPE OF(xtdRelationship);
+    RelatedProperty : xtdProperty;
+    RelatingObject : xtdObject;
+    RelatedValues : LIST [1:?] OF UNIQUE xtdValue;
+END_ENTITY;
+
+ENTITY xtdRelAssignsUnits
+  SUBTYPE OF(xtdRelationship);
+    RelatingMeasure : xtdMeasureWithUnit;
+    RelatedUnits : SET [1:?] OF xtdUnit;
+END_ENTITY;
+
+ENTITY xtdRelAssignsValues
+  SUBTYPE OF(xtdRelationship);
+    RelatingMeasure : xtdMeasureWithUnit;
+    RelatedValues : LIST [1:?] OF UNIQUE xtdValue;
+END_ENTITY;
+
+ENTITY xtdRelAssociates
+  SUPERTYPE OF (ONEOF(xtdRelComposes, xtdRelGroups, xtdRelSpecializes, xtdRelActsUpon))
+  SUBTYPE OF(xtdRelationship);
+    RelatingObject : xtdObject;
+    RelatedObjects : SET [1:?] OF xtdObject;
+  WHERE
+    WR1 : SIZEOF(QUERY(Result <* RelatedObjects | RelatingObject:=: Result)) = 0;
+END_ENTITY;
+
+ENTITY xtdRelationship
+  ABSTRACT SUPERTYPE OF (ONEOF(xtdRelAssociates, xtdRelAssignsProperties, xtdRelAssignsMeasures, xtdRelCollects, xtdRelAssignsCollections, xtdRelSequences, xtdRelDocuments, xtdRelAssignsUnits, xtdRelAssignsValues, xtdRelAssignsPropertyWithValues))
+  SUBTYPE OF(xtdRoot);
+    ViewSelector : OPTIONAL xtdName;
+END_ENTITY;
+
+ENTITY xtdRelCollects
+  SUBTYPE OF(xtdRelationship);
+    RelatedThings : SET [1:?] OF xtdRoot;
+    RelatingCollection : xtdCollection;
+END_ENTITY;
+
+ENTITY xtdRelComposes
+  SUBTYPE OF(xtdRelAssociates);
+  WHERE
+    WR1 : SIZEOF(QUERY(Result <* SELF.RelatedObjects | NOT(TYPEOF(SELF.RelatingObject) = TYPEOF(Result)))) = 0 ;
+    WR2 : SIZEOF(QUERY(Result2 <* RelatedObjects| RelatingObject:=: Result2)) = 0;
+END_ENTITY;
+
+ENTITY xtdRelDocuments
+  SUBTYPE OF(xtdRelationship);
+    RelatedObjects : SET [1:?] OF xtdObject;
+    RelatingDocument : xtdExternalDocument;
+END_ENTITY;
+
+ENTITY xtdRelGroups
+  SUBTYPE OF(xtdRelAssociates);
+  WHERE
+    WR1 : SIZEOF(QUERY(Result <* RelatedObjects | RelatingObject:=: Result)) = 0;
+END_ENTITY;
+
+ENTITY xtdRelSequences
+  SUBTYPE OF(xtdRelationship);
+    RelatingActivity : OPTIONAL xtdActivity;
+    RelatedActivity : OPTIONAL xtdActivity;
+  WHERE
+    WR1 : RelatedActivity:<>: RelatingActivity;
+    WR2 : EXISTS(RelatingActivity) OR EXISTS(RelatedActivity);
+END_ENTITY;
+
+ENTITY xtdRelSpecializes
+  SUBTYPE OF(xtdRelAssociates);
+  WHERE
+    WR1 : SIZEOF(QUERY(Result <* RelatedObjects | RelatingObject:=: Result)) = 0;
+    WR2 : SIZEOF(QUERY(Result <* SELF.RelatedObjects | NOT(TYPEOF(SELF.RelatingObject) = TYPEOF(Result)))) = 0 ;
+END_ENTITY;
+
+ENTITY xtdRoot
+  ABSTRACT SUPERTYPE OF (ONEOF(xtdObject, xtdRelationship, xtdCollection));
+    VersionDate : OPTIONAL xtdDate;
+    VersionID : OPTIONAL xtdVersionID;
+    UniqueID : xtdGlobalUniqueID;
+    Descriptions : OPTIONAL SET [1:?] OF xtdDescription;
+    Names : SET [1:?] OF xtdName;
+END_ENTITY;
+
+ENTITY xtdSubject
+  SUBTYPE OF(xtdObject);
+END_ENTITY;
+
+ENTITY xtdUnit
+  SUBTYPE OF(xtdObject);
+END_ENTITY;
+
+ENTITY xtdValue
+  SUBTYPE OF(xtdObject);
+    LowerTolerance : OPTIONAL xtdText;
+    NominalValue : OPTIONAL xtdText;
+    UpperTolerance : OPTIONAL xtdText;
+    ValueType : OPTIONAL xtdValueTypeEnum;
+    ValueRole : OPTIONAL xtdValueRoleEnum;
+    ToleranceType : OPTIONAL xtdToleranceTypeEnum;
+END_ENTITY;
+
+END_SCHEMA;

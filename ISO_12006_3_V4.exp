@@ -1,0 +1,863 @@
+SCHEMA ISO_12006_3_VERSION_4;
+
+(*
+                NEW ENTITIES, TYPES AND FUNCTIONS
+   ==============================================================
+
+                 Semantic model for constraints
+   --------------------------------------------------------------
+   
+  New area of datastructures is introduced to describe requirements related to properties.
+  Current version was conbining both declarations of values and declarations of requirements.
+  This is split into two distinct concepts now. Constraints can be combined using logical
+  operators forming complex trees if necessary. Constraints can limit valid domain of values
+  as well as a domain of valid units, potentially combining both.
+*)
+ENTITY xtdConstraint
+  ABSTRACT SUPERTYPE OF (ONEOF(xtdMeasureConstraint, xtdUnitConstraint, xtdLogicalConstraint))
+  SUBTYPE OF(xtdObject);
+END_ENTITY;
+
+ENTITY xtdMeasureConstraint
+  SUBTYPE OF(xtdConstraint);
+  ConstraintType: xtdConstraintTypeEnum;
+  ConstraintValues: SET [1:?] OF xtdValueType;
+  ValuesUnit: OPTIONAL xtdUnit;
+END_ENTITY;
+
+ENTITY xtdMeasureIntervalConstraint
+  SUBTYPE OF(xtdConstraint);
+  UpperBoundary: xtdReal;
+  LowerBoundary: xtdReal;
+  IncludingUpperBoundary: BOOLEAN;
+  IncludingLowerBoundary: BOOLEAN;
+  ValuesUnit: OPTIONAL xtdUnit;
+END_ENTITY;
+
+ENTITY xtdUnitConstraint
+  SUBTYPE OF(xtdConstraint);
+  ConstraintUnit: xtdUnit;
+END_ENTITY;
+
+ENTITY xtdLogicalConstraint
+  SUBTYPE OF(xtdConstraint);
+  LogicalOperator: xtdLogicalOperatorEnum;
+  Constraints: SET [1: ?] OF xtdConstraint;
+END_ENTITY;
+
+
+ENTITY xtdRelAssignsConstraint
+  SUBTYPE OF(xtdRelationship);
+    RelatingProperty : xtdProperty;
+    RelatedConstraint : xtdConstraint;
+    MethodOfInterpretation : OPTIONAL xtdName;
+END_ENTITY;
+
+ENTITY xtdRelAssignsPropertyWithConstraint
+  SUBTYPE OF(xtdRelationship);
+    RelatedProperty : xtdProperty;
+    RelatingObject : xtdObject;
+    RelatedConstraint :  xtdConstraint;
+END_ENTITY;
+
+(*
+                         Specific defined value types
+  ------------------------------------------------------------------------
+  
+  In addition to existing defined types (xtdLabel, xtdText and xtdDate) new defined types
+  are introduced to cover base types used in data modelling and as base EXPRESS data types.
+  These make exchange of numeric values reliable because they make it possible to rely on
+  encoding of numeric values. This is mainly used for xtdValue where all these types are
+  made available through a new select type xtdValueType.
+  
+*)
+TYPE xtdNumber = NUMBER;
+END_TYPE;
+
+TYPE xtdInteger = INTEGER;
+END_TYPE;
+
+TYPE xtdBoolean = BOOLEAN;
+END_TYPE;
+
+TYPE xtdLogical = LOGICAL;
+END_TYPE;
+  
+TYPE xtdReal = REAL;
+END_TYPE;
+
+TYPE xtdPercent = REAL;
+END_TYPE;
+
+TYPE xtdValueType = SELECT
+	(xtdLabel,
+	xtdText,
+	xtdReal,
+	xtdNumber,
+	xtdInteger,
+	xtdBoolean,
+	xtdLogical,
+	xtdDate,
+	xtdPercent);
+END_TYPE;
+
+(*
+                      Machine readable units
+  ------------------------------------------------------------
+  While ISO 12006-3 is perfectly usable to model machine readable data
+  it didn't have a data structures which could be used to describe units
+  in a machine readable way. The concept of xtdUnit seems to be targeting 
+  communication between people where it is more important to agree on names
+  and definitions. But once those units are used to describe values and those 
+  values are to be used for validation or to inform a data content in other
+  automated systems this is not sufficient. Following structures are identical 
+  to definitions used in IFC where this are is essential to make exchange of the
+  data reliable and unambiguous.
+*)
+
+TYPE xtdUnitDefinition = SELECT
+	(xtdDerivedUnit
+	,xtdMonetaryUnit
+	,xtdNamedUnit);
+END_TYPE;
+
+ENTITY xtdDerivedUnit;
+	Elements : SET [1:?] OF xtdDerivedUnitElement;
+	UnitType : xtdDerivedUnitEnum;
+	UserDefinedType : OPTIONAL xtdLabel;
+ DERIVE
+	Dimensions : xtdDimensionalExponents := xtdDeriveDimensionalExponents(Elements);
+ WHERE
+	WR1 : (SIZEOF (Elements) > 1) OR ((SIZEOF (Elements) = 1) AND (Elements[1].Exponent <> 1 ));
+	WR2 : (UnitType <> xtdDerivedUnitEnum.USERDEFINED) OR
+((UnitType = xtdDerivedUnitEnum.USERDEFINED) AND 
+ (EXISTS(SELF.UserDefinedType)));
+END_ENTITY;
+
+ENTITY xtdDerivedUnitElement;
+	Unit : xtdNamedUnit;
+	Exponent : INTEGER;
+END_ENTITY;
+
+ENTITY xtdMonetaryUnit;
+	Currency : xtdLabel;
+END_ENTITY;
+
+ENTITY xtdNamedUnit
+ ABSTRACT SUPERTYPE OF (ONEOF
+    (xtdContextDependentUnit
+    ,xtdConversionBasedUnit
+    ,xtdSIUnit));
+	Dimensions : xtdDimensionalExponents;
+	UnitType : xtdUnitEnum;
+ WHERE
+	WR1 : xtdCorrectDimensions (SELF.UnitType, SELF.Dimensions);
+END_ENTITY;
+
+ENTITY xtdContextDependentUnit
+ SUBTYPE OF (xtdNamedUnit);
+	Name : xtdLabel;
+END_ENTITY;
+
+ENTITY xtdConversionBasedUnit
+ SUPERTYPE OF (ONEOF
+    (xtdConversionBasedUnitWithOffset))
+ SUBTYPE OF (xtdNamedUnit);
+	Name : xtdLabel;
+	ConversionFactor : xtdMeasureWithUnit;
+END_ENTITY;
+
+ENTITY xtdConversionBasedUnitWithOffset
+ SUBTYPE OF (xtdConversionBasedUnit);
+	ConversionOffset : xtdReal;
+END_ENTITY;
+
+ENTITY xtdSIUnit
+ SUBTYPE OF (xtdNamedUnit);
+	Prefix : OPTIONAL xtdSIPrefix;
+	Name : xtdSIUnitName;
+ DERIVE
+	SELF\xtdNamedUnit.Dimensions : xtdDimensionalExponents := xtdDimensionsForSiUnit (SELF.Name);
+END_ENTITY;
+
+TYPE xtdConstraintTypeEnum = ENUMERATION OF
+	(
+	GREATERTHAN,
+	GREATERTHANOREQUALTO,
+	LESSTHAN,
+	LESSTHANOREQUALTO,
+	EQUALTO,
+	NOTEQUALTO,
+	INCLUDES,
+	NOTINCLUDES,
+	INCLUDEDIN,
+	NOTINCLUDEDIN
+	);
+END_TYPE;
+
+TYPE xtdLogicalOperatorEnum = ENUMERATION OF
+	(
+	OP_AND,
+	OP_OR,
+	OP_XOR
+	);
+END_TYPE;
+
+TYPE xtdSIPrefix = ENUMERATION OF
+	(EXA
+	,PETA
+	,TERA
+	,GIGA
+	,MEGA
+	,KILO
+	,HECTO
+	,DECA
+	,DECI
+	,CENTI
+	,MILLI
+	,MICRO
+	,NANO
+	,PICO
+	,FEMTO
+	,ATTO);
+END_TYPE;
+
+TYPE xtdSIUnitName = ENUMERATION OF
+	(AMPERE
+	,BECQUEREL
+	,CANDELA
+	,COULOMB
+	,CUBIC_METRE
+	,DEGREE_CELSIUS
+	,FARAD
+	,GRAM
+	,GRAY
+	,HENRY
+	,HERTZ
+	,JOULE
+	,KELVIN
+	,LUMEN
+	,LUX
+	,METRE
+	,MOLE
+	,NEWTON
+	,OHM
+	,PASCAL
+	,RADIAN
+	,SECOND
+	,SIEMENS
+	,SIEVERT
+	,SQUARE_METRE
+	,STERADIAN
+	,TESLA
+	,VOLT
+	,WATT
+	,WEBER);
+END_TYPE;
+
+ENTITY xtdDimensionalExponents;
+	LengthExponent : INTEGER;
+	MassExponent : INTEGER;
+	TimeExponent : INTEGER;
+	ElectricCurrentExponent : INTEGER;
+	ThermodynamicTemperatureExponent : INTEGER;
+	AmountOfSubstanceExponent : INTEGER;
+	LuminousIntensityExponent : INTEGER;
+END_ENTITY;
+
+TYPE xtdUnitEnum = ENUMERATION OF
+	(ABSORBEDDOSEUNIT
+	,AMOUNTOFSUBSTANCEUNIT
+	,AREAUNIT
+	,DOSEEQUIVALENTUNIT
+	,ELECTRICCAPACITANCEUNIT
+	,ELECTRICCHARGEUNIT
+	,ELECTRICCONDUCTANCEUNIT
+	,ELECTRICCURRENTUNIT
+	,ELECTRICRESISTANCEUNIT
+	,ELECTRICVOLTAGEUNIT
+	,ENERGYUNIT
+	,FORCEUNIT
+	,FREQUENCYUNIT
+	,ILLUMINANCEUNIT
+	,INDUCTANCEUNIT
+	,LENGTHUNIT
+	,LUMINOUSFLUXUNIT
+	,LUMINOUSINTENSITYUNIT
+	,MAGNETICFLUXDENSITYUNIT
+	,MAGNETICFLUXUNIT
+	,MASSUNIT
+	,PLANEANGLEUNIT
+	,POWERUNIT
+	,PRESSUREUNIT
+	,RADIOACTIVITYUNIT
+	,SOLIDANGLEUNIT
+	,THERMODYNAMICTEMPERATUREUNIT
+	,TIMEUNIT
+	,VOLUMEUNIT
+	,USERDEFINED);
+END_TYPE;
+
+TYPE xtdDerivedUnitEnum = ENUMERATION OF
+	(ANGULARVELOCITYUNIT
+	,AREADENSITYUNIT
+	,COMPOUNDPLANEANGLEUNIT
+	,DYNAMICVISCOSITYUNIT
+	,HEATFLUXDENSITYUNIT
+	,INTEGERCOUNTRATEUNIT
+	,ISOTHERMALMOISTURECAPACITYUNIT
+	,KINEMATICVISCOSITYUNIT
+	,LINEARVELOCITYUNIT
+	,MASSDENSITYUNIT
+	,MASSFLOWRATEUNIT
+	,MOISTUREDIFFUSIVITYUNIT
+	,MOLECULARWEIGHTUNIT
+	,SPECIFICHEATCAPACITYUNIT
+	,THERMALADMITTANCEUNIT
+	,THERMALCONDUCTANCEUNIT
+	,THERMALRESISTANCEUNIT
+	,THERMALTRANSMITTANCEUNIT
+	,VAPORPERMEABILITYUNIT
+	,VOLUMETRICFLOWRATEUNIT
+	,ROTATIONALFREQUENCYUNIT
+	,TORQUEUNIT
+	,MOMENTOFINERTIAUNIT
+	,LINEARMOMENTUNIT
+	,LINEARFORCEUNIT
+	,PLANARFORCEUNIT
+	,MODULUSOFELASTICITYUNIT
+	,SHEARMODULUSUNIT
+	,LINEARSTIFFNESSUNIT
+	,ROTATIONALSTIFFNESSUNIT
+	,MODULUSOFSUBGRADEREACTIONUNIT
+	,ACCELERATIONUNIT
+	,CURVATUREUNIT
+	,HEATINGVALUEUNIT
+	,IONCONCENTRATIONUNIT
+	,LUMINOUSINTENSITYDISTRIBUTIONUNIT
+	,MASSPERLENGTHUNIT
+	,MODULUSOFLINEARSUBGRADEREACTIONUNIT
+	,MODULUSOFROTATIONALSUBGRADEREACTIONUNIT
+	,PHUNIT
+	,ROTATIONALMASSUNIT
+	,SECTIONAREAINTEGRALUNIT
+	,SECTIONMODULUSUNIT
+	,SOUNDPOWERLEVELUNIT
+	,SOUNDPOWERUNIT
+	,SOUNDPRESSURELEVELUNIT
+	,SOUNDPRESSUREUNIT
+	,TEMPERATUREGRADIENTUNIT
+	,TEMPERATURERATEOFCHANGEUNIT
+	,THERMALEXPANSIONCOEFFICIENTUNIT
+	,WARPINGCONSTANTUNIT
+	,WARPINGMOMENTUNIT
+	,USERDEFINED);
+END_TYPE;
+
+(*
+          Functions veryfying correct dimensions of units
+   -------------------------------------------------------------
+*)
+
+FUNCTION xtdCorrectDimensions
+(m   : xtdUnitEnum; Dim : xtdDimensionalExponents) : LOGICAL;  
+CASE m OF
+  LENGTHUNIT : IF
+    Dim = (xtdDimensionalExponents (1, 0, 0, 0, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  MASSUNIT : IF
+    Dim = (xtdDimensionalExponents (0, 1, 0, 0, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  TIMEUNIT : IF
+    Dim = (xtdDimensionalExponents (0, 0, 1, 0, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  ELECTRICCURRENTUNIT : IF
+    Dim = (xtdDimensionalExponents (0, 0, 0, 1, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  THERMODYNAMICTEMPERATUREUNIT : IF
+    Dim = (xtdDimensionalExponents (0, 0, 0, 0, 1, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  AMOUNTOFSUBSTANCEUNIT : IF
+    Dim = (xtdDimensionalExponents (0, 0, 0, 0, 0, 1, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  LUMINOUSINTENSITYUNIT : IF
+    Dim = (xtdDimensionalExponents (0, 0, 0, 0, 0, 0, 1))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  PLANEANGLEUNIT : IF
+    Dim = (xtdDimensionalExponents (0, 0, 0, 0, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  SOLIDANGLEUNIT : IF
+    Dim = (xtdDimensionalExponents (0, 0, 0, 0, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  AREAUNIT : IF
+    Dim = (xtdDimensionalExponents (2, 0, 0, 0, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  VOLUMEUNIT : IF
+    Dim = (xtdDimensionalExponents (3, 0, 0, 0, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+
+  ABSORBEDDOSEUNIT : IF
+    Dim = (xtdDimensionalExponents (2, 0, -2, 0, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  RADIOACTIVITYUNIT : IF
+    Dim = (xtdDimensionalExponents (0, 0, -1, 0, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  ELECTRICCAPACITANCEUNIT : IF
+    Dim = (xtdDimensionalExponents (-2, -1, 4, 2, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  DOSEEQUIVALENTUNIT : IF
+    Dim = (xtdDimensionalExponents (2, 0, -2, 0, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  ELECTRICCHARGEUNIT : IF
+    Dim = (xtdDimensionalExponents (0, 0, 1, 1, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  ELECTRICCONDUCTANCEUNIT : IF
+    Dim = (xtdDimensionalExponents (-2, -1, 3, 2, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  ELECTRICVOLTAGEUNIT : IF
+    Dim = (xtdDimensionalExponents (2, 1, -3, -1, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  ELECTRICRESISTANCEUNIT : IF
+    Dim = (xtdDimensionalExponents (2, 1, -3, -2, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  ENERGYUNIT : IF
+    Dim = (xtdDimensionalExponents (2, 1, -2, 0, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  FORCEUNIT : IF
+    Dim = (xtdDimensionalExponents (1, 1, -2, 0, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  FREQUENCYUNIT : IF
+    Dim = (xtdDimensionalExponents (0, 0, -1, 0, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  INDUCTANCEUNIT : IF
+    Dim = (xtdDimensionalExponents (2, 1, -2, -2, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  ILLUMINANCEUNIT : IF
+    Dim = (xtdDimensionalExponents (-2, 0, 0, 0, 0, 0, 1))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  LUMINOUSFLUXUNIT : IF
+    Dim = (xtdDimensionalExponents (0, 0, 0, 0, 0, 0, 1))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  MAGNETICFLUXUNIT : IF
+    Dim = (xtdDimensionalExponents (2, 1, -2, -1, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  MAGNETICFLUXDENSITYUNIT : IF
+    Dim = (xtdDimensionalExponents (0, 1, -2, -1, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  POWERUNIT : IF
+    Dim = (xtdDimensionalExponents (2, 1, -3, 0, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+  PRESSUREUNIT : IF
+    Dim = (xtdDimensionalExponents (-1, 1, -2, 0, 0, 0, 0))
+      THEN RETURN(TRUE);
+      ELSE RETURN(FALSE);
+    END_IF;
+
+  OTHERWISE :
+    RETURN (UNKNOWN);
+END_CASE;
+END_FUNCTION;
+
+FUNCTION xtdDimensionsForSiUnit
+(n : xtdSiUnitName )     : xtdDimensionalExponents;
+  CASE n OF
+    METRE          : RETURN (xtdDimensionalExponents
+                             (1, 0, 0, 0, 0, 0, 0));
+    SQUARE_METRE   : RETURN (xtdDimensionalExponents
+                             (2, 0, 0, 0, 0, 0, 0));
+    CUBIC_METRE    : RETURN (xtdDimensionalExponents
+                             (3, 0, 0, 0, 0, 0, 0));
+    GRAM           : RETURN (xtdDimensionalExponents
+                             (0, 1, 0, 0, 0, 0, 0));
+    SECOND         : RETURN (xtdDimensionalExponents
+                             (0, 0, 1, 0, 0, 0, 0));
+    AMPERE         : RETURN (xtdDimensionalExponents
+                             (0, 0, 0, 1, 0, 0, 0));
+    KELVIN         : RETURN (xtdDimensionalExponents
+                             (0, 0, 0, 0, 1, 0, 0));
+    MOLE           : RETURN (xtdDimensionalExponents
+                             (0, 0, 0, 0, 0, 1, 0));
+    CANDELA        : RETURN (xtdDimensionalExponents
+                             (0, 0, 0, 0, 0, 0, 1));
+    RADIAN         : RETURN (xtdDimensionalExponents
+                             (0, 0, 0, 0, 0, 0, 0));
+    STERADIAN      : RETURN (xtdDimensionalExponents
+                             (0, 0, 0, 0, 0, 0, 0));
+    HERTZ          : RETURN (xtdDimensionalExponents
+                             (0, 0, -1, 0, 0, 0, 0));
+    NEWTON         : RETURN (xtdDimensionalExponents
+                             (1, 1, -2, 0, 0, 0, 0));
+    PASCAL         : RETURN (xtdDimensionalExponents
+                             (-1, 1, -2, 0, 0, 0, 0));
+    JOULE          : RETURN (xtdDimensionalExponents
+                             (2, 1, -2, 0, 0, 0, 0));
+    WATT           : RETURN (xtdDimensionalExponents
+                             (2, 1, -3, 0, 0, 0, 0));
+    COULOMB        : RETURN (xtdDimensionalExponents
+                             (0, 0, 1, 1, 0, 0, 0));
+    VOLT           : RETURN (xtdDimensionalExponents
+                             (2, 1, -3, -1, 0, 0, 0));
+    FARAD          : RETURN (xtdDimensionalExponents
+                             (-2, -1, 4, 2, 0, 0, 0));
+    OHM            : RETURN (xtdDimensionalExponents
+                             (2, 1, -3, -2, 0, 0, 0));
+    SIEMENS        : RETURN (xtdDimensionalExponents
+                             (-2, -1, 3, 2, 0, 0, 0));
+    WEBER          : RETURN (xtdDimensionalExponents
+                             (2, 1, -2, -1, 0, 0, 0));
+    TESLA          : RETURN (xtdDimensionalExponents
+                             (0, 1, -2, -1, 0, 0, 0));
+    HENRY          : RETURN (xtdDimensionalExponents
+                             (2, 1, -2, -2, 0, 0, 0));
+    DEGREE_CELSIUS : RETURN (xtdDimensionalExponents
+                             (0, 0, 0, 0, 1, 0, 0));
+    LUMEN          : RETURN (xtdDimensionalExponents
+                             (0, 0, 0, 0, 0, 0, 1));
+    LUX            : RETURN (xtdDimensionalExponents
+                             (-2, 0, 0, 0, 0, 0, 1));
+    BECQUEREL      : RETURN (xtdDimensionalExponents
+                             (0, 0, -1, 0, 0, 0, 0));
+    GRAY           : RETURN (xtdDimensionalExponents
+                             (2, 0, -2, 0, 0, 0, 0));
+    SIEVERT        : RETURN (xtdDimensionalExponents
+                             (2, 0, -2, 0, 0, 0, 0));
+    OTHERWISE      : RETURN (xtdDimensionalExponents
+                             (0, 0, 0, 0, 0, 0, 0));
+  END_CASE;
+END_FUNCTION;
+
+
+(*
+                     MODIFIED ENTITIES
+   ========================================================
+
+  Unit is modified to contain machine readable definition of the
+  unit related to SI units. These definitions are 1:1 with IFC definitions
+  This makes it possible to interpres related values unambiguously.
+*)
+ENTITY xtdUnit
+  SUBTYPE OF(xtdObject);
+  Definition: xtdUnitDefinition;
+END_ENTITY;
+
+(*
+   Value is modified so that numeric and logical or boolean values
+   are encoded using STEP21 definitions making the value reliable for
+   automated data exchange. xtdValueTypeEnum is not needed as a result.
+   
+   Attribute defining constraints (ValueRole) removed. New class modelling concept of 
+   a value constraint is introduced which can be used to describe requirements
+   for a property.
+   
+   These constrain can form logical trees with logical predicates and can put
+   requirements both on values and units allowing flexible combinations.
+*)
+ENTITY xtdValue
+  SUBTYPE OF(xtdObject);    
+    LowerTolerance : OPTIONAL xtdValueType;
+    NominalValue : OPTIONAL xtdValueType;
+    UpperTolerance : OPTIONAL xtdValueType;
+    ToleranceType : OPTIONAL xtdToleranceTypeEnum;
+END_ENTITY;
+
+(*
+ENTITY xtdValue
+  SUBTYPE OF(xtdObject);
+    LowerTolerance : OPTIONAL xtdText;
+    NominalValue : OPTIONAL xtdText;
+    UpperTolerance : OPTIONAL xtdText;
+    ValueType : OPTIONAL xtdValueTypeEnum;
+    ValueRole : OPTIONAL xtdValueRoleEnum;
+    ToleranceType : OPTIONAL xtdToleranceTypeEnum;
+END_ENTITY;
+*)
+
+
+(*
+              UNCHANGED ENTITIES AND TYPES
+   ======================================================
+*)
+
+TYPE xtdToleranceTypeEnum = ENUMERATION OF
+  (REALVALUE,
+  PERCENTAGE);
+END_TYPE;
+
+TYPE xtdDate = STRING;
+END_TYPE;
+
+TYPE xtdGlobalUniqueID = STRING;
+END_TYPE;
+
+TYPE xtdLabel = STRING;
+END_TYPE;
+
+TYPE xtdText = STRING;
+END_TYPE;
+
+TYPE xtdVersionID = STRING;
+END_TYPE;
+
+ENTITY xtdActivity
+  SUBTYPE OF(xtdObject);
+END_ENTITY;
+
+ENTITY xtdActor
+  SUBTYPE OF(xtdObject);
+END_ENTITY;
+
+ENTITY xtdBag
+  SUBTYPE OF(xtdCollection);
+END_ENTITY;
+
+ENTITY xtdCollection
+  ABSTRACT SUPERTYPE OF (ONEOF(xtdNest, xtdBag))
+  SUBTYPE OF(xtdRoot);
+END_ENTITY;
+
+ENTITY xtdDescription
+  SUBTYPE OF(xtdLanguageRepresentation);
+    Description : xtdText;
+  INVERSE
+   is_description_of : SET [1:?] OF xtdRoot FOR Descriptions;
+END_ENTITY;
+
+ENTITY xtdExternalDocument;
+    UniqueID : xtdGlobalUniqueID;
+    Names : SET [1:?] OF xtdName;
+END_ENTITY;
+
+ENTITY xtdLanguage;
+    LanguageNameInEnglish : xtdLabel;
+    LanguageNameInSelf : OPTIONAL xtdLabel;
+    Comments : OPTIONAL LIST [1:?] OF xtdText;
+    UniqueID : xtdGlobalUniqueID;
+END_ENTITY;
+
+ENTITY xtdLanguageRepresentation
+  ABSTRACT SUPERTYPE OF (ONEOF(xtdName, xtdDescription));
+    LanguageName : xtdLanguage;
+    UniqueID : xtdGlobalUniqueID;
+END_ENTITY;
+
+ENTITY xtdMeasureWithUnit
+  SUBTYPE OF(xtdObject);
+    UnitComponent : OPTIONAL xtdUnit;
+    ValueDomain : OPTIONAL LIST [1:?] OF xtdValue;
+END_ENTITY;
+
+ENTITY xtdName
+  SUBTYPE OF(xtdLanguageRepresentation);
+    Name : xtdLabel;
+  INVERSE
+    is_name_of : SET [1:?] OF xtdRoot FOR Names;
+END_ENTITY;
+
+ENTITY xtdNest
+  SUBTYPE OF(xtdCollection);
+  WHERE
+    WR1 : SIZEOF(QUERY(Result <* SELF\xtdRelCollects.RelatedThings | NOT(TYPEOF(SELF\xtdRelCollects.RelatingCollection) = TYPEOF(Result)))) = 0 ;
+END_ENTITY;
+
+ENTITY xtdObject
+  ABSTRACT SUPERTYPE OF (ONEOF(xtdSubject, xtdActivity, xtdUnit, xtdProperty, xtdMeasureWithUnit, xtdActor, xtdValue, xtdConstraint))
+  SUBTYPE OF(xtdRoot);
+END_ENTITY;
+
+ENTITY xtdProperty
+  SUBTYPE OF(xtdObject);
+END_ENTITY;
+
+ENTITY xtdRelActsUpon
+  SUBTYPE OF(xtdRelAssociates);
+  WHERE
+    WR1 : SIZEOF(QUERY(Result <* RelatedObjects | RelatingObject:=: Result)) = 0;
+END_ENTITY;
+
+ENTITY xtdRelAssignsCollections
+  SUBTYPE OF(xtdRelationship);
+    RelatingObject : xtdObject;
+    RelatedCollections : SET [1:?] OF xtdCollection;
+END_ENTITY;
+
+ENTITY xtdRelAssignsMeasures
+  SUBTYPE OF(xtdRelationship);
+    RelatingProperty : xtdProperty;
+    RelatedMeasures : SET [1:?] OF xtdMeasureWithUnit;
+    MethodOfInterpretation : OPTIONAL xtdName;
+END_ENTITY;
+
+ENTITY xtdRelAssignsProperties
+  SUBTYPE OF(xtdRelationship);
+    RelatedProperties : SET [1:?] OF xtdProperty;
+    RelatingObject : xtdObject;
+END_ENTITY;
+
+ENTITY xtdRelAssignsPropertyWithValues
+  SUBTYPE OF(xtdRelationship);
+    RelatedProperty : xtdProperty;
+    RelatingObject : xtdObject;
+    RelatedValues : LIST [1:?] OF UNIQUE xtdValue;
+END_ENTITY;
+
+ENTITY xtdRelAssignsUnits
+  SUBTYPE OF(xtdRelationship);
+    RelatingMeasure : xtdMeasureWithUnit;
+    RelatedUnits : SET [1:?] OF xtdUnit;
+END_ENTITY;
+
+ENTITY xtdRelAssignsValues
+  SUBTYPE OF(xtdRelationship);
+    RelatingMeasure : xtdMeasureWithUnit;
+    RelatedValues : LIST [1:?] OF UNIQUE xtdValue;
+END_ENTITY;
+
+ENTITY xtdRelAssociates
+  SUPERTYPE OF (ONEOF(xtdRelComposes, xtdRelGroups, xtdRelSpecializes, xtdRelActsUpon))
+  SUBTYPE OF(xtdRelationship);
+    RelatingObject : xtdObject;
+    RelatedObjects : SET [1:?] OF xtdObject;
+  WHERE
+    WR1 : SIZEOF(QUERY(Result <* RelatedObjects | RelatingObject:=: Result)) = 0;
+END_ENTITY;
+
+ENTITY xtdRelationship
+  ABSTRACT SUPERTYPE OF (ONEOF(xtdRelAssociates, xtdRelAssignsProperties, xtdRelAssignsMeasures, xtdRelCollects, xtdRelAssignsCollections, xtdRelSequences, xtdRelDocuments, xtdRelAssignsUnits, xtdRelAssignsValues, xtdRelAssignsPropertyWithValues))
+  SUBTYPE OF(xtdRoot);
+    ViewSelector : OPTIONAL xtdName;
+END_ENTITY;
+
+ENTITY xtdRelCollects
+  SUBTYPE OF(xtdRelationship);
+    RelatedThings : SET [1:?] OF xtdRoot;
+    RelatingCollection : xtdCollection;
+END_ENTITY;
+
+ENTITY xtdRelComposes
+  SUBTYPE OF(xtdRelAssociates);
+  WHERE
+    WR1 : SIZEOF(QUERY(Result <* SELF.RelatedObjects | NOT(TYPEOF(SELF.RelatingObject) = TYPEOF(Result)))) = 0 ;
+    WR2 : SIZEOF(QUERY(Result2 <* RelatedObjects| RelatingObject:=: Result2)) = 0;
+END_ENTITY;
+
+ENTITY xtdRelDocuments
+  SUBTYPE OF(xtdRelationship);
+    RelatedObjects : SET [1:?] OF xtdObject;
+    RelatingDocument : xtdExternalDocument;
+END_ENTITY;
+
+ENTITY xtdRelGroups
+  SUBTYPE OF(xtdRelAssociates);
+  WHERE
+    WR1 : SIZEOF(QUERY(Result <* RelatedObjects | RelatingObject:=: Result)) = 0;
+END_ENTITY;
+
+ENTITY xtdRelSequences
+  SUBTYPE OF(xtdRelationship);
+    RelatingActivity : OPTIONAL xtdActivity;
+    RelatedActivity : OPTIONAL xtdActivity;
+  WHERE
+    WR1 : RelatedActivity:<>: RelatingActivity;
+    WR2 : EXISTS(RelatingActivity) OR EXISTS(RelatedActivity);
+END_ENTITY;
+
+ENTITY xtdRelSpecializes
+  SUBTYPE OF(xtdRelAssociates);
+  WHERE
+    WR1 : SIZEOF(QUERY(Result <* RelatedObjects | RelatingObject:=: Result)) = 0;
+    WR2 : SIZEOF(QUERY(Result <* SELF.RelatedObjects | NOT(TYPEOF(SELF.RelatingObject) = TYPEOF(Result)))) = 0 ;
+END_ENTITY;
+
+ENTITY xtdRoot
+  ABSTRACT SUPERTYPE OF (ONEOF(xtdObject, xtdRelationship, xtdCollection));
+    VersionDate : OPTIONAL xtdDate;
+    VersionID : OPTIONAL xtdVersionID;
+    UniqueID : xtdGlobalUniqueID;
+    Descriptions : OPTIONAL SET [1:?] OF xtdDescription;
+    Names : SET [1:?] OF xtdName;
+END_ENTITY;
+
+ENTITY xtdSubject
+  SUBTYPE OF(xtdObject);
+END_ENTITY;
+
+(*
+              DELETED ENTITIES
+   ==================================
+
+// xtdValueTypeEnum should be removed because real typing should be used. This will ensure
+// proper encoding of numeric calues
+TYPE xtdValueTypeEnum = ENUMERATION OF
+  (XTDSTRING,
+  XTDNUMBER,
+  XTDINTEGER,
+  XTDREAL,
+  XTDBOOLEAN,
+  XTDLOGICAL);
+END_TYPE;
+
+// Values and constraints are modeled as two different concepts
+TYPE xtdValueRoleEnum = ENUMERATION OF
+  (NOMINAL,
+  MAXIMUM,
+  MINIMUM);
+END_TYPE;
+*)
+
+END_SCHEMA;
