@@ -13,13 +13,13 @@ using Xbim.Common;
 
 namespace Xbim.ISO_12006_3_V4
 {
-	public sealed class EntityFactoryIso120063Version3 : IEntityFactory
+	public sealed class EntityFactoryIso120063Version4 : IEntityFactory
 	{
 		private static readonly System.Reflection.Assembly _assembly;
 		
-		static EntityFactoryIso120063Version3()
+		static EntityFactoryIso120063Version4()
 		{
-			_assembly = typeof(EntityFactoryIso120063Version3).Assembly;
+			_assembly = typeof(EntityFactoryIso120063Version4).Assembly;
 		}
 
 		public T New<T>(IModel model, int entityLabel, bool activated) where T: IInstantiableEntity
@@ -53,7 +53,7 @@ namespace Xbim.ISO_12006_3_V4
 			switch(name)
 			{
 				case "XTDMEASURECONSTRAINT": return new xtdMeasureConstraint ( model, entityLabel, activated );
-				case "XTDMEASURETOLERANCE": return new xtdMeasureTolerance ( model, entityLabel, activated );
+				case "XTDMEASUREINTERVALCONSTRAINT": return new xtdMeasureIntervalConstraint ( model, entityLabel, activated );
 				case "XTDUNITCONSTRAINT": return new xtdUnitConstraint ( model, entityLabel, activated );
 				case "XTDLOGICALCONSTRAINT": return new xtdLogicalConstraint ( model, entityLabel, activated );
 				case "XTDRELASSIGNSCONSTRAINT": return new xtdRelAssignsConstraint ( model, entityLabel, activated );
@@ -106,7 +106,7 @@ namespace Xbim.ISO_12006_3_V4
 			switch(typeId)
 			{
 				case 1: return new xtdMeasureConstraint ( model, entityLabel, activated );
-				case 2: return new xtdMeasureTolerance ( model, entityLabel, activated );
+				case 2: return new xtdMeasureIntervalConstraint ( model, entityLabel, activated );
 				case 3: return new xtdUnitConstraint ( model, entityLabel, activated );
 				case 4: return new xtdLogicalConstraint ( model, entityLabel, activated );
 				case 5: return new xtdRelAssignsConstraint ( model, entityLabel, activated );
@@ -175,7 +175,7 @@ namespace Xbim.ISO_12006_3_V4
 			}
 		}
 
-		private static readonly List<string> _schemasIds = new List<string> { "ISO_12006_3_VERSION_3" };
+		private static readonly List<string> _schemasIds = new List<string> { "ISO_12006_3_VERSION_4" };
 		public IEnumerable<string> SchemasIds { get { return _schemasIds; } }
 
 		/// <summary>

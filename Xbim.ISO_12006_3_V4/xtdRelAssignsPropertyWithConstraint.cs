@@ -27,7 +27,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 	{
 		IxtdProperty @RelatedProperty { get;  set; }
 		IxtdObject @RelatingObject { get;  set; }
-		IxtdConstraint @RelatedValues { get;  set; }
+		IxtdConstraint @RelatedConstraint { get;  set; }
 	
 	}
 }
@@ -51,11 +51,11 @@ namespace Xbim.ISO_12006_3_V4
 			get { return @RelatingObject; } 
 			set { RelatingObject = value as xtdObject;}
 		}	
-		IxtdConstraint IxtdRelAssignsPropertyWithConstraint.RelatedValues { 
+		IxtdConstraint IxtdRelAssignsPropertyWithConstraint.RelatedConstraint { 
  
  
-			get { return @RelatedValues; } 
-			set { RelatedValues = value as xtdConstraint;}
+			get { return @RelatedConstraint; } 
+			set { RelatedConstraint = value as xtdConstraint;}
 		}	
 		 
 		#endregion
@@ -68,7 +68,7 @@ namespace Xbim.ISO_12006_3_V4
 		#region Explicit attribute fields
 		private xtdProperty _relatedProperty;
 		private xtdObject _relatingObject;
-		private xtdConstraint _relatedValues;
+		private xtdConstraint _relatedConstraint;
 		#endregion
 	
 		#region Explicit attribute properties
@@ -105,19 +105,19 @@ namespace Xbim.ISO_12006_3_V4
 			} 
 		}	
 		[EntityAttribute(9, EntityAttributeState.Mandatory, EntityAttributeType.Class, EntityAttributeType.None, null, null, 9)]
-		public xtdConstraint @RelatedValues 
+		public xtdConstraint @RelatedConstraint 
 		{ 
 			get 
 			{
-				if(_activated) return _relatedValues;
+				if(_activated) return _relatedConstraint;
 				Activate();
-				return _relatedValues;
+				return _relatedConstraint;
 			} 
 			set
 			{
 				if (value != null && !(ReferenceEquals(Model, value.Model)))
 					throw new XbimException("Cross model entity assignment.");
-				SetValue( v =>  _relatedValues = v, _relatedValues, value,  "RelatedValues", 9);
+				SetValue( v =>  _relatedConstraint = v, _relatedConstraint, value,  "RelatedConstraint", 9);
 			} 
 		}	
 		#endregion
@@ -145,7 +145,7 @@ namespace Xbim.ISO_12006_3_V4
 					_relatingObject = (xtdObject)(value.EntityVal);
 					return;
 				case 8: 
-					_relatedValues = (xtdConstraint)(value.EntityVal);
+					_relatedConstraint = (xtdConstraint)(value.EntityVal);
 					return;
 				default:
 					throw new XbimParserException(string.Format("Attribute index {0} is out of range for {1}", propIndex + 1, GetType().Name.ToUpper()));
@@ -175,8 +175,8 @@ namespace Xbim.ISO_12006_3_V4
 					yield return @RelatedProperty;
 				if (@RelatingObject != null)
 					yield return @RelatingObject;
-				if (@RelatedValues != null)
-					yield return @RelatedValues;
+				if (@RelatedConstraint != null)
+					yield return @RelatedConstraint;
 			}
 		}
 		#endregion

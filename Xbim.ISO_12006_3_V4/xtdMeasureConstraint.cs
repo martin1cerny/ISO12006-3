@@ -27,7 +27,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 	{
 		xtdConstraintTypeEnum @ConstraintType { get;  set; }
 		IItemSet<IxtdValueType> @ConstraintValues { get; }
-		xtdConstraintValueTypeEnum? @ValueType { get;  set; }
+		IxtdUnit @ValuesUnit { get;  set; }
 	
 	}
 }
@@ -47,10 +47,11 @@ namespace Xbim.ISO_12006_3_V4
 		IItemSet<IxtdValueType> IxtdMeasureConstraint.ConstraintValues { 
 			get { return new Common.Collections.ProxyItemSet<xtdValueType, IxtdValueType>( @ConstraintValues); } 
 		}	
-		xtdConstraintValueTypeEnum? IxtdMeasureConstraint.ValueType { 
+		IxtdUnit IxtdMeasureConstraint.ValuesUnit { 
  
-			get { return @ValueType; } 
-			set { ValueType = value;}
+ 
+			get { return @ValuesUnit; } 
+			set { ValuesUnit = value as xtdUnit;}
 		}	
 		 
 		#endregion
@@ -64,7 +65,7 @@ namespace Xbim.ISO_12006_3_V4
 		#region Explicit attribute fields
 		private xtdConstraintTypeEnum _constraintType;
 		private readonly ItemSet<xtdValueType> _constraintValues;
-		private xtdConstraintValueTypeEnum? _valueType;
+		private xtdUnit _valuesUnit;
 		#endregion
 	
 		#region Explicit attribute properties
@@ -92,18 +93,20 @@ namespace Xbim.ISO_12006_3_V4
 				return _constraintValues;
 			} 
 		}	
-		[EntityAttribute(8, EntityAttributeState.Optional, EntityAttributeType.Enum, EntityAttributeType.None, null, null, 8)]
-		public xtdConstraintValueTypeEnum? @ValueType 
+		[EntityAttribute(8, EntityAttributeState.Optional, EntityAttributeType.Class, EntityAttributeType.None, null, null, 8)]
+		public xtdUnit @ValuesUnit 
 		{ 
 			get 
 			{
-				if(_activated) return _valueType;
+				if(_activated) return _valuesUnit;
 				Activate();
-				return _valueType;
+				return _valuesUnit;
 			} 
 			set
 			{
-				SetValue( v =>  _valueType = v, _valueType, value,  "ValueType", 8);
+				if (value != null && !(ReferenceEquals(Model, value.Model)))
+					throw new XbimException("Cross model entity assignment.");
+				SetValue( v =>  _valuesUnit = v, _valuesUnit, value,  "ValuesUnit", 8);
 			} 
 		}	
 		#endregion
@@ -130,7 +133,7 @@ namespace Xbim.ISO_12006_3_V4
 					_constraintValues.InternalAdd((xtdValueType)value.EntityVal);
 					return;
 				case 7: 
-                    _valueType = (xtdConstraintValueTypeEnum) System.Enum.Parse(typeof (xtdConstraintValueTypeEnum), value.EnumVal, true);
+					_valuesUnit = (xtdUnit)(value.EntityVal);
 					return;
 				default:
 					throw new XbimParserException(string.Format("Attribute index {0} is out of range for {1}", propIndex + 1, GetType().Name.ToUpper()));
@@ -154,6 +157,8 @@ namespace Xbim.ISO_12006_3_V4
 					yield return entity;
 				foreach(var entity in @Names)
 					yield return entity;
+				if (@ValuesUnit != null)
+					yield return @ValuesUnit;
 			}
 		}
 		#endregion

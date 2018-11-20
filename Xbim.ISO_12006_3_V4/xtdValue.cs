@@ -25,7 +25,10 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 	// ReSharper disable once PartialTypeWithSinglePart
 	public partial interface @IxtdValue : IxtdObject
 	{
+		IxtdValueType @LowerTolerance { get;  set; }
 		IxtdValueType @NominalValue { get;  set; }
+		IxtdValueType @UpperTolerance { get;  set; }
+		xtdToleranceTypeEnum? @ToleranceType { get;  set; }
 	
 	}
 }
@@ -37,11 +40,28 @@ namespace Xbim.ISO_12006_3_V4
 	public  partial class @xtdValue : xtdObject, IInstantiableEntity, IxtdValue, IContainsEntityReferences, IContainsIndexedReferences, IEquatable<@xtdValue>
 	{
 		#region IxtdValue explicit implementation
+		IxtdValueType IxtdValue.LowerTolerance { 
+ 
+ 
+			get { return @LowerTolerance; } 
+			set { LowerTolerance = value as xtdValueType;}
+		}	
 		IxtdValueType IxtdValue.NominalValue { 
  
  
 			get { return @NominalValue; } 
 			set { NominalValue = value as xtdValueType;}
+		}	
+		IxtdValueType IxtdValue.UpperTolerance { 
+ 
+ 
+			get { return @UpperTolerance; } 
+			set { UpperTolerance = value as xtdValueType;}
+		}	
+		xtdToleranceTypeEnum? IxtdValue.ToleranceType { 
+ 
+			get { return @ToleranceType; } 
+			set { ToleranceType = value;}
 		}	
 		 
 		#endregion
@@ -52,11 +72,28 @@ namespace Xbim.ISO_12006_3_V4
 		}
 
 		#region Explicit attribute fields
+		private xtdValueType _lowerTolerance;
 		private xtdValueType _nominalValue;
+		private xtdValueType _upperTolerance;
+		private xtdToleranceTypeEnum? _toleranceType;
 		#endregion
 	
 		#region Explicit attribute properties
 		[EntityAttribute(6, EntityAttributeState.Optional, EntityAttributeType.Class, EntityAttributeType.None, null, null, 6)]
+		public xtdValueType @LowerTolerance 
+		{ 
+			get 
+			{
+				if(_activated) return _lowerTolerance;
+				Activate();
+				return _lowerTolerance;
+			} 
+			set
+			{
+				SetValue( v =>  _lowerTolerance = v, _lowerTolerance, value,  "LowerTolerance", 6);
+			} 
+		}	
+		[EntityAttribute(7, EntityAttributeState.Optional, EntityAttributeType.Class, EntityAttributeType.None, null, null, 7)]
 		public xtdValueType @NominalValue 
 		{ 
 			get 
@@ -67,7 +104,35 @@ namespace Xbim.ISO_12006_3_V4
 			} 
 			set
 			{
-				SetValue( v =>  _nominalValue = v, _nominalValue, value,  "NominalValue", 6);
+				SetValue( v =>  _nominalValue = v, _nominalValue, value,  "NominalValue", 7);
+			} 
+		}	
+		[EntityAttribute(8, EntityAttributeState.Optional, EntityAttributeType.Class, EntityAttributeType.None, null, null, 8)]
+		public xtdValueType @UpperTolerance 
+		{ 
+			get 
+			{
+				if(_activated) return _upperTolerance;
+				Activate();
+				return _upperTolerance;
+			} 
+			set
+			{
+				SetValue( v =>  _upperTolerance = v, _upperTolerance, value,  "UpperTolerance", 8);
+			} 
+		}	
+		[EntityAttribute(9, EntityAttributeState.Optional, EntityAttributeType.Enum, EntityAttributeType.None, null, null, 9)]
+		public xtdToleranceTypeEnum? @ToleranceType 
+		{ 
+			get 
+			{
+				if(_activated) return _toleranceType;
+				Activate();
+				return _toleranceType;
+			} 
+			set
+			{
+				SetValue( v =>  _toleranceType = v, _toleranceType, value,  "ToleranceType", 9);
 			} 
 		}	
 		#endregion
@@ -88,7 +153,16 @@ namespace Xbim.ISO_12006_3_V4
 					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 5: 
+					_lowerTolerance = (xtdValueType)(value.EntityVal);
+					return;
+				case 6: 
 					_nominalValue = (xtdValueType)(value.EntityVal);
+					return;
+				case 7: 
+					_upperTolerance = (xtdValueType)(value.EntityVal);
+					return;
+				case 8: 
+                    _toleranceType = (xtdToleranceTypeEnum) System.Enum.Parse(typeof (xtdToleranceTypeEnum), value.EnumVal, true);
 					return;
 				default:
 					throw new XbimParserException(string.Format("Attribute index {0} is out of range for {1}", propIndex + 1, GetType().Name.ToUpper()));
