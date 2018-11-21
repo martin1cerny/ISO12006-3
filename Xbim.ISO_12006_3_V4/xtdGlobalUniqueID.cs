@@ -12,7 +12,7 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdGlobalUniqueID", 34)]
+	[ExpressType("xtdGlobalUniqueID", 56)]
 	[DefinedType(typeof(string))]
     // ReSharper disable once PartialTypeWithSinglePart
 	public partial struct xtdGlobalUniqueID : IExpressValueType, IExpressStringType, System.IEquatable<string>

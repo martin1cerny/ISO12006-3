@@ -40,7 +40,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdDimensionalExponents", 27)]
+	[ExpressType("xtdDimensionalExponents", 16)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdDimensionalExponents : PersistEntity, IInstantiableEntity, IxtdDimensionalExponents, IEquatable<@xtdDimensionalExponents>
 	{

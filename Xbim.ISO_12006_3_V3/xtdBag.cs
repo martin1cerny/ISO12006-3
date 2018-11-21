@@ -31,7 +31,7 @@ namespace Xbim.ISO_12006_3_V3.Interfaces
 
 namespace Xbim.ISO_12006_3_V3
 {
-	[ExpressType("xtdBag", 10)]
+	[ExpressType("xtdBag", 11)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdBag : xtdCollection, IInstantiableEntity, IxtdBag, IContainsEntityReferences, IContainsIndexedReferences, IEquatable<@xtdBag>
 	{

@@ -31,7 +31,7 @@ namespace Xbim.ISO_12006_3_V3.Interfaces
 
 namespace Xbim.ISO_12006_3_V3
 {
-	[ExpressType("xtdRelComposes", 31)]
+	[ExpressType("xtdRelComposes", 32)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdRelComposes : xtdRelAssociates, IInstantiableEntity, IxtdRelComposes, IContainsEntityReferences, IContainsIndexedReferences, IEquatable<@xtdRelComposes>
 	{

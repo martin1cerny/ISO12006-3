@@ -34,7 +34,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdMeasureConstraint", 1)]
+	[ExpressType("xtdMeasureConstraint", 2)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdMeasureConstraint : xtdConstraint, IInstantiableEntity, IxtdMeasureConstraint, IContainsEntityReferences, IContainsIndexedReferences, IEquatable<@xtdMeasureConstraint>
 	{

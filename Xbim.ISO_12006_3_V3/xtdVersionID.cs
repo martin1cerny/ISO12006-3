@@ -12,7 +12,7 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.ISO_12006_3_V3
 {
-	[ExpressType("xtdVersionID", 7)]
+	[ExpressType("xtdVersionID", 5)]
 	[DefinedType(typeof(string))]
     // ReSharper disable once PartialTypeWithSinglePart
 	public partial struct xtdVersionID : IExpressValueType, IExpressStringType, System.IEquatable<string>

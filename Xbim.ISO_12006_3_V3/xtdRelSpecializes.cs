@@ -31,7 +31,7 @@ namespace Xbim.ISO_12006_3_V3.Interfaces
 
 namespace Xbim.ISO_12006_3_V3
 {
-	[ExpressType("xtdRelSpecializes", 35)]
+	[ExpressType("xtdRelSpecializes", 36)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdRelSpecializes : xtdRelAssociates, IInstantiableEntity, IxtdRelSpecializes, IContainsEntityReferences, IContainsIndexedReferences, IEquatable<@xtdRelSpecializes>
 	{

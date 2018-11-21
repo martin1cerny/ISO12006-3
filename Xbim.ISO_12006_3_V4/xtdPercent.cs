@@ -12,7 +12,7 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdPercent", 12)]
+	[ExpressType("xtdPercent", 54)]
 	[DefinedType(typeof(double))]
     // ReSharper disable once PartialTypeWithSinglePart
 	public partial struct xtdPercent : xtdValueType, IExpressValueType, IExpressRealType, System.IEquatable<double>
@@ -36,8 +36,7 @@ namespace Xbim.ISO_12006_3_V4
             _value = val;
         }
 
-	    private static readonly System.Globalization.CultureInfo Culture =
-	        System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
+	    private static readonly System.Globalization.CultureInfo Culture = new System.Globalization.CultureInfo("en-US");
 
 		public xtdPercent(string val)
         {

@@ -32,7 +32,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdContextDependentUnit", 19)]
+	[ExpressType("xtdContextDependentUnit", 12)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdContextDependentUnit : xtdNamedUnit, IInstantiableEntity, IxtdContextDependentUnit, IContainsEntityReferences, IEquatable<@xtdContextDependentUnit>
 	{

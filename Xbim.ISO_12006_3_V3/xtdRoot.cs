@@ -38,7 +38,7 @@ namespace Xbim.ISO_12006_3_V3.Interfaces
 
 namespace Xbim.ISO_12006_3_V3
 {
-	[ExpressType("xtdRoot", 36)]
+	[ExpressType("xtdRoot", 37)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @xtdRoot : PersistEntity, IxtdRoot, IEquatable<@xtdRoot>
 	{

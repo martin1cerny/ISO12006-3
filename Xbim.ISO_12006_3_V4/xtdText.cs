@@ -12,7 +12,7 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdText", 36)]
+	[ExpressType("xtdText", 58)]
 	[DefinedType(typeof(string))]
     // ReSharper disable once PartialTypeWithSinglePart
 	public partial struct xtdText : xtdValueType, IExpressValueType, IExpressStringType, System.IEquatable<string>

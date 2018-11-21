@@ -33,7 +33,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdLogicalConstraint", 4)]
+	[ExpressType("xtdLogicalConstraint", 5)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdLogicalConstraint : xtdConstraint, IInstantiableEntity, IxtdLogicalConstraint, IContainsEntityReferences, IContainsIndexedReferences, IEquatable<@xtdLogicalConstraint>
 	{

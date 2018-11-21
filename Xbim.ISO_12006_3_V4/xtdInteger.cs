@@ -12,7 +12,7 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdInteger", 8)]
+	[ExpressType("xtdInteger", 50)]
 	[DefinedType(typeof(long))]
     // ReSharper disable once PartialTypeWithSinglePart
 	public partial struct xtdInteger : xtdValueType, IExpressValueType, IExpressIntegerType, System.IEquatable<long>

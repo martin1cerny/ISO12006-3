@@ -34,7 +34,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdMonetaryUnit", 17)]
+	[ExpressType("xtdMonetaryUnit", 10)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdMonetaryUnit : PersistEntity, IInstantiableEntity, IxtdMonetaryUnit, IEquatable<@xtdMonetaryUnit>
 	{

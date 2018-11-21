@@ -37,7 +37,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdLanguage", 44)]
+	[ExpressType("xtdLanguage", 25)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdLanguage : PersistEntity, IInstantiableEntity, IxtdLanguage, IEquatable<@xtdLanguage>
 	{

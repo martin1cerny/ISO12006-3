@@ -32,7 +32,7 @@ namespace Xbim.ISO_12006_3_V3.Interfaces
 
 namespace Xbim.ISO_12006_3_V3
 {
-	[ExpressType("xtdRelationship", 29)]
+	[ExpressType("xtdRelationship", 30)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @xtdRelationship : xtdRoot, IxtdRelationship, IEquatable<@xtdRelationship>
 	{

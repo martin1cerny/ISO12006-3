@@ -31,7 +31,7 @@ namespace Xbim.ISO_12006_3_V3.Interfaces
 
 namespace Xbim.ISO_12006_3_V3
 {
-	[ExpressType("xtdSubject", 37)]
+	[ExpressType("xtdSubject", 38)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdSubject : xtdObject, IInstantiableEntity, IxtdSubject, IContainsEntityReferences, IContainsIndexedReferences, IEquatable<@xtdSubject>
 	{

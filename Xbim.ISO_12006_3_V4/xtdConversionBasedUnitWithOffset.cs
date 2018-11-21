@@ -32,7 +32,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdConversionBasedUnitWithOffset", 21)]
+	[ExpressType("xtdConversionBasedUnitWithOffset", 14)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdConversionBasedUnitWithOffset : xtdConversionBasedUnit, IInstantiableEntity, IxtdConversionBasedUnitWithOffset, IContainsEntityReferences, IEquatable<@xtdConversionBasedUnitWithOffset>
 	{

@@ -12,7 +12,7 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdBoolean", 9)]
+	[ExpressType("xtdBoolean", 51)]
 	[DefinedType(typeof(bool))]
     // ReSharper disable once PartialTypeWithSinglePart
 	public partial struct xtdBoolean : xtdValueType, IExpressValueType, IExpressBooleanType, System.IEquatable<bool>

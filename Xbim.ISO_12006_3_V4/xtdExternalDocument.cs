@@ -35,7 +35,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdExternalDocument", 43)]
+	[ExpressType("xtdExternalDocument", 24)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdExternalDocument : PersistEntity, IInstantiableEntity, IxtdExternalDocument, IContainsEntityReferences, IEquatable<@xtdExternalDocument>
 	{

@@ -33,7 +33,7 @@ namespace Xbim.ISO_12006_3_V3.Interfaces
 
 namespace Xbim.ISO_12006_3_V3
 {
-	[ExpressType("xtdRelAssignsCollections", 22)]
+	[ExpressType("xtdRelAssignsCollections", 23)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdRelAssignsCollections : xtdRelationship, IInstantiableEntity, IxtdRelAssignsCollections, IContainsEntityReferences, IContainsIndexedReferences, IEquatable<@xtdRelAssignsCollections>
 	{

@@ -91,33 +91,33 @@ namespace Xbim.ISO_12006_3_V3
 
 			switch(typeId)
 			{
-				case 8: return new xtdActivity ( model, entityLabel, activated );
-				case 9: return new xtdActor ( model, entityLabel, activated );
-				case 10: return new xtdBag ( model, entityLabel, activated );
-				case 12: return new xtdDescription ( model, entityLabel, activated );
-				case 13: return new xtdExternalDocument ( model, entityLabel, activated );
-				case 14: return new xtdLanguage ( model, entityLabel, activated );
-				case 16: return new xtdMeasureWithUnit ( model, entityLabel, activated );
-				case 17: return new xtdName ( model, entityLabel, activated );
-				case 18: return new xtdNest ( model, entityLabel, activated );
-				case 20: return new xtdProperty ( model, entityLabel, activated );
-				case 21: return new xtdRelActsUpon ( model, entityLabel, activated );
-				case 22: return new xtdRelAssignsCollections ( model, entityLabel, activated );
-				case 23: return new xtdRelAssignsMeasures ( model, entityLabel, activated );
-				case 24: return new xtdRelAssignsProperties ( model, entityLabel, activated );
-				case 25: return new xtdRelAssignsPropertyWithValues ( model, entityLabel, activated );
-				case 26: return new xtdRelAssignsUnits ( model, entityLabel, activated );
-				case 27: return new xtdRelAssignsValues ( model, entityLabel, activated );
-				case 28: return new xtdRelAssociates ( model, entityLabel, activated );
-				case 30: return new xtdRelCollects ( model, entityLabel, activated );
-				case 31: return new xtdRelComposes ( model, entityLabel, activated );
-				case 32: return new xtdRelDocuments ( model, entityLabel, activated );
-				case 33: return new xtdRelGroups ( model, entityLabel, activated );
-				case 34: return new xtdRelSequences ( model, entityLabel, activated );
-				case 35: return new xtdRelSpecializes ( model, entityLabel, activated );
-				case 37: return new xtdSubject ( model, entityLabel, activated );
-				case 38: return new xtdUnit ( model, entityLabel, activated );
-				case 39: return new xtdValue ( model, entityLabel, activated );
+				case 9: return new xtdActivity ( model, entityLabel, activated );
+				case 10: return new xtdActor ( model, entityLabel, activated );
+				case 11: return new xtdBag ( model, entityLabel, activated );
+				case 13: return new xtdDescription ( model, entityLabel, activated );
+				case 14: return new xtdExternalDocument ( model, entityLabel, activated );
+				case 15: return new xtdLanguage ( model, entityLabel, activated );
+				case 17: return new xtdMeasureWithUnit ( model, entityLabel, activated );
+				case 18: return new xtdName ( model, entityLabel, activated );
+				case 19: return new xtdNest ( model, entityLabel, activated );
+				case 21: return new xtdProperty ( model, entityLabel, activated );
+				case 22: return new xtdRelActsUpon ( model, entityLabel, activated );
+				case 23: return new xtdRelAssignsCollections ( model, entityLabel, activated );
+				case 24: return new xtdRelAssignsMeasures ( model, entityLabel, activated );
+				case 25: return new xtdRelAssignsProperties ( model, entityLabel, activated );
+				case 26: return new xtdRelAssignsPropertyWithValues ( model, entityLabel, activated );
+				case 27: return new xtdRelAssignsUnits ( model, entityLabel, activated );
+				case 28: return new xtdRelAssignsValues ( model, entityLabel, activated );
+				case 29: return new xtdRelAssociates ( model, entityLabel, activated );
+				case 31: return new xtdRelCollects ( model, entityLabel, activated );
+				case 32: return new xtdRelComposes ( model, entityLabel, activated );
+				case 33: return new xtdRelDocuments ( model, entityLabel, activated );
+				case 34: return new xtdRelGroups ( model, entityLabel, activated );
+				case 35: return new xtdRelSequences ( model, entityLabel, activated );
+				case 36: return new xtdRelSpecializes ( model, entityLabel, activated );
+				case 38: return new xtdSubject ( model, entityLabel, activated );
+				case 39: return new xtdUnit ( model, entityLabel, activated );
+				case 40: return new xtdValue ( model, entityLabel, activated );
 				default:
 					return null;
 			}

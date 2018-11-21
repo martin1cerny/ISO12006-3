@@ -34,7 +34,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdRelAssignsConstraint", 5)]
+	[ExpressType("xtdRelAssignsConstraint", 6)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdRelAssignsConstraint : xtdRelationship, IInstantiableEntity, IxtdRelAssignsConstraint, IContainsEntityReferences, IContainsIndexedReferences, IEquatable<@xtdRelAssignsConstraint>
 	{

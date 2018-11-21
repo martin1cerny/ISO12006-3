@@ -33,7 +33,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdDescription", 42)]
+	[ExpressType("xtdDescription", 23)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdDescription : xtdLanguageRepresentation, IInstantiableEntity, IxtdDescription, IContainsEntityReferences, IEquatable<@xtdDescription>
 	{

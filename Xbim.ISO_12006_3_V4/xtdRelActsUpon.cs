@@ -31,7 +31,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdRelActsUpon", 51)]
+	[ExpressType("xtdRelActsUpon", 32)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdRelActsUpon : xtdRelAssociates, IInstantiableEntity, IxtdRelActsUpon, IContainsEntityReferences, IContainsIndexedReferences, IEquatable<@xtdRelActsUpon>
 	{

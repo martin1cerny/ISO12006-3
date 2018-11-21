@@ -31,7 +31,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdNest", 48)]
+	[ExpressType("xtdNest", 29)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @xtdNest : xtdCollection, IInstantiableEntity, IxtdNest, IContainsEntityReferences, IContainsIndexedReferences, IEquatable<@xtdNest>
 	{
