@@ -25,6 +25,25 @@ namespace Xbim.ISO_12006_3_V4.Samples
                     h.Comment(si, "New entity types introduced to describe units. This is a simple SI unit.");
                 });
 
+                var speedDef = h.New<xtdDerivedUnit>(du => {
+                    du.UnitType = xtdDerivedUnitEnum.LINEARVELOCITYUNIT;
+                    du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
+                        e.Exponent = 1;
+                        e.Unit = h.New<xtdSIUnit>(si => {
+                            si.Name = xtdSIUnitName.METRE;
+                            si.UnitType = xtdUnitEnum.LENGTHUNIT;
+                        });
+                    }));
+                    du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
+                        e.Exponent = -1;
+                        e.Unit = h.New<xtdSIUnit>(si => {
+                            si.Name = xtdSIUnitName.SECOND;
+                            si.UnitType = xtdUnitEnum.TIMEUNIT;
+                        });
+                    }));
+                    h.Comment(du, "Speed is derived from length unit of metres and time unit of seconds with appropriate exponents");
+                });
+
                 var mm = h.New<xtdUnit>(u => {
                     u.Names.Add(h.New<xtdName>(n => {
                         n.LanguageName = en;
@@ -34,6 +53,15 @@ namespace Xbim.ISO_12006_3_V4.Samples
                     h.Comment(u, "xtdUnit is extended with 'Definition' which is a machine readable expression for the unit.");
                     h.Comment(u, "This makes it possible to external autometed systems to work with the data and definitions.");
                 });
+
+                var speed = h.New<xtdUnit>(u => {
+                    u.Names.Add(h.New<xtdName>(n => {
+                        n.LanguageName = en;
+                        n.Name = "Metres per second";
+                    }));
+                    u.Definition = speedDef;
+                });
+
 
                 var subject = h.New<xtdSubject>(s => {
                     s.Names.Add(h.New<xtdName>(n => {
@@ -69,6 +97,16 @@ namespace Xbim.ISO_12006_3_V4.Samples
                         d.Description = "Quality grading";
                     }));
                 });
+                var propertySpeed = h.New<xtdProperty>(p => {
+                    p.Names.Add(h.New<xtdName>(n => {
+                        n.LanguageName = en;
+                        n.Name = "Opening Speed";
+                    }));
+                    p.Descriptions.Add(h.New<xtdDescription>(d => {
+                        d.LanguageName = en;
+                        d.Description = "Speed of automatic opening of the door";
+                    }));
+                });
 
                 var widthMeasure = h.New<xtdMeasureWithUnit>(c => {
                     c.Names.Add(h.New<xtdName>(n => {
@@ -98,18 +136,31 @@ namespace Xbim.ISO_12006_3_V4.Samples
                     h.Comment(c, "This measure represents the grade as an enumeration value");
                 });
 
+                var speedMeasure = h.New<xtdMeasureWithUnit>(c => {
+                    c.Names.Add(h.New<xtdName>(n => {
+                        n.LanguageName = en;
+                        n.Name = "Speed";
+                    }));
+                    c.Descriptions.Add(h.New<xtdDescription>(d => {
+                        d.LanguageName = en;
+                        d.Description = "Speed under normal conditions";
+                    }));
+                    c.ValueDomain.Add(h.New<xtdValue>(v => v.NominalValue = new xtdReal(1.3456)));
+                    c.UnitComponent = speed;
+                    h.Comment(c, "This measure represents the speed with well defined units");
+                });
+
                 h.New<xtdRelAssignsMeasures>(rel => {
                     rel.RelatingProperty = propertyWidth;
                     rel.RelatedMeasures.Add(widthMeasure);
-                    h.Comment(rel, "Relation expressing measure of the property");
-                });
-                h.New<xtdRelAssignsMeasures>(rel => {
-                    rel.RelatingProperty = propertyGrade;
                     rel.RelatedMeasures.Add(gradeMeasure);
+                    rel.RelatedMeasures.Add(speedMeasure);
+                    h.Comment(rel, "Relation expressing measure of the property");
                 });
                 h.New<xtdRelAssignsProperties>(rel => {
                     rel.RelatedProperties.Add(propertyWidth);
                     rel.RelatedProperties.Add(propertyGrade);
+                    rel.RelatedProperties.Add(propertySpeed);
                     rel.RelatingObject = subject;
                 });
 
