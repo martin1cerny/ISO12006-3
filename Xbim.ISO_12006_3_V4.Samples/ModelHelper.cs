@@ -61,6 +61,8 @@ namespace Xbim.ISO_12006_3_V4.Samples
 
             if (!file.EndsWith(".stp", StringComparison.InvariantCultureIgnoreCase))
                 file = file + ".stp";
+            if (!Path.IsPathRooted(file))
+                file = Path.Combine(@"..\..\..\..\Samples", file);
             using (var output = File.CreateText(file))
             {
                 Write(Model, output);
