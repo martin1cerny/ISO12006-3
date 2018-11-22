@@ -150,18 +150,20 @@ namespace Xbim.ISO_12006_3_V4.Samples
                     h.Comment(c, "This measure represents the speed with well defined units");
                 });
 
-                h.New<xtdRelAssignsMeasures>(rel => {
-                    rel.RelatingProperty = propertyWidth;
-                    rel.RelatedMeasures.Add(widthMeasure);
-                    rel.RelatedMeasures.Add(gradeMeasure);
-                    rel.RelatedMeasures.Add(speedMeasure);
-                    h.Comment(rel, "Relation expressing measure of the property");
-                });
-                h.New<xtdRelAssignsProperties>(rel => {
-                    rel.RelatedProperties.Add(propertyWidth);
-                    rel.RelatedProperties.Add(propertyGrade);
-                    rel.RelatedProperties.Add(propertySpeed);
+                h.New<xtdRelAssignsPropertyWithValues>(rel => {
+                    rel.RelatedProperty = propertyWidth;
                     rel.RelatingObject = subject;
+                    rel.RelatedUnit = mm;
+                    h.Comment(rel, "Relations expressing measures of the properties with units for certain subject");
+                });
+                h.New<xtdRelAssignsPropertyWithValues>(rel => {
+                    rel.RelatedProperty = propertyGrade;
+                    rel.RelatingObject = subject;
+                });
+                h.New<xtdRelAssignsPropertyWithValues>(rel => {
+                    rel.RelatedProperty = propertySpeed;
+                    rel.RelatingObject = subject;
+                    rel.RelatedUnit = speed;
                 });
 
                 h.Save(nameof(ValuesExample));

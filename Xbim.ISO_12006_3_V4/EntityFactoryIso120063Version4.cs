@@ -58,6 +58,9 @@ namespace Xbim.ISO_12006_3_V4
 				case "XTDLOGICALCONSTRAINT": return new xtdLogicalConstraint ( model, entityLabel, activated );
 				case "XTDRELASSIGNSCONSTRAINT": return new xtdRelAssignsConstraint ( model, entityLabel, activated );
 				case "XTDRELASSIGNSPROPERTYWITHCONSTRAINT": return new xtdRelAssignsPropertyWithConstraint ( model, entityLabel, activated );
+				case "XTDRELMAPPING": return new xtdRelMapping ( model, entityLabel, activated );
+				case "XTDEXTERNALOBJECT": return new xtdExternalObject ( model, entityLabel, activated );
+				case "XTDEXTERNALSCHEMA": return new xtdExternalSchema ( model, entityLabel, activated );
 				case "XTDDERIVEDUNIT": return new xtdDerivedUnit ( model, entityLabel, activated );
 				case "XTDDERIVEDUNITELEMENT": return new xtdDerivedUnitElement ( model, entityLabel, activated );
 				case "XTDMONETARYUNIT": return new xtdMonetaryUnit ( model, entityLabel, activated );
@@ -68,6 +71,7 @@ namespace Xbim.ISO_12006_3_V4
 				case "XTDDIMENSIONALEXPONENTS": return new xtdDimensionalExponents ( model, entityLabel, activated );
 				case "XTDUNIT": return new xtdUnit ( model, entityLabel, activated );
 				case "XTDVALUE": return new xtdValue ( model, entityLabel, activated );
+				case "XTDRELASSIGNSPROPERTYWITHVALUES": return new xtdRelAssignsPropertyWithValues ( model, entityLabel, activated );
 				case "XTDACTIVITY": return new xtdActivity ( model, entityLabel, activated );
 				case "XTDACTOR": return new xtdActor ( model, entityLabel, activated );
 				case "XTDBAG": return new xtdBag ( model, entityLabel, activated );
@@ -82,7 +86,6 @@ namespace Xbim.ISO_12006_3_V4
 				case "XTDRELASSIGNSCOLLECTIONS": return new xtdRelAssignsCollections ( model, entityLabel, activated );
 				case "XTDRELASSIGNSMEASURES": return new xtdRelAssignsMeasures ( model, entityLabel, activated );
 				case "XTDRELASSIGNSPROPERTIES": return new xtdRelAssignsProperties ( model, entityLabel, activated );
-				case "XTDRELASSIGNSPROPERTYWITHVALUES": return new xtdRelAssignsPropertyWithValues ( model, entityLabel, activated );
 				case "XTDRELASSIGNSUNITS": return new xtdRelAssignsUnits ( model, entityLabel, activated );
 				case "XTDRELASSIGNSVALUES": return new xtdRelAssignsValues ( model, entityLabel, activated );
 				case "XTDRELASSOCIATES": return new xtdRelAssociates ( model, entityLabel, activated );
@@ -111,6 +114,9 @@ namespace Xbim.ISO_12006_3_V4
 				case 5: return new xtdLogicalConstraint ( model, entityLabel, activated );
 				case 6: return new xtdRelAssignsConstraint ( model, entityLabel, activated );
 				case 7: return new xtdRelAssignsPropertyWithConstraint ( model, entityLabel, activated );
+				case 71: return new xtdRelMapping ( model, entityLabel, activated );
+				case 70: return new xtdExternalObject ( model, entityLabel, activated );
+				case 69: return new xtdExternalSchema ( model, entityLabel, activated );
 				case 8: return new xtdDerivedUnit ( model, entityLabel, activated );
 				case 9: return new xtdDerivedUnitElement ( model, entityLabel, activated );
 				case 10: return new xtdMonetaryUnit ( model, entityLabel, activated );
@@ -121,6 +127,7 @@ namespace Xbim.ISO_12006_3_V4
 				case 16: return new xtdDimensionalExponents ( model, entityLabel, activated );
 				case 17: return new xtdUnit ( model, entityLabel, activated );
 				case 18: return new xtdValue ( model, entityLabel, activated );
+				case 36: return new xtdRelAssignsPropertyWithValues ( model, entityLabel, activated );
 				case 19: return new xtdActivity ( model, entityLabel, activated );
 				case 20: return new xtdActor ( model, entityLabel, activated );
 				case 21: return new xtdBag ( model, entityLabel, activated );
@@ -135,7 +142,6 @@ namespace Xbim.ISO_12006_3_V4
 				case 33: return new xtdRelAssignsCollections ( model, entityLabel, activated );
 				case 34: return new xtdRelAssignsMeasures ( model, entityLabel, activated );
 				case 35: return new xtdRelAssignsProperties ( model, entityLabel, activated );
-				case 36: return new xtdRelAssignsPropertyWithValues ( model, entityLabel, activated );
 				case 37: return new xtdRelAssignsUnits ( model, entityLabel, activated );
 				case 38: return new xtdRelAssignsValues ( model, entityLabel, activated );
 				case 39: return new xtdRelAssociates ( model, entityLabel, activated );

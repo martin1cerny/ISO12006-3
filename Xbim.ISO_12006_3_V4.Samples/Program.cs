@@ -15,6 +15,9 @@ namespace Xbim.ISO_12006_3_V4.Samples
             ValuesExample.Run();
             Console.WriteLine($"Executed: {nameof(ValuesExample)}");
 
+            SchemaMappingExample.Run();
+            Console.WriteLine($"Executed: {nameof(SchemaMappingExample)}");
+
             w.Stop();
             Console.WriteLine($"Samples executed in {w.ElapsedMilliseconds}ms");
         }

@@ -102,6 +102,36 @@ TYPE xtdValueType = SELECT
 END_TYPE;
 
 (*
+          Mapping between IFD concepts and external schemas
+  ----------------------------------------------------------------
+  Following new entity types make it possible to describe relations between
+  concepts expressed in IFD and their representation in external schemas like IFC
+  or others. This is essential for automated processes where IFD data is informing
+  content and/or structure of data defined using external schemas.
+*)
+
+ENTITY xtdRelMapping
+  SUBTYPE OF(xtdRelationship);
+    RelatingObject : xtdObject;
+    RelatedExternalObject : xtdExternalObject;
+END_ENTITY;
+
+ENTITY xtdExternalObject;
+    ExternalIdentifier : xtdLabel;
+    ExternalSubIdentifier : OPTIONAL xtdLabel;
+	ExternalSchema: xtdExternalSchema;
+END_ENTITY;
+
+ENTITY xtdExternalSchema;
+    Name: OPTIONAL xtdLabel;
+	Description: OPTIONAL xtdText;
+	Identifier: xtdLabel;
+	Version: xtdLabel;
+	Location: OPTIONAL xtdLabel;
+END_ENTITY;
+
+
+(*
                       Machine readable units
   ------------------------------------------------------------
   While ISO 12006-3 is perfectly usable to model machine readable data
@@ -616,17 +646,17 @@ ENTITY xtdValue
     ToleranceType : OPTIONAL xtdToleranceTypeEnum;
 END_ENTITY;
 
+
 (*
-ENTITY xtdValue
-  SUBTYPE OF(xtdObject);
-    LowerTolerance : OPTIONAL xtdText;
-    NominalValue : OPTIONAL xtdText;
-    UpperTolerance : OPTIONAL xtdText;
-    ValueType : OPTIONAL xtdValueTypeEnum;
-    ValueRole : OPTIONAL xtdValueRoleEnum;
-    ToleranceType : OPTIONAL xtdToleranceTypeEnum;
-END_ENTITY;
+  RelatedUnit is added to give a scale to the values
 *)
+ENTITY xtdRelAssignsPropertyWithValues
+  SUBTYPE OF(xtdRelationship);
+    RelatedProperty : xtdProperty;
+    RelatingObject : xtdObject;
+    RelatedValues : LIST [1:?] OF UNIQUE xtdValue;
+	RelatedUnit: OPTIONAL xtdUnit;
+END_ENTITY;
 
 
 (*
@@ -747,13 +777,6 @@ ENTITY xtdRelAssignsProperties
   SUBTYPE OF(xtdRelationship);
     RelatedProperties : SET [1:?] OF xtdProperty;
     RelatingObject : xtdObject;
-END_ENTITY;
-
-ENTITY xtdRelAssignsPropertyWithValues
-  SUBTYPE OF(xtdRelationship);
-    RelatedProperty : xtdProperty;
-    RelatingObject : xtdObject;
-    RelatedValues : LIST [1:?] OF UNIQUE xtdValue;
 END_ENTITY;
 
 ENTITY xtdRelAssignsUnits

@@ -9,6 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xbim.ISO_12006_3_V4.Samples
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xbim.ISO_12006_3_V3", "Xbim.ISO_12006_3_V3\Xbim.ISO_12006_3_V3.csproj", "{3AAE4434-1241-4FEC-8BC1-D551D0B24C76}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schemas", "Schemas", "{CFD5EDCB-5F20-4522-A9F6-C3F9F942CB27}"
+	ProjectSection(SolutionItems) = preProject
+		ISO_12006_3_V3.exp = ISO_12006_3_V3.exp
+		ISO_12006_3_V4.exp = ISO_12006_3_V4.exp
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

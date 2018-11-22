@@ -1,0 +1,41 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION ((''), '2;1');
+FILE_NAME ('', '2018-11-22T14:16:02', (''), (''), 'Processor version 5.0.0.0', 'Xbim.Common', '');
+FILE_SCHEMA (('ISO_12006_3_VERSION_4'));
+ENDSEC;
+DATA;
+
+/**
+* Definition of the language
+* XTDLANGUAGE=(LanguageNameInEnglish, LanguageNameInSelf, Comments, UniqueID)*/
+#1=XTDLANGUAGE('English',$,$,'0r4CSc62T3vQZiMjuf2UFz');
+
+/**
+* Subject of the specification
+* XTDSUBJECT=(VersionDate, VersionID, UniqueID, Descriptions, Names)*/
+#2=XTDSUBJECT('2018-11-22T14:16:02','1.2','3gvidc9on8CQCI3bPSfnva',(#4),(#3));
+#3=XTDNAME(#1,'2hTL3Paz13S9THP4O6WJ6y','The Door');
+#4=XTDDESCRIPTION(#1,'3gcHVL79f7$O_sC5fd1tj0','Example of the door');
+#5=XTDSUBJECT('2018-11-22T14:16:02','1.2','1PKUpeK1H33QvCYhieSGRR',(#7),(#6));
+#6=XTDNAME(#1,'2UsdNJ7e903wdFHOtHWCQ4','The Floor');
+#7=XTDDESCRIPTION(#1,'2qVgkFfCj0ReIZHC0NvNfx','Example of the floor');
+
+/**
+* Information identifying external schema so that external automation systems can identify relevant mappings
+* XTDEXTERNALSCHEMA=(Name, Description, Identifier, Version, Location)*/
+#8=XTDEXTERNALSCHEMA('IFC','Industrial Foundation Classes','IFC4','IFC4 ADD2','http://www.buildingsmart-tech.org/ifc/IFC4/Add2/IFC4_ADD2.exp');
+
+/**
+* External objects identified by their identifiers, sub-identifiers and the schema
+* XTDEXTERNALOBJECT=(ExternalIdentifier, ExternalSubIdentifier, ExternalSchema)*/
+#9=XTDEXTERNALOBJECT('IfcDoor',$,#8);
+#10=XTDEXTERNALOBJECT('IfcSlab','FLOOR',#8);
+
+/**
+* Relation defining external objects in external schemas
+* XTDRELMAPPING=(VersionDate, VersionID, UniqueID, Descriptions, Names, ViewSelector, RelatingObject, RelatedExternalObject)*/
+#11=XTDRELMAPPING('2018-11-22T14:16:02','1.2','3z9R3GCH12DxUjyofoi3YZ',$,(),$,#2,#9);
+#12=XTDRELMAPPING('2018-11-22T14:16:02','1.2','0qK9u0msrAcv$cOusVOXnF',$,(),$,#5,#10);
+ENDSEC;
+END-ISO-10303-21;

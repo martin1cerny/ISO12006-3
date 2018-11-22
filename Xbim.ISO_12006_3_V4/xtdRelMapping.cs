@@ -20,81 +20,51 @@ using Xbim.ISO_12006_3_V4;
 namespace Xbim.ISO_12006_3_V4.Interfaces
 {
 	/// <summary>
-    /// Readonly interface for xtdRelAssignsPropertyWithValues
+    /// Readonly interface for xtdRelMapping
     /// </summary>
 	// ReSharper disable once PartialTypeWithSinglePart
-	public partial interface @IxtdRelAssignsPropertyWithValues : IxtdRelationship
+	public partial interface @IxtdRelMapping : IxtdRelationship
 	{
-		IxtdProperty @RelatedProperty { get;  set; }
 		IxtdObject @RelatingObject { get;  set; }
-		IItemSet<IxtdValue> @RelatedValues { get; }
-		IxtdUnit @RelatedUnit { get;  set; }
+		IxtdExternalObject @RelatedExternalObject { get;  set; }
 	
 	}
 }
 
 namespace Xbim.ISO_12006_3_V4
 {
-	[ExpressType("xtdRelAssignsPropertyWithValues", 36)]
+	[ExpressType("xtdRelMapping", 71)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @xtdRelAssignsPropertyWithValues : xtdRelationship, IInstantiableEntity, IxtdRelAssignsPropertyWithValues, IContainsEntityReferences, IContainsIndexedReferences, IEquatable<@xtdRelAssignsPropertyWithValues>
+	public  partial class @xtdRelMapping : xtdRelationship, IInstantiableEntity, IxtdRelMapping, IContainsEntityReferences, IContainsIndexedReferences, IEquatable<@xtdRelMapping>
 	{
-		#region IxtdRelAssignsPropertyWithValues explicit implementation
-		IxtdProperty IxtdRelAssignsPropertyWithValues.RelatedProperty { 
- 
- 
-			get { return @RelatedProperty; } 
-			set { RelatedProperty = value as xtdProperty;}
-		}	
-		IxtdObject IxtdRelAssignsPropertyWithValues.RelatingObject { 
+		#region IxtdRelMapping explicit implementation
+		IxtdObject IxtdRelMapping.RelatingObject { 
  
  
 			get { return @RelatingObject; } 
 			set { RelatingObject = value as xtdObject;}
 		}	
-		IItemSet<IxtdValue> IxtdRelAssignsPropertyWithValues.RelatedValues { 
-			get { return new Common.Collections.ProxyItemSet<xtdValue, IxtdValue>( @RelatedValues); } 
-		}	
-		IxtdUnit IxtdRelAssignsPropertyWithValues.RelatedUnit { 
+		IxtdExternalObject IxtdRelMapping.RelatedExternalObject { 
  
  
-			get { return @RelatedUnit; } 
-			set { RelatedUnit = value as xtdUnit;}
+			get { return @RelatedExternalObject; } 
+			set { RelatedExternalObject = value as xtdExternalObject;}
 		}	
 		 
 		#endregion
 
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
-		internal xtdRelAssignsPropertyWithValues(IModel model, int label, bool activated) : base(model, label, activated)  
+		internal xtdRelMapping(IModel model, int label, bool activated) : base(model, label, activated)  
 		{
-			_relatedValues = new ItemSet<xtdValue>( this, 0,  9);
 		}
 
 		#region Explicit attribute fields
-		private xtdProperty _relatedProperty;
 		private xtdObject _relatingObject;
-		private readonly ItemSet<xtdValue> _relatedValues;
-		private xtdUnit _relatedUnit;
+		private xtdExternalObject _relatedExternalObject;
 		#endregion
 	
 		#region Explicit attribute properties
 		[EntityAttribute(7, EntityAttributeState.Mandatory, EntityAttributeType.Class, EntityAttributeType.None, null, null, 7)]
-		public xtdProperty @RelatedProperty 
-		{ 
-			get 
-			{
-				if(_activated) return _relatedProperty;
-				Activate();
-				return _relatedProperty;
-			} 
-			set
-			{
-				if (value != null && !(ReferenceEquals(Model, value.Model)))
-					throw new XbimException("Cross model entity assignment.");
-				SetValue( v =>  _relatedProperty = v, _relatedProperty, value,  "RelatedProperty", 7);
-			} 
-		}	
-		[EntityAttribute(8, EntityAttributeState.Mandatory, EntityAttributeType.Class, EntityAttributeType.None, null, null, 8)]
 		public xtdObject @RelatingObject 
 		{ 
 			get 
@@ -107,33 +77,23 @@ namespace Xbim.ISO_12006_3_V4
 			{
 				if (value != null && !(ReferenceEquals(Model, value.Model)))
 					throw new XbimException("Cross model entity assignment.");
-				SetValue( v =>  _relatingObject = v, _relatingObject, value,  "RelatingObject", 8);
+				SetValue( v =>  _relatingObject = v, _relatingObject, value,  "RelatingObject", 7);
 			} 
 		}	
-		[EntityAttribute(9, EntityAttributeState.Mandatory, EntityAttributeType.ListUnique, EntityAttributeType.Class, new int [] { 1 }, new int [] { -1 }, 9)]
-		public IItemSet<xtdValue> @RelatedValues 
+		[EntityAttribute(8, EntityAttributeState.Mandatory, EntityAttributeType.Class, EntityAttributeType.None, null, null, 8)]
+		public xtdExternalObject @RelatedExternalObject 
 		{ 
 			get 
 			{
-				if(_activated) return _relatedValues;
+				if(_activated) return _relatedExternalObject;
 				Activate();
-				return _relatedValues;
-			} 
-		}	
-		[EntityAttribute(10, EntityAttributeState.Optional, EntityAttributeType.Class, EntityAttributeType.None, null, null, 10)]
-		public xtdUnit @RelatedUnit 
-		{ 
-			get 
-			{
-				if(_activated) return _relatedUnit;
-				Activate();
-				return _relatedUnit;
+				return _relatedExternalObject;
 			} 
 			set
 			{
 				if (value != null && !(ReferenceEquals(Model, value.Model)))
 					throw new XbimException("Cross model entity assignment.");
-				SetValue( v =>  _relatedUnit = v, _relatedUnit, value,  "RelatedUnit", 10);
+				SetValue( v =>  _relatedExternalObject = v, _relatedExternalObject, value,  "RelatedExternalObject", 8);
 			} 
 		}	
 		#endregion
@@ -155,16 +115,10 @@ namespace Xbim.ISO_12006_3_V4
 					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 6: 
-					_relatedProperty = (xtdProperty)(value.EntityVal);
-					return;
-				case 7: 
 					_relatingObject = (xtdObject)(value.EntityVal);
 					return;
-				case 8: 
-					_relatedValues.InternalAdd((xtdValue)value.EntityVal);
-					return;
-				case 9: 
-					_relatedUnit = (xtdUnit)(value.EntityVal);
+				case 7: 
+					_relatedExternalObject = (xtdExternalObject)(value.EntityVal);
 					return;
 				default:
 					throw new XbimParserException(string.Format("Attribute index {0} is out of range for {1}", propIndex + 1, GetType().Name.ToUpper()));
@@ -173,7 +127,7 @@ namespace Xbim.ISO_12006_3_V4
 		#endregion
 
 		#region Equality comparers and operators
-        public bool Equals(@xtdRelAssignsPropertyWithValues other)
+        public bool Equals(@xtdRelMapping other)
 	    {
 	        return this == other;
 	    }
@@ -190,14 +144,10 @@ namespace Xbim.ISO_12006_3_V4
 					yield return entity;
 				if (@ViewSelector != null)
 					yield return @ViewSelector;
-				if (@RelatedProperty != null)
-					yield return @RelatedProperty;
 				if (@RelatingObject != null)
 					yield return @RelatingObject;
-				foreach(var entity in @RelatedValues)
-					yield return entity;
-				if (@RelatedUnit != null)
-					yield return @RelatedUnit;
+				if (@RelatedExternalObject != null)
+					yield return @RelatedExternalObject;
 			}
 		}
 		#endregion

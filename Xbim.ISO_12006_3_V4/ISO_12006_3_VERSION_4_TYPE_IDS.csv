@@ -5,6 +5,9 @@ xtdUnitConstraint,4
 xtdLogicalConstraint,5
 xtdRelAssignsConstraint,6
 xtdRelAssignsPropertyWithConstraint,7
+xtdRelMapping,71
+xtdExternalObject,70
+xtdExternalSchema,69
 xtdDerivedUnit,8
 xtdDerivedUnitElement,9
 xtdMonetaryUnit,10
@@ -16,6 +19,7 @@ xtdSIUnit,15
 xtdDimensionalExponents,16
 xtdUnit,17
 xtdValue,18
+xtdRelAssignsPropertyWithValues,36
 xtdActivity,19
 xtdActor,20
 xtdBag,21
@@ -33,7 +37,6 @@ xtdRelActsUpon,32
 xtdRelAssignsCollections,33
 xtdRelAssignsMeasures,34
 xtdRelAssignsProperties,35
-xtdRelAssignsPropertyWithValues,36
 xtdRelAssignsUnits,37
 xtdRelAssignsValues,38
 xtdRelAssociates,39
