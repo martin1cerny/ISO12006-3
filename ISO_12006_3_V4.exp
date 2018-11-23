@@ -7,8 +7,8 @@ SCHEMA ISO_12006_3_VERSION_4;
                  Semantic model for constraints
    --------------------------------------------------------------
    
-  New area of datastructures is introduced to describe requirements related to properties.
-  Current version was conbining both declarations of values and declarations of requirements.
+  New area of datas tructures is introduced to describe requirements related to properties.
+  Current version was combining both declarations of values and declarations of requirements.
   This is split into two distinct concepts now. Constraints can be combined using logical
   operators forming complex trees if necessary. Constraints can limit valid domain of values
   as well as a domain of valid units, potentially combining both.
@@ -385,7 +385,7 @@ TYPE xtdDerivedUnitEnum = ENUMERATION OF
 END_TYPE;
 
 (*
-          Functions veryfying correct dimensions of units
+          Functions verifying correct dimensions of units
    -------------------------------------------------------------
 *)
 
