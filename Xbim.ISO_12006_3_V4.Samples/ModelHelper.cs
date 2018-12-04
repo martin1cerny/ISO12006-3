@@ -20,13 +20,13 @@ namespace Xbim.ISO_12006_3_V4.Samples
         private Dictionary<int, string> _comments = new Dictionary<int, string>();
         private ITransaction _txn;
 
-        public ModelHelper()
+        public ModelHelper(string version = "2.1", string date = null)
         {
             Model = new StepModel(new EntityFactoryIso120063Version4());
             _txn = Model.BeginTransaction("Model creation");
 
-            var version = new xtdVersionID("1.2");
-            var date = new xtdDate(DateTime.Now.ToString("s"));
+            version = version ?? "1.2";
+            date = date ?? DateTime.Now.ToString("s");
 
             // set globally unique ID where necessary
             Model.EntityNew += (IPersistEntity entity) => {
