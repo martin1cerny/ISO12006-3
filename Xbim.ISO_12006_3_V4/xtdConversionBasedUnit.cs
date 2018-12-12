@@ -26,7 +26,8 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 	public partial interface @IxtdConversionBasedUnit : IxtdNamedUnit
 	{
 		xtdLabel @Name { get;  set; }
-		IxtdMeasureWithUnit @ConversionFactor { get;  set; }
+		xtdNumber @ConversionFactor { get;  set; }
+		IxtdUnitDefinition @BaseUnit { get;  set; }
 	
 	}
 }
@@ -43,11 +44,16 @@ namespace Xbim.ISO_12006_3_V4
 			get { return @Name; } 
 			set { Name = value;}
 		}	
-		IxtdMeasureWithUnit IxtdConversionBasedUnit.ConversionFactor { 
- 
+		xtdNumber IxtdConversionBasedUnit.ConversionFactor { 
  
 			get { return @ConversionFactor; } 
-			set { ConversionFactor = value as xtdMeasureWithUnit;}
+			set { ConversionFactor = value;}
+		}	
+		IxtdUnitDefinition IxtdConversionBasedUnit.BaseUnit { 
+ 
+ 
+			get { return @BaseUnit; } 
+			set { BaseUnit = value as xtdUnitDefinition;}
 		}	
 		 
 		#endregion
@@ -59,7 +65,8 @@ namespace Xbim.ISO_12006_3_V4
 
 		#region Explicit attribute fields
 		private xtdLabel _name;
-		private xtdMeasureWithUnit _conversionFactor;
+		private xtdNumber _conversionFactor;
+		private xtdUnitDefinition _baseUnit;
 		#endregion
 	
 		#region Explicit attribute properties
@@ -77,8 +84,8 @@ namespace Xbim.ISO_12006_3_V4
 				SetValue( v =>  _name = v, _name, value,  "Name", 3);
 			} 
 		}	
-		[EntityAttribute(4, EntityAttributeState.Mandatory, EntityAttributeType.Class, EntityAttributeType.None, null, null, 4)]
-		public xtdMeasureWithUnit @ConversionFactor 
+		[EntityAttribute(4, EntityAttributeState.Mandatory, EntityAttributeType.None, EntityAttributeType.None, null, null, 4)]
+		public xtdNumber @ConversionFactor 
 		{ 
 			get 
 			{
@@ -88,9 +95,23 @@ namespace Xbim.ISO_12006_3_V4
 			} 
 			set
 			{
+				SetValue( v =>  _conversionFactor = v, _conversionFactor, value,  "ConversionFactor", 4);
+			} 
+		}	
+		[EntityAttribute(5, EntityAttributeState.Mandatory, EntityAttributeType.Class, EntityAttributeType.None, null, null, 5)]
+		public xtdUnitDefinition @BaseUnit 
+		{ 
+			get 
+			{
+				if(_activated) return _baseUnit;
+				Activate();
+				return _baseUnit;
+			} 
+			set
+			{
 				if (value != null && !(ReferenceEquals(Model, value.Model)))
 					throw new XbimException("Cross model entity assignment.");
-				SetValue( v =>  _conversionFactor = v, _conversionFactor, value,  "ConversionFactor", 4);
+				SetValue( v =>  _baseUnit = v, _baseUnit, value,  "BaseUnit", 5);
 			} 
 		}	
 		#endregion
@@ -111,7 +132,10 @@ namespace Xbim.ISO_12006_3_V4
 					_name = value.StringVal;
 					return;
 				case 3: 
-					_conversionFactor = (xtdMeasureWithUnit)(value.EntityVal);
+					_conversionFactor = value.NumberVal;
+					return;
+				case 4: 
+					_baseUnit = (xtdUnitDefinition)(value.EntityVal);
 					return;
 				default:
 					throw new XbimParserException(string.Format("Attribute index {0} is out of range for {1}", propIndex + 1, GetType().Name.ToUpper()));
@@ -133,8 +157,8 @@ namespace Xbim.ISO_12006_3_V4
 			{
 				if (@Dimensions != null)
 					yield return @Dimensions;
-				if (@ConversionFactor != null)
-					yield return @ConversionFactor;
+				if (@BaseUnit != null)
+					yield return @BaseUnit;
 			}
 		}
 		#endregion

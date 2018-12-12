@@ -194,7 +194,8 @@ ENTITY xtdConversionBasedUnit
     (xtdConversionBasedUnitWithOffset))
  SUBTYPE OF (xtdNamedUnit);
 	Name : xtdLabel;
-	ConversionFactor : xtdMeasureWithUnit;
+	ConversionFactor : xtdNumber;
+	BaseUnit: xtdUnitDefinition;
 END_ENTITY;
 
 ENTITY xtdConversionBasedUnitWithOffset

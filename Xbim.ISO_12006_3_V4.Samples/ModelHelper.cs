@@ -14,7 +14,7 @@ using Xbim.IO.Step21;
 
 namespace Xbim.ISO_12006_3_V4.Samples
 {
-    public class ModelHelper: IDisposable
+    public class ModelHelper : IDisposable
     {
         public IModel Model { get; }
         private Dictionary<int, string> _comments = new Dictionary<int, string>();

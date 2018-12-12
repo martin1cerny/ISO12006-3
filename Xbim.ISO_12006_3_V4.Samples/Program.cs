@@ -18,6 +18,9 @@ namespace Xbim.ISO_12006_3_V4.Samples
             SchemaMappingExample.Run();
             Console.WriteLine($"Executed: {nameof(SchemaMappingExample)}");
 
+            ComplexUnitsExample.Run();
+            Console.WriteLine($"Executed: {nameof(ComplexUnitsExample)}");
+
             w.Stop();
             Console.WriteLine($"Samples executed in {w.ElapsedMilliseconds}ms");
         }
