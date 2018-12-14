@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION ((''), '2;1');
-FILE_NAME ('', '2018-12-14T15:26:40', (''), (''), 'Processor version 5.0.0.0', 'Xbim.Common', '');
+FILE_NAME ('', '2018-12-14T15:39:07', (''), (''), 'Processor version 5.0.0.0', 'Xbim.Common', '');
 FILE_SCHEMA (('ISO_12006_3_VERSION_4'));
 ENDSEC;
 DATA;
@@ -21,7 +21,7 @@ DATA;
 
 /**
 * centimetre to the power of four
-* Dimensional exponents: [4.00 0.00 0.00 0.00 0.00 0.00 0.00]
+* Derived dimensional exponents: [4.00 0.00 0.00 0.00 0.00 0.00 0.00]
 * XTDDERIVEDUNIT=(Elements, UnitType, UserDefinedType)*/
 #9=XTDDERIVEDUNIT((#10),.MOMENTOFINERTIAUNIT.,$);
 #10=XTDDERIVEDUNITELEMENT(#11,4.);
@@ -29,7 +29,7 @@ DATA;
 
 /**
 * kilogram per square metre hour to the power of one half
-* Dimensional exponents: [-2.00 1.00 -0.50 0.00 0.00 0.00 0.00]
+* Derived dimensional exponents: [-2.00 1.00 -0.50 0.00 0.00 0.00 0.00]
 * XTDDERIVEDUNIT=(Elements, UnitType, UserDefinedType)*/
 #12=XTDDERIVEDUNIT((#13,#15,#17),.USERDEFINED.,'WATER_PERMEABILITY');
 #13=XTDDERIVEDUNITELEMENT(#14,1.);
@@ -42,7 +42,7 @@ DATA;
 
 /**
 * miligram per kilowatt-hour
-* Dimensional exponent: [-2.00 0.00 2.00 0.00 0.00 0.00 0.00]
+* Derived dimensional exponents: [-2.00 0.00 2.00 0.00 0.00 0.00 0.00]
 * XTDDERIVEDUNIT=(Elements, UnitType, UserDefinedType)*/
 #20=XTDDERIVEDUNIT((#21,#23,#25),.USERDEFINED.,'NO2_EMISSION');
 #21=XTDDERIVEDUNITELEMENT(#22,1.);
@@ -55,7 +55,7 @@ DATA;
 
 /**
 * kilogram per metre
-* Dimensional exponent: [-1.00 1.00 0.00 0.00 0.00 0.00 0.00]
+* Derived dimensional exponents: [-1.00 1.00 0.00 0.00 0.00 0.00 0.00]
 * XTDDERIVEDUNIT=(Elements, UnitType, UserDefinedType)*/
 #28=XTDDERIVEDUNIT((#29,#31),.MASSPERLENGTHUNIT.,$);
 #29=XTDDERIVEDUNITELEMENT(#30,1.);
@@ -65,18 +65,21 @@ DATA;
 
 /**
 * pieces per pack
-* Dimensional exponent [0 0 0 0 0 0 0] means dimension = 1 (ISO 80000-1)
+* Derived dimensional exponents: [0.00 0.00 0.00 0.00 0.00 0.00 0.00]
+* Dimensional exponents [0 0 0 0 0 0 0] means dimension = 1 (ISO 80000-1)
 * Which is true for dimension-less measures like count
 * XTDCONTEXTDEPENDENTUNIT=(Name)*/
 #33=XTDCONTEXTDEPENDENTUNIT('PIECES_PER_PACK');
 
 /**
 * pieces per pack
+* Derived dimensional exponents: [0.00 0.00 0.00 0.00 0.00 0.00 0.00]
 * XTDCONTEXTDEPENDENTUNIT=(Name)*/
 #34=XTDCONTEXTDEPENDENTUNIT('PARTS_PER_MILLION');
 
 /**
 * baud
+* Derived dimensional exponents: [0.00 0.00 0.00 0.00 0.00 0.00 0.00]
 * XTDCONTEXTDEPENDENTUNIT=(Name)*/
 #35=XTDCONTEXTDEPENDENTUNIT('BAUD');
 ENDSEC;

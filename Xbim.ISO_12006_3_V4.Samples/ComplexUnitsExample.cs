@@ -52,7 +52,7 @@ namespace Xbim.ISO_12006_3_V4.Samples
                         });
                     }));
                     h.Comment(du, "centimetre to the power of four");
-                    h.Comment(du, $"Dimensional exponents: {du.Dimensions}");
+                    h.Comment(du, $"Derived dimensional exponents: {du.Dimensions}");
                 });
 
                 // kilogram per square metre hour to the power of one half kg/(m² · h¹/²)
@@ -84,7 +84,7 @@ namespace Xbim.ISO_12006_3_V4.Samples
                         });
                     }));
                     h.Comment(du, "kilogram per square metre hour to the power of one half");
-                    h.Comment(du, $"Dimensional exponents: {du.Dimensions}");
+                    h.Comment(du, $"Derived dimensional exponents: {du.Dimensions}");
                 });
 
                 // miligram per kilowatt-hour
@@ -117,7 +117,7 @@ namespace Xbim.ISO_12006_3_V4.Samples
                         });
                     }));
                     h.Comment(du, "miligram per kilowatt-hour");
-                    h.Comment(du, $"Dimensional exponent: {du.Dimensions}");
+                    h.Comment(du, $"Derived dimensional exponents: {du.Dimensions}");
                 });
 
                 // kilogram per metre
@@ -138,14 +138,15 @@ namespace Xbim.ISO_12006_3_V4.Samples
                     }));
                    
                     h.Comment(du, "kilogram per metre");
-                    h.Comment(du, $"Dimensional exponent: {du.Dimensions}");
+                    h.Comment(du, $"Derived dimensional exponents: {du.Dimensions}");
                 });
 
                 // piece per pack
                 h.New<xtdContextDependentUnit>(u => {
                     u.Name = "PIECES_PER_PACK";
                     h.Comment(u, "pieces per pack");
-                    h.Comment(u, "Dimensional exponent [0 0 0 0 0 0 0] means dimension = 1 (ISO 80000-1)");
+                    h.Comment(u, $"Derived dimensional exponents: {u.Dimensions}");
+                    h.Comment(u, "Dimensional exponents [0 0 0 0 0 0 0] means dimension = 1 (ISO 80000-1)");
                     h.Comment(u, "Which is true for dimension-less measures like count");
                 });
 
@@ -153,12 +154,14 @@ namespace Xbim.ISO_12006_3_V4.Samples
                 h.New<xtdContextDependentUnit>(u => {
                     u.Name = "PARTS_PER_MILLION";
                     h.Comment(u, "pieces per pack");
+                    h.Comment(u, $"Derived dimensional exponents: {u.Dimensions}");
                 });
 
                 // baud
                 h.New<xtdContextDependentUnit>(u => {
                     u.Name = "BAUD";
                     h.Comment(u, "baud");
+                    h.Comment(u, $"Derived dimensional exponents: {u.Dimensions}");
                 });
 
                 h.Save(nameof(ComplexUnitsExample));
