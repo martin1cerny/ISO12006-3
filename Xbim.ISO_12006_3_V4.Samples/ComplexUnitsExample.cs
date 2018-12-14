@@ -12,8 +12,6 @@ namespace Xbim.ISO_12006_3_V4.Samples
             {
                 // litre per metre squared second
                 h.New<xtdDerivedUnit>(du => {
-                    du.UnitType = xtdDerivedUnitEnum.USERDEFINED;
-                    du.UserDefinedType = "VOLUMETRIC_FLUX_UNIT";
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
                         e.Exponent = 1;
                         e.Unit = h.New<xtdConversionBasedUnit>(cbu =>
@@ -43,7 +41,6 @@ namespace Xbim.ISO_12006_3_V4.Samples
 
                 // centimetre to the power of four
                 h.New<xtdDerivedUnit>(du => {
-                    du.UnitType = xtdDerivedUnitEnum.MOMENTOFINERTIAUNIT;
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
                         e.Exponent = 4;
                         e.Unit = h.New<xtdSIUnit>(si => {
@@ -57,8 +54,6 @@ namespace Xbim.ISO_12006_3_V4.Samples
 
                 // kilogram per square metre hour to the power of one half kg/(m² · h¹/²)
                 h.New<xtdDerivedUnit>(du => {
-                    du.UnitType = xtdDerivedUnitEnum.USERDEFINED;
-                    du.UserDefinedType = "WATER_PERMEABILITY";
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
                         e.Exponent = 1;
                         e.Unit = h.New<xtdSIUnit>(si => {
@@ -89,8 +84,6 @@ namespace Xbim.ISO_12006_3_V4.Samples
 
                 // miligram per kilowatt-hour
                 h.New<xtdDerivedUnit>(du => {
-                    du.UnitType = xtdDerivedUnitEnum.USERDEFINED;
-                    du.UserDefinedType = "NO2_EMISSION";
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
                         e.Exponent = 1;
                         e.Unit = h.New<xtdSIUnit>(si => {
@@ -122,7 +115,6 @@ namespace Xbim.ISO_12006_3_V4.Samples
 
                 // kilogram per metre
                 h.New<xtdDerivedUnit>(du => {
-                    du.UnitType = xtdDerivedUnitEnum.MASSPERLENGTHUNIT;
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
                         e.Exponent = 1;
                         e.Unit = h.New<xtdSIUnit>(si => {

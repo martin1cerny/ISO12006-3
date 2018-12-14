@@ -25,7 +25,6 @@ namespace Xbim.ISO_12006_3_V4.Samples
                 });
 
                 var speedDef = h.New<xtdDerivedUnit>(du => {
-                    du.UnitType = xtdDerivedUnitEnum.LINEARVELOCITYUNIT;
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
                         e.Exponent = 1;
                         e.Unit = h.New<xtdSIUnit>(si => {

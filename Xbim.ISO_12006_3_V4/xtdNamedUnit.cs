@@ -56,7 +56,7 @@ namespace Xbim.ISO_12006_3_V4
 		{
 			get 
 			{
-                //## Getter for Dimensions
+				//## Getter for Dimensions
                 if (this is xtdSIUnit si)
                 {
                     return si.xtdDimensionsForSiUnit(si.Name);
@@ -71,7 +71,7 @@ namespace Xbim.ISO_12006_3_V4
                 }
                 throw new ArgumentOutOfRangeException("typeof(xtdNamedUnit)");
                 //##
-            }
+			}
 		}
 
 		[EntityAttribute(0, EntityAttributeState.Derived, EntityAttributeType.Enum, EntityAttributeType.None, null, null, 0)]
@@ -79,7 +79,7 @@ namespace Xbim.ISO_12006_3_V4
 		{
 			get 
 			{
-                //## Getter for UnitType
+				//## Getter for UnitType
                 if (this is xtdSIUnit si)
                 {
                     return si.xtdUnitTypeForSiUnit(si.Name);
@@ -94,7 +94,7 @@ namespace Xbim.ISO_12006_3_V4
                 }
                 throw new ArgumentOutOfRangeException("typeof(xtdNamedUnit)");
                 //##
-            }
+			}
 		}
 
 		#endregion

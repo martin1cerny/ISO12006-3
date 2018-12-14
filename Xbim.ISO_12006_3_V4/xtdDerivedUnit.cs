@@ -28,8 +28,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 	public partial interface @IxtdDerivedUnit : IPersistEntity, xtdUnitDefinition
 	{
 		IItemSet<IxtdDerivedUnitElement> @Elements { get; }
-		xtdDerivedUnitEnum @UnitType { get;  set; }
-		xtdLabel? @UserDefinedType { get;  set; }
+		xtdLabel? @Name { get;  set; }
 		xtdDimensionalExponents @Dimensions  { get ; }
 	
 	}
@@ -45,15 +44,10 @@ namespace Xbim.ISO_12006_3_V4
 		IItemSet<IxtdDerivedUnitElement> IxtdDerivedUnit.Elements { 
 			get { return new Common.Collections.ProxyItemSet<xtdDerivedUnitElement, IxtdDerivedUnitElement>( @Elements); } 
 		}	
-		xtdDerivedUnitEnum IxtdDerivedUnit.UnitType { 
+		xtdLabel? IxtdDerivedUnit.Name { 
  
-			get { return @UnitType; } 
-			set { UnitType = value;}
-		}	
-		xtdLabel? IxtdDerivedUnit.UserDefinedType { 
- 
-			get { return @UserDefinedType; } 
-			set { UserDefinedType = value;}
+			get { return @Name; } 
+			set { Name = value;}
 		}	
 		 
 		#endregion
@@ -66,8 +60,7 @@ namespace Xbim.ISO_12006_3_V4
 
 		#region Explicit attribute fields
 		private readonly ItemSet<xtdDerivedUnitElement> _elements;
-		private xtdDerivedUnitEnum _unitType;
-		private xtdLabel? _userDefinedType;
+		private xtdLabel? _name;
 		#endregion
 	
 		#region Explicit attribute properties
@@ -81,32 +74,18 @@ namespace Xbim.ISO_12006_3_V4
 				return _elements;
 			} 
 		}	
-		[EntityAttribute(2, EntityAttributeState.Mandatory, EntityAttributeType.Enum, EntityAttributeType.None, null, null, 2)]
-		public xtdDerivedUnitEnum @UnitType 
+		[EntityAttribute(2, EntityAttributeState.Optional, EntityAttributeType.None, EntityAttributeType.None, null, null, 2)]
+		public xtdLabel? @Name 
 		{ 
 			get 
 			{
-				if(_activated) return _unitType;
+				if(_activated) return _name;
 				Activate();
-				return _unitType;
+				return _name;
 			} 
 			set
 			{
-				SetValue( v =>  _unitType = v, _unitType, value,  "UnitType", 2);
-			} 
-		}	
-		[EntityAttribute(3, EntityAttributeState.Optional, EntityAttributeType.None, EntityAttributeType.None, null, null, 3)]
-		public xtdLabel? @UserDefinedType 
-		{ 
-			get 
-			{
-				if(_activated) return _userDefinedType;
-				Activate();
-				return _userDefinedType;
-			} 
-			set
-			{
-				SetValue( v =>  _userDefinedType = v, _userDefinedType, value,  "UserDefinedType", 3);
+				SetValue( v =>  _name = v, _name, value,  "Name", 2);
 			} 
 		}	
 		#endregion
@@ -166,10 +145,7 @@ namespace Xbim.ISO_12006_3_V4
 					_elements.InternalAdd((xtdDerivedUnitElement)value.EntityVal);
 					return;
 				case 1: 
-                    _unitType = (xtdDerivedUnitEnum) System.Enum.Parse(typeof (xtdDerivedUnitEnum), value.EnumVal, true);
-					return;
-				case 2: 
-					_userDefinedType = value.StringVal;
+					_name = value.StringVal;
 					return;
 				default:
 					throw new XbimParserException(string.Format("Attribute index {0} is out of range for {1}", propIndex + 1, GetType().Name.ToUpper()));
