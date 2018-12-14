@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION ((''), '2;1');
-FILE_NAME ('', '2018-12-14T15:39:07', (''), (''), 'Processor version 5.0.0.0', 'Xbim.Common', '');
+FILE_NAME ('', '2018-12-14T16:06:44', (''), (''), 'Processor version 5.0.0.0', 'Xbim.Common', '');
 FILE_SCHEMA (('ISO_12006_3_VERSION_4'));
 ENDSEC;
 DATA;
@@ -9,8 +9,8 @@ DATA;
 /**
 * litre per metre squared second
 * Dimensional exponents: [1.00 0.00 -1.00 0.00 0.00 0.00 0.00]
-* XTDDERIVEDUNIT=(Elements, UnitType, UserDefinedType)*/
-#1=XTDDERIVEDUNIT((#2,#5,#7),.USERDEFINED.,'VOLUMETRIC_FLUX_UNIT');
+* XTDDERIVEDUNIT=(Elements, Name)*/
+#1=XTDDERIVEDUNIT((#2,#5,#7),$);
 #2=XTDDERIVEDUNITELEMENT(#3,1.);
 #3=XTDCONVERSIONBASEDUNIT('litre',0.001,#4);
 #4=XTDSIUNIT($,.CUBIC_METRE.);
@@ -22,16 +22,16 @@ DATA;
 /**
 * centimetre to the power of four
 * Derived dimensional exponents: [4.00 0.00 0.00 0.00 0.00 0.00 0.00]
-* XTDDERIVEDUNIT=(Elements, UnitType, UserDefinedType)*/
-#9=XTDDERIVEDUNIT((#10),.MOMENTOFINERTIAUNIT.,$);
+* XTDDERIVEDUNIT=(Elements, Name)*/
+#9=XTDDERIVEDUNIT((#10),$);
 #10=XTDDERIVEDUNITELEMENT(#11,4.);
 #11=XTDSIUNIT(.CENTI.,.METRE.);
 
 /**
 * kilogram per square metre hour to the power of one half
 * Derived dimensional exponents: [-2.00 1.00 -0.50 0.00 0.00 0.00 0.00]
-* XTDDERIVEDUNIT=(Elements, UnitType, UserDefinedType)*/
-#12=XTDDERIVEDUNIT((#13,#15,#17),.USERDEFINED.,'WATER_PERMEABILITY');
+* XTDDERIVEDUNIT=(Elements, Name)*/
+#12=XTDDERIVEDUNIT((#13,#15,#17),$);
 #13=XTDDERIVEDUNITELEMENT(#14,1.);
 #14=XTDSIUNIT(.KILO.,.GRAM.);
 #15=XTDDERIVEDUNITELEMENT(#16,-1.);
@@ -43,8 +43,8 @@ DATA;
 /**
 * miligram per kilowatt-hour
 * Derived dimensional exponents: [-2.00 0.00 2.00 0.00 0.00 0.00 0.00]
-* XTDDERIVEDUNIT=(Elements, UnitType, UserDefinedType)*/
-#20=XTDDERIVEDUNIT((#21,#23,#25),.USERDEFINED.,'NO2_EMISSION');
+* XTDDERIVEDUNIT=(Elements, Name)*/
+#20=XTDDERIVEDUNIT((#21,#23,#25),$);
 #21=XTDDERIVEDUNITELEMENT(#22,1.);
 #22=XTDSIUNIT(.MILLI.,.GRAM.);
 #23=XTDDERIVEDUNITELEMENT(#24,-1.);
@@ -56,8 +56,8 @@ DATA;
 /**
 * kilogram per metre
 * Derived dimensional exponents: [-1.00 1.00 0.00 0.00 0.00 0.00 0.00]
-* XTDDERIVEDUNIT=(Elements, UnitType, UserDefinedType)*/
-#28=XTDDERIVEDUNIT((#29,#31),.MASSPERLENGTHUNIT.,$);
+* XTDDERIVEDUNIT=(Elements, Name)*/
+#28=XTDDERIVEDUNIT((#29,#31),$);
 #29=XTDDERIVEDUNITELEMENT(#30,1.);
 #30=XTDSIUNIT(.KILO.,.GRAM.);
 #31=XTDDERIVEDUNITELEMENT(#32,-1.);
