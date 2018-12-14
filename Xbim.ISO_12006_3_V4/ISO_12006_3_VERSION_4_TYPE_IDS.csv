@@ -49,6 +49,12 @@ xtdRelSequences,45
 xtdRelSpecializes,46
 xtdRoot,47
 xtdSubject,48
+xtdConstraintTypeEnum,62
+xtdLogicalOperatorEnum,63
+xtdSIPrefix,64
+xtdSIUnitName,65
+xtdUnitEnum,66
+xtdToleranceTypeEnum,68
 xtdNumber,49
 xtdInteger,50
 xtdBoolean,51
@@ -62,9 +68,3 @@ xtdText,58
 xtdVersionID,59
 xtdValueType,60
 xtdUnitDefinition,61
-xtdConstraintTypeEnum,62
-xtdLogicalOperatorEnum,63
-xtdSIPrefix,64
-xtdSIUnitName,65
-xtdUnitEnum,66
-xtdToleranceTypeEnum,68

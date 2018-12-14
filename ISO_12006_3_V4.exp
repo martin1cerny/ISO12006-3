@@ -60,6 +60,29 @@ ENTITY xtdRelAssignsPropertyWithConstraint
     RelatedConstraint :  xtdConstraint;
 END_ENTITY;
 
+TYPE xtdConstraintTypeEnum = ENUMERATION OF
+	(
+	GREATERTHAN,
+	GREATERTHANOREQUALTO,
+	LESSTHAN,
+	LESSTHANOREQUALTO,
+	EQUALTO,
+	NOTEQUALTO,
+	INCLUDES,
+	NOTINCLUDES,
+	INCLUDEDIN,
+	NOTINCLUDEDIN
+	);
+END_TYPE;
+
+TYPE xtdLogicalOperatorEnum = ENUMERATION OF
+	(
+	OP_AND,
+	OP_OR,
+	OP_XOR
+	);
+END_TYPE;
+
 (*
                          Specific defined value types
   ------------------------------------------------------------------------
@@ -203,29 +226,6 @@ ENTITY xtdSIUnit
 	Prefix : OPTIONAL xtdSIPrefix;
 	Name : xtdSIUnitName;
 END_ENTITY;
-
-TYPE xtdConstraintTypeEnum = ENUMERATION OF
-	(
-	GREATERTHAN,
-	GREATERTHANOREQUALTO,
-	LESSTHAN,
-	LESSTHANOREQUALTO,
-	EQUALTO,
-	NOTEQUALTO,
-	INCLUDES,
-	NOTINCLUDES,
-	INCLUDEDIN,
-	NOTINCLUDEDIN
-	);
-END_TYPE;
-
-TYPE xtdLogicalOperatorEnum = ENUMERATION OF
-	(
-	OP_AND,
-	OP_OR,
-	OP_XOR
-	);
-END_TYPE;
 
 TYPE xtdSIPrefix = ENUMERATION OF
 	(EXA
