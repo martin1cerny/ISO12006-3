@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION ((''), '2;1');
-FILE_NAME ('', '2018-12-12T15:27:44', (''), (''), 'Processor version 5.0.0.0', 'Xbim.Common', '');
+FILE_NAME ('', '2018-12-14T15:26:40', (''), (''), 'Processor version 5.0.0.0', 'Xbim.Common', '');
 FILE_SCHEMA (('ISO_12006_3_VERSION_4'));
 ENDSEC;
 DATA;
@@ -9,55 +9,55 @@ DATA;
 /**
 * Definition of the language
 * XTDLANGUAGE=(LanguageNameInEnglish, LanguageNameInSelf, Comments, UniqueID)*/
-#1=XTDLANGUAGE('English',$,$,'31hQZllPDDkusGmW7RvktV');
+#1=XTDLANGUAGE('English',$,$,'3L9B3OGh1AQxuyQl8N50cT');
 
 /**
 * New entity types introduced to describe units. This is a simple SI unit.
-* XTDSIUNIT=(Dimensions, UnitType, Prefix, Name)*/
-#2=XTDSIUNIT(*,.LENGTHUNIT.,.MILLI.,.METRE.);
+* XTDSIUNIT=(Prefix, Name)*/
+#2=XTDSIUNIT(.MILLI.,.METRE.);
 
 /**
 * xtdUnit is extended with 'Definition' which is a machine readable expression for the unit.
 * This makes it possible to external autometed systems to work with the data and definitions.
 * XTDUNIT=(VersionDate, VersionID, UniqueID, Descriptions, Names, Definition)*/
-#3=XTDUNIT('2018-12-12T15:27:44','2.1','3Ukhcc3Zb43A42UeGEhjST',$,(#4),#2);
-#4=XTDNAME(#1,'1KR$NZ$_53Yg2qoy8WCisS','Millimetre');
+#3=XTDUNIT('2018-12-14T15:26:40','2.1','1yXHB9SxvEKvKCerBSV1mi',$,(#4),#2);
+#4=XTDNAME(#1,'0I2$z8vpH29ffjlkgTRdiu','Millimetre');
 
 /**
 * Subject of the specification
 * XTDSUBJECT=(VersionDate, VersionID, UniqueID, Descriptions, Names)*/
-#5=XTDSUBJECT('2018-12-12T15:27:44','2.1','3xt7nQ6r13cgDw2mBcoroD',(#7),(#6));
-#6=XTDNAME(#1,'1wfkDMkQ57e8QM7npL7ot1','The Door');
-#7=XTDDESCRIPTION(#1,'1IJSxKQ7P65v2zA1P$9zmW','Example of the door');
+#5=XTDSUBJECT('2018-12-14T15:26:40','2.1','18dQmL54f8G8Ap1tjck8TR',(#7),(#6));
+#6=XTDNAME(#1,'08cf9icQTAn9NcQtLSINVP','The Door');
+#7=XTDDESCRIPTION(#1,'2SEqo9AiHA_8v$_aol0a0G','Example of the door');
 
 /**
 * Property can either be related to subject with value or constraint or both
 * XTDPROPERTY=(VersionDate, VersionID, UniqueID, Descriptions, Names)*/
-#8=XTDPROPERTY('2018-12-12T15:27:44','2.1','1mZJ8IJT9C_AZugYIPTbXZ',(#10),(#9));
-#9=XTDNAME(#1,'0OcXJWHx15e8yPfluArWUf','Width');
-#10=XTDDESCRIPTION(#1,'0PxBiITn5BRwcRP8YN33zB','Clear width of the door');
-#11=XTDPROPERTY('2018-12-12T15:27:44','2.1','1J_YT61fbBBBCYIia8HinB',(#13),(#12));
-#12=XTDNAME(#1,'0FOo2WdFPCtQNSMtV0g8ff','Quality');
-#13=XTDDESCRIPTION(#1,'2jL1QzxXLAW9dl5vnCSsuN','Quality grading');
+#8=XTDPROPERTY('2018-12-14T15:26:40','2.1','3FpzU90bD5vhdzJVDWHiCU',(#10),(#9));
+#9=XTDNAME(#1,'2KZu30J450RevJSa0k2TH1','Width');
+#10=XTDDESCRIPTION(#1,'1SqGHqRxv9PATePNzO3joP','Clear width of the door');
+#11=XTDPROPERTY('2018-12-14T15:26:40','2.1','1NSBGcfvjDOPyA7dfCpNgJ',(#13),(#12));
+#12=XTDNAME(#1,'02YuXYop50Rfou1SrcUc8f','Quality');
+#13=XTDDESCRIPTION(#1,'22YF0xUE13AfKJDL5JVUS1','Quality grading');
 
 /**
 * This constraint expresses requirement for the value assignable to a property
 * XTDMEASURECONSTRAINT=(VersionDate, VersionID, UniqueID, Descriptions, Names, ConstraintType, ConstraintValues, ValuesUnit)*/
-#14=XTDMEASURECONSTRAINT('2018-12-12T15:27:44','2.1','3i$dnLlZzDcAIg7OC8svGW',(#16),(#15),.LESSTHANOREQUALTO.,(XTDREAL(800.)),#3);
-#15=XTDNAME(#1,'1TE5AocVP45OD3gfKYXbkY','Width constraint');
-#16=XTDDESCRIPTION(#1,'356_4_fXn3xBKrEqXR_crN','Width of the doot must be less than or equal to 800mm');
+#14=XTDMEASURECONSTRAINT('2018-12-14T15:26:40','2.1','0S4dsktoT8eh$to_5_OWPw',(#16),(#15),.LESSTHANOREQUALTO.,(XTDREAL(800.)),#3);
+#15=XTDNAME(#1,'0sCsuE5_L5mA9983rMW1gA','Width constraint');
+#16=XTDDESCRIPTION(#1,'2QZjrrmi94owUvqst9yZx9','Width of the doot must be less than or equal to 800mm');
 
 /**
 * This constraint expresses requirement for the value to exist in the list of allowed values (enumeration)
 * XTDMEASURECONSTRAINT=(VersionDate, VersionID, UniqueID, Descriptions, Names, ConstraintType, ConstraintValues, ValuesUnit)*/
-#17=XTDMEASURECONSTRAINT('2018-12-12T15:27:44','2.1','1rHgFQxCX928Deb3WFCn8s',(#19),(#18),.INCLUDEDIN.,(XTDLABEL('A'),XTDLABEL('B'),XTDLABEL('C'),XTDLABEL('D'),XTDLABEL('E')),#3);
-#18=XTDNAME(#1,'0qI91x3rjFsfGtwzKaGH5$','Quality grade constraint');
-#19=XTDDESCRIPTION(#1,'3OZpSW_e9C3OZ4DvfrSwU4','Quality must be expressed as one of the values');
+#17=XTDMEASURECONSTRAINT('2018-12-14T15:26:40','2.1','3QCq5x7g56AfxQ1igIHPJg',(#19),(#18),.INCLUDEDIN.,(XTDLABEL('A'),XTDLABEL('B'),XTDLABEL('C'),XTDLABEL('D'),XTDLABEL('E')),#3);
+#18=XTDNAME(#1,'0x$7XaudTAtxT9$87QSnpb','Quality grade constraint');
+#19=XTDDESCRIPTION(#1,'0vOXfUX9PBHuhOwadQlhw8','Quality must be expressed as one of the values');
 
 /**
 * Relation expressing constrained property for the subject
 * XTDRELASSIGNSPROPERTYWITHCONSTRAINT=(VersionDate, VersionID, UniqueID, Descriptions, Names, ViewSelector, RelatedProperty, RelatingObject, RelatedConstraint)*/
-#20=XTDRELASSIGNSPROPERTYWITHCONSTRAINT('2018-12-12T15:27:44','2.1','0MqUHVMWr0SgrBcNapbCME',$,(),$,#8,#5,#14);
-#21=XTDRELASSIGNSPROPERTYWITHCONSTRAINT('2018-12-12T15:27:44','2.1','3xGjhUyWL6qvI9k55sOMx8',$,(),$,#11,#5,#17);
+#20=XTDRELASSIGNSPROPERTYWITHCONSTRAINT('2018-12-14T15:26:40','2.1','0T4N44wC98Ih2Ygkrey1Up',$,(),$,#8,#5,#14);
+#21=XTDRELASSIGNSPROPERTYWITHCONSTRAINT('2018-12-14T15:26:40','2.1','2wbFsCr_51w8UrNg69jKGV',$,(),$,#11,#5,#17);
 ENDSEC;
 END-ISO-10303-21;

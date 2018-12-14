@@ -21,7 +21,6 @@ namespace Xbim.ISO_12006_3_V4.Samples
                 var mmDef = h.New<xtdSIUnit>(si => {
                     si.Prefix = xtdSIPrefix.MILLI;
                     si.Name = xtdSIUnitName.METRE;
-                    si.UnitType = xtdUnitEnum.LENGTHUNIT;
                     h.Comment(si, "New entity types introduced to describe units. This is a simple SI unit.");
                 });
 

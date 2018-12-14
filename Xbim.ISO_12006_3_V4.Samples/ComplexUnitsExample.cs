@@ -4,12 +4,6 @@ using System.Text;
 
 namespace Xbim.ISO_12006_3_V4.Samples
 {
-
-    // litre per metre squared second
-    // centimetre to the power of four
-    // kilogram per square metre hour to the power of one half
-    // miligram per kilowatt-hour
-    // kilogram per metre
     class ComplexUnitsExample
     {
         public static void Run()
@@ -19,7 +13,7 @@ namespace Xbim.ISO_12006_3_V4.Samples
                 // litre per metre squared second
                 h.New<xtdDerivedUnit>(du => {
                     du.UnitType = xtdDerivedUnitEnum.USERDEFINED;
-                    du.UserDefinedType = "VOLUMETRICFLUXUNIT";
+                    du.UserDefinedType = "VOLUMETRIC_FLUX_UNIT";
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
                         e.Exponent = 1;
                         e.Unit = h.New<xtdConversionBasedUnit>(cbu =>
@@ -28,7 +22,6 @@ namespace Xbim.ISO_12006_3_V4.Samples
                             cbu.ConversionFactor = 0.001;
                             cbu.BaseUnit = h.New<xtdSIUnit>(si => {
                                 si.Name = xtdSIUnitName.CUBIC_METRE;
-                                si.UnitType = xtdUnitEnum.VOLUMEUNIT;
                             });
                         });
                     }));
@@ -36,17 +29,16 @@ namespace Xbim.ISO_12006_3_V4.Samples
                         e.Exponent = -1;
                         e.Unit = h.New<xtdSIUnit>(si => {
                             si.Name = xtdSIUnitName.SQUARE_METRE;
-                            si.UnitType = xtdUnitEnum.AREAUNIT;
                         });
                     }));
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
                         e.Exponent = -1;
                         e.Unit = h.New<xtdSIUnit>(si => {
                             si.Name = xtdSIUnitName.SECOND;
-                            si.UnitType = xtdUnitEnum.TIMEUNIT;
                         });
                     }));
                     h.Comment(du, "litre per metre squared second");
+                    h.Comment(du, $"Dimensional exponents: {du.Dimensions}");
                 });
 
                 // centimetre to the power of four
@@ -54,63 +46,56 @@ namespace Xbim.ISO_12006_3_V4.Samples
                     du.UnitType = xtdDerivedUnitEnum.MOMENTOFINERTIAUNIT;
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
                         e.Exponent = 4;
-                        e.Unit = h.New<xtdConversionBasedUnit>(cbu =>
-                        {
-                            cbu.Name = "centimetre";
-                            cbu.ConversionFactor = 0.01;
-                            cbu.BaseUnit = h.New<xtdSIUnit>(si => {
-                                si.Name = xtdSIUnitName.METRE;
-                                si.UnitType = xtdUnitEnum.LENGTHUNIT;
-                            });
+                        e.Unit = h.New<xtdSIUnit>(si => {
+                            si.Prefix = xtdSIPrefix.CENTI;
+                            si.Name = xtdSIUnitName.METRE;
                         });
                     }));
                     h.Comment(du, "centimetre to the power of four");
+                    h.Comment(du, $"Dimensional exponents: {du.Dimensions}");
                 });
 
                 // kilogram per square metre hour to the power of one half kg/(m² · h¹/²)
                 h.New<xtdDerivedUnit>(du => {
                     du.UnitType = xtdDerivedUnitEnum.USERDEFINED;
-                    du.UserDefinedType = "WATERPERMEABILITY";
+                    du.UserDefinedType = "WATER_PERMEABILITY";
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
                         e.Exponent = 1;
                         e.Unit = h.New<xtdSIUnit>(si => {
                             si.Name = xtdSIUnitName.GRAM;
                             si.Prefix = xtdSIPrefix.KILO;
-                            si.UnitType = xtdUnitEnum.MASSUNIT;
                         });
                     }));
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
                         e.Exponent = -1;
                         e.Unit = h.New<xtdSIUnit>(si => {
                             si.Name = xtdSIUnitName.SQUARE_METRE;
-                            si.UnitType = xtdUnitEnum.AREAUNIT;
                         });
                     }));
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
-                        e.Exponent = -1;
+                        e.Exponent = -0.5;
                         e.Unit = h.New<xtdConversionBasedUnit>(cbu =>
                         {
                             cbu.Name = "hour";
                             cbu.ConversionFactor = 60*60;
                             cbu.BaseUnit = h.New<xtdSIUnit>(si => {
                                 si.Name = xtdSIUnitName.SECOND;
-                                si.UnitType = xtdUnitEnum.TIMEUNIT;
                             });
                         });
                     }));
-                    h.Comment(du, "kilogram per square metre hour");
+                    h.Comment(du, "kilogram per square metre hour to the power of one half");
+                    h.Comment(du, $"Dimensional exponents: {du.Dimensions}");
                 });
 
                 // miligram per kilowatt-hour
                 h.New<xtdDerivedUnit>(du => {
                     du.UnitType = xtdDerivedUnitEnum.USERDEFINED;
-                    du.UserDefinedType = "NO2EMISSION";
+                    du.UserDefinedType = "NO2_EMISSION";
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
                         e.Exponent = 1;
                         e.Unit = h.New<xtdSIUnit>(si => {
                             si.Name = xtdSIUnitName.GRAM;
                             si.Prefix = xtdSIPrefix.MILLI;
-                            si.UnitType = xtdUnitEnum.MASSUNIT;
                         });
                     }));
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
@@ -118,7 +103,6 @@ namespace Xbim.ISO_12006_3_V4.Samples
                         e.Unit = h.New<xtdSIUnit>(si => {
                             si.Name = xtdSIUnitName.WATT;
                             si.Prefix = xtdSIPrefix.KILO;
-                            si.UnitType = xtdUnitEnum.POWERUNIT;
                         });
                     }));
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
@@ -129,11 +113,11 @@ namespace Xbim.ISO_12006_3_V4.Samples
                             cbu.ConversionFactor = 60 * 60;
                             cbu.BaseUnit = h.New<xtdSIUnit>(si => {
                                 si.Name = xtdSIUnitName.SECOND;
-                                si.UnitType = xtdUnitEnum.TIMEUNIT;
                             });
                         });
                     }));
                     h.Comment(du, "miligram per kilowatt-hour");
+                    h.Comment(du, $"Dimensional exponent: {du.Dimensions}");
                 });
 
                 // kilogram per metre
@@ -144,41 +128,36 @@ namespace Xbim.ISO_12006_3_V4.Samples
                         e.Unit = h.New<xtdSIUnit>(si => {
                             si.Name = xtdSIUnitName.GRAM;
                             si.Prefix = xtdSIPrefix.KILO;
-                            si.UnitType = xtdUnitEnum.MASSUNIT;
                         });
                     }));
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
                         e.Exponent = -1;
                         e.Unit = h.New<xtdSIUnit>(si => {
                             si.Name = xtdSIUnitName.METRE;
-                            si.UnitType = xtdUnitEnum.LENGTHUNIT;
                         });
                     }));
                    
                     h.Comment(du, "kilogram per metre");
+                    h.Comment(du, $"Dimensional exponent: {du.Dimensions}");
                 });
 
                 // piece per pack
                 h.New<xtdContextDependentUnit>(u => {
-                    u.UnitType = xtdUnitEnum.USERDEFINED;
-                    u.Dimensions = h.New<xtdDimensionalExponents>();
-                    u.Name = "pieces per pack";
+                    u.Name = "PIECES_PER_PACK";
                     h.Comment(u, "pieces per pack");
+                    h.Comment(u, "Dimensional exponent [0 0 0 0 0 0 0] means dimension = 1 (ISO 80000-1)");
+                    h.Comment(u, "Which is true for dimension-less measures like count");
                 });
 
                 // parts per million
                 h.New<xtdContextDependentUnit>(u => {
-                    u.UnitType = xtdUnitEnum.USERDEFINED;
-                    u.Dimensions = h.New<xtdDimensionalExponents>();
-                    u.Name = "parts per million";
+                    u.Name = "PARTS_PER_MILLION";
                     h.Comment(u, "pieces per pack");
                 });
 
                 // baud
                 h.New<xtdContextDependentUnit>(u => {
-                    u.UnitType = xtdUnitEnum.USERDEFINED;
-                    u.Dimensions = h.New<xtdDimensionalExponents>();
-                    u.Name = "baud";
+                    u.Name = "BAUD";
                     h.Comment(u, "baud");
                 });
 

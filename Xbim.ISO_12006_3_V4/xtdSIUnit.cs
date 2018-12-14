@@ -62,7 +62,7 @@ namespace Xbim.ISO_12006_3_V4
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Optional, EntityAttributeType.Enum, EntityAttributeType.None, null, null, 3)]
+		[EntityAttribute(1, EntityAttributeState.Optional, EntityAttributeType.Enum, EntityAttributeType.None, null, null, 1)]
 		public xtdSIPrefix? @Prefix 
 		{ 
 			get 
@@ -73,10 +73,10 @@ namespace Xbim.ISO_12006_3_V4
 			} 
 			set
 			{
-				SetValue( v =>  _prefix = v, _prefix, value,  "Prefix", 3);
+				SetValue( v =>  _prefix = v, _prefix, value,  "Prefix", 1);
 			} 
 		}	
-		[EntityAttribute(4, EntityAttributeState.Mandatory, EntityAttributeType.Enum, EntityAttributeType.None, null, null, 4)]
+		[EntityAttribute(2, EntityAttributeState.Mandatory, EntityAttributeType.Enum, EntityAttributeType.None, null, null, 2)]
 		public xtdSIUnitName @Name 
 		{ 
 			get 
@@ -87,25 +87,11 @@ namespace Xbim.ISO_12006_3_V4
 			} 
 			set
 			{
-				SetValue( v =>  _name = v, _name, value,  "Name", 4);
+				SetValue( v =>  _name = v, _name, value,  "Name", 2);
 			} 
 		}	
 		#endregion
 
-		#region Overriding attributes
-		[EntityAttribute(1, EntityAttributeState.DerivedOverride, EntityAttributeType.Class, EntityAttributeType.None, null, null, 0)]
-		public override xtdDimensionalExponents @Dimensions 
-		{
-			get 
-			{
-				return xtdDimensionsForSiUnit(Name);
-			}
-			set 
-			{ 
-				throw new System.Exception("It is not possible to set a value of derived property Dimensions in xtdSIUnit"); 
-			}
-		}
-		#endregion
 
 
 
@@ -115,13 +101,9 @@ namespace Xbim.ISO_12006_3_V4
 			switch (propIndex)
 			{
 				case 0: 
-				case 1: 
-					base.Parse(propIndex, value, nestedIndex); 
-					return;
-				case 2: 
                     _prefix = (xtdSIPrefix) System.Enum.Parse(typeof (xtdSIPrefix), value.EnumVal, true);
 					return;
-				case 3: 
+				case 1: 
                     _name = (xtdSIUnitName) System.Enum.Parse(typeof (xtdSIUnitName), value.EnumVal, true);
 					return;
 				default:

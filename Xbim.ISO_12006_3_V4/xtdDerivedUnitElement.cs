@@ -28,7 +28,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 	public partial interface @IxtdDerivedUnitElement : IPersistEntity
 	{
 		IxtdNamedUnit @Unit { get;  set; }
-		long @Exponent { get;  set; }
+		double @Exponent { get;  set; }
 	
 	}
 }
@@ -46,7 +46,7 @@ namespace Xbim.ISO_12006_3_V4
 			get { return @Unit; } 
 			set { Unit = value as xtdNamedUnit;}
 		}	
-		long IxtdDerivedUnitElement.Exponent { 
+		double IxtdDerivedUnitElement.Exponent { 
  
 			get { return @Exponent; } 
 			set { Exponent = value;}
@@ -61,7 +61,7 @@ namespace Xbim.ISO_12006_3_V4
 
 		#region Explicit attribute fields
 		private xtdNamedUnit _unit;
-		private long _exponent;
+		private double _exponent;
 		#endregion
 	
 		#region Explicit attribute properties
@@ -82,7 +82,7 @@ namespace Xbim.ISO_12006_3_V4
 			} 
 		}	
 		[EntityAttribute(2, EntityAttributeState.Mandatory, EntityAttributeType.None, EntityAttributeType.None, null, null, 2)]
-		public long @Exponent 
+		public double @Exponent 
 		{ 
 			get 
 			{
@@ -109,7 +109,7 @@ namespace Xbim.ISO_12006_3_V4
 					_unit = (xtdNamedUnit)(value.EntityVal);
 					return;
 				case 1: 
-					_exponent = value.IntegerVal;
+					_exponent = value.RealVal;
 					return;
 				default:
 					throw new XbimParserException(string.Format("Attribute index {0} is out of range for {1}", propIndex + 1, GetType().Name.ToUpper()));

@@ -27,13 +27,13 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 	// ReSharper disable once PartialTypeWithSinglePart
 	public partial interface @IxtdDimensionalExponents : IPersistEntity
 	{
-		long @LengthExponent { get;  set; }
-		long @MassExponent { get;  set; }
-		long @TimeExponent { get;  set; }
-		long @ElectricCurrentExponent { get;  set; }
-		long @ThermodynamicTemperatureExponent { get;  set; }
-		long @AmountOfSubstanceExponent { get;  set; }
-		long @LuminousIntensityExponent { get;  set; }
+		double @LengthExponent { get;  set; }
+		double @MassExponent { get;  set; }
+		double @TimeExponent { get;  set; }
+		double @ElectricCurrentExponent { get;  set; }
+		double @ThermodynamicTemperatureExponent { get;  set; }
+		double @AmountOfSubstanceExponent { get;  set; }
+		double @LuminousIntensityExponent { get;  set; }
 	
 	}
 }
@@ -45,37 +45,37 @@ namespace Xbim.ISO_12006_3_V4
 	public  partial class @xtdDimensionalExponents : PersistEntity, IInstantiableEntity, IxtdDimensionalExponents, IEquatable<@xtdDimensionalExponents>
 	{
 		#region IxtdDimensionalExponents explicit implementation
-		long IxtdDimensionalExponents.LengthExponent { 
+		double IxtdDimensionalExponents.LengthExponent { 
  
 			get { return @LengthExponent; } 
 			set { LengthExponent = value;}
 		}	
-		long IxtdDimensionalExponents.MassExponent { 
+		double IxtdDimensionalExponents.MassExponent { 
  
 			get { return @MassExponent; } 
 			set { MassExponent = value;}
 		}	
-		long IxtdDimensionalExponents.TimeExponent { 
+		double IxtdDimensionalExponents.TimeExponent { 
  
 			get { return @TimeExponent; } 
 			set { TimeExponent = value;}
 		}	
-		long IxtdDimensionalExponents.ElectricCurrentExponent { 
+		double IxtdDimensionalExponents.ElectricCurrentExponent { 
  
 			get { return @ElectricCurrentExponent; } 
 			set { ElectricCurrentExponent = value;}
 		}	
-		long IxtdDimensionalExponents.ThermodynamicTemperatureExponent { 
+		double IxtdDimensionalExponents.ThermodynamicTemperatureExponent { 
  
 			get { return @ThermodynamicTemperatureExponent; } 
 			set { ThermodynamicTemperatureExponent = value;}
 		}	
-		long IxtdDimensionalExponents.AmountOfSubstanceExponent { 
+		double IxtdDimensionalExponents.AmountOfSubstanceExponent { 
  
 			get { return @AmountOfSubstanceExponent; } 
 			set { AmountOfSubstanceExponent = value;}
 		}	
-		long IxtdDimensionalExponents.LuminousIntensityExponent { 
+		double IxtdDimensionalExponents.LuminousIntensityExponent { 
  
 			get { return @LuminousIntensityExponent; } 
 			set { LuminousIntensityExponent = value;}
@@ -89,18 +89,18 @@ namespace Xbim.ISO_12006_3_V4
 		}
 
 		#region Explicit attribute fields
-		private long _lengthExponent;
-		private long _massExponent;
-		private long _timeExponent;
-		private long _electricCurrentExponent;
-		private long _thermodynamicTemperatureExponent;
-		private long _amountOfSubstanceExponent;
-		private long _luminousIntensityExponent;
+		private double _lengthExponent;
+		private double _massExponent;
+		private double _timeExponent;
+		private double _electricCurrentExponent;
+		private double _thermodynamicTemperatureExponent;
+		private double _amountOfSubstanceExponent;
+		private double _luminousIntensityExponent;
 		#endregion
 	
 		#region Explicit attribute properties
 		[EntityAttribute(1, EntityAttributeState.Mandatory, EntityAttributeType.None, EntityAttributeType.None, null, null, 1)]
-		public long @LengthExponent 
+		public double @LengthExponent 
 		{ 
 			get 
 			{
@@ -114,7 +114,7 @@ namespace Xbim.ISO_12006_3_V4
 			} 
 		}	
 		[EntityAttribute(2, EntityAttributeState.Mandatory, EntityAttributeType.None, EntityAttributeType.None, null, null, 2)]
-		public long @MassExponent 
+		public double @MassExponent 
 		{ 
 			get 
 			{
@@ -128,7 +128,7 @@ namespace Xbim.ISO_12006_3_V4
 			} 
 		}	
 		[EntityAttribute(3, EntityAttributeState.Mandatory, EntityAttributeType.None, EntityAttributeType.None, null, null, 3)]
-		public long @TimeExponent 
+		public double @TimeExponent 
 		{ 
 			get 
 			{
@@ -142,7 +142,7 @@ namespace Xbim.ISO_12006_3_V4
 			} 
 		}	
 		[EntityAttribute(4, EntityAttributeState.Mandatory, EntityAttributeType.None, EntityAttributeType.None, null, null, 4)]
-		public long @ElectricCurrentExponent 
+		public double @ElectricCurrentExponent 
 		{ 
 			get 
 			{
@@ -156,7 +156,7 @@ namespace Xbim.ISO_12006_3_V4
 			} 
 		}	
 		[EntityAttribute(5, EntityAttributeState.Mandatory, EntityAttributeType.None, EntityAttributeType.None, null, null, 5)]
-		public long @ThermodynamicTemperatureExponent 
+		public double @ThermodynamicTemperatureExponent 
 		{ 
 			get 
 			{
@@ -170,7 +170,7 @@ namespace Xbim.ISO_12006_3_V4
 			} 
 		}	
 		[EntityAttribute(6, EntityAttributeState.Mandatory, EntityAttributeType.None, EntityAttributeType.None, null, null, 6)]
-		public long @AmountOfSubstanceExponent 
+		public double @AmountOfSubstanceExponent 
 		{ 
 			get 
 			{
@@ -184,7 +184,7 @@ namespace Xbim.ISO_12006_3_V4
 			} 
 		}	
 		[EntityAttribute(7, EntityAttributeState.Mandatory, EntityAttributeType.None, EntityAttributeType.None, null, null, 7)]
-		public long @LuminousIntensityExponent 
+		public double @LuminousIntensityExponent 
 		{ 
 			get 
 			{
@@ -208,25 +208,25 @@ namespace Xbim.ISO_12006_3_V4
 			switch (propIndex)
 			{
 				case 0: 
-					_lengthExponent = value.IntegerVal;
+					_lengthExponent = value.RealVal;
 					return;
 				case 1: 
-					_massExponent = value.IntegerVal;
+					_massExponent = value.RealVal;
 					return;
 				case 2: 
-					_timeExponent = value.IntegerVal;
+					_timeExponent = value.RealVal;
 					return;
 				case 3: 
-					_electricCurrentExponent = value.IntegerVal;
+					_electricCurrentExponent = value.RealVal;
 					return;
 				case 4: 
-					_thermodynamicTemperatureExponent = value.IntegerVal;
+					_thermodynamicTemperatureExponent = value.RealVal;
 					return;
 				case 5: 
-					_amountOfSubstanceExponent = value.IntegerVal;
+					_amountOfSubstanceExponent = value.RealVal;
 					return;
 				case 6: 
-					_luminousIntensityExponent = value.IntegerVal;
+					_luminousIntensityExponent = value.RealVal;
 					return;
 				default:
 					throw new XbimParserException(string.Format("Attribute index {0} is out of range for {1}", propIndex + 1, GetType().Name.ToUpper()));
@@ -243,7 +243,43 @@ namespace Xbim.ISO_12006_3_V4
 
 		#region Custom code (will survive code regeneration)
 		//## Custom code
-		//##
+        public override string ToString()
+        {
+            return $"[{LengthExponent:N2} {MassExponent:N2} {TimeExponent:N2} {ElectricCurrentExponent:N2} {ThermodynamicTemperatureExponent:N2} {AmountOfSubstanceExponent:N2} {LuminousIntensityExponent:N2}]";
+        }
+
+        public xtdDimensionalExponents Clone(IModel model)
+        {
+            return model.Instances.New<xtdDimensionalExponents>(d => {
+                d.LengthExponent = LengthExponent;
+                d.MassExponent = MassExponent;
+                d.TimeExponent = TimeExponent;
+                d.ElectricCurrentExponent = ElectricCurrentExponent;
+                d.ThermodynamicTemperatureExponent = ThermodynamicTemperatureExponent;
+                d.AmountOfSubstanceExponent = AmountOfSubstanceExponent;
+                d.LuminousIntensityExponent = LuminousIntensityExponent;
+            });
+        }
+
+        public xtdDimensionalExponents(
+            double lengthExponent, 
+            double massExponent, 
+            double timeExponent, 
+            double electricCurrentExponent, 
+            double thermodynamicTemperatureExponent, 
+            double amountOfSubstanceExponent, 
+            double luminousIntensityExponent) 
+                : base (null, -1, true)
+        {
+            _lengthExponent = lengthExponent;
+            _massExponent = massExponent;
+            _timeExponent = timeExponent;
+            _electricCurrentExponent = electricCurrentExponent;
+            _thermodynamicTemperatureExponent = thermodynamicTemperatureExponent;
+            _amountOfSubstanceExponent = amountOfSubstanceExponent;
+            _luminousIntensityExponent = luminousIntensityExponent;
+        }
+        //##
 		#endregion
 	}
 }

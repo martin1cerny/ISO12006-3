@@ -8,6 +8,46 @@ namespace Xbim.ISO_12006_3_V4
     // ReSharper disable once InconsistentNaming
     public partial class xtdSIUnit
     {
+        internal xtdUnitEnum xtdUnitTypeForSiUnit(xtdSIUnitName name)
+        {
+            switch (name)
+            {
+                case xtdSIUnitName.GRAY: return xtdUnitEnum.ABSORBEDDOSEUNIT;
+                case xtdSIUnitName.BECQUEREL: return xtdUnitEnum.RADIOACTIVITYUNIT;
+                case xtdSIUnitName.MOLE: return xtdUnitEnum.AMOUNTOFSUBSTANCEUNIT;
+                case xtdSIUnitName.SQUARE_METRE: return xtdUnitEnum.AREAUNIT;
+                case xtdSIUnitName.FARAD: return xtdUnitEnum.ELECTRICCAPACITANCEUNIT;
+                case xtdSIUnitName.DEGREE_CELSIUS: return xtdUnitEnum.THERMODYNAMICTEMPERATUREUNIT;
+                case xtdSIUnitName.SIEVERT: return xtdUnitEnum.DOSEEQUIVALENTUNIT;
+                case xtdSIUnitName.COULOMB: return xtdUnitEnum.ELECTRICCHARGEUNIT;
+                case xtdSIUnitName.SIEMENS: return xtdUnitEnum.ELECTRICCONDUCTANCEUNIT;
+                case xtdSIUnitName.AMPERE: return xtdUnitEnum.ELECTRICCURRENTUNIT;
+                case xtdSIUnitName.VOLT: return xtdUnitEnum.ELECTRICVOLTAGEUNIT;
+                case xtdSIUnitName.OHM: return xtdUnitEnum.ELECTRICRESISTANCEUNIT;
+                case xtdSIUnitName.JOULE: return xtdUnitEnum.ENERGYUNIT;
+                case xtdSIUnitName.NEWTON: return xtdUnitEnum.FORCEUNIT;
+                case xtdSIUnitName.HERTZ: return xtdUnitEnum.FREQUENCYUNIT;
+                case xtdSIUnitName.LUX: return xtdUnitEnum.ILLUMINANCEUNIT;
+                case xtdSIUnitName.HENRY: return xtdUnitEnum.INDUCTANCEUNIT;
+                case xtdSIUnitName.METRE: return xtdUnitEnum.LENGTHUNIT;
+                case xtdSIUnitName.LUMEN: return xtdUnitEnum.LUMINOUSFLUXUNIT;
+                case xtdSIUnitName.CANDELA: return xtdUnitEnum.LUMINOUSINTENSITYUNIT;
+                case xtdSIUnitName.WEBER: return xtdUnitEnum.MAGNETICFLUXUNIT;
+                case xtdSIUnitName.TESLA: return xtdUnitEnum.MAGNETICFLUXDENSITYUNIT;
+                case xtdSIUnitName.GRAM: return xtdUnitEnum.MASSUNIT;
+                case xtdSIUnitName.RADIAN: return xtdUnitEnum.PLANEANGLEUNIT;
+                case xtdSIUnitName.WATT: return xtdUnitEnum.POWERUNIT;
+                case xtdSIUnitName.PASCAL: return xtdUnitEnum.PRESSUREUNIT;
+                case xtdSIUnitName.STERADIAN: return xtdUnitEnum.SOLIDANGLEUNIT;
+                case xtdSIUnitName.KELVIN: return xtdUnitEnum.THERMODYNAMICTEMPERATUREUNIT;
+                case xtdSIUnitName.SECOND: return xtdUnitEnum.TIMEUNIT;
+                case xtdSIUnitName.CUBIC_METRE: return xtdUnitEnum.VOLUMEUNIT;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(name), "Unexpected unit name");
+            }
+        }
+
         private static readonly Dictionary<xtdSIUnitName, xtdDimensionalExponents> ExponentsCache = new Dictionary<xtdSIUnitName, xtdDimensionalExponents>(); 
         internal xtdDimensionalExponents xtdDimensionsForSiUnit(xtdSIUnitName name)
         {
@@ -67,12 +107,16 @@ namespace Xbim.ISO_12006_3_V4
             if (result != null)
                 return result;
 
-            result = new xtdDimensionalExponents(null, -1, true);
-            for (var i = 0; i < 7; i++)
-            {
-                result.Parse(i, new PropVal(exponents[i]), null);
-                
-            }
+            result = new xtdDimensionalExponents(
+                exponents[0],
+                exponents[1],
+                exponents[2],
+                exponents[3],
+                exponents[4],
+                exponents[5],
+                exponents[6]
+                );
+            
 
             return result;
 

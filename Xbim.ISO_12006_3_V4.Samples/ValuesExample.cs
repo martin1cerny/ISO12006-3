@@ -21,7 +21,6 @@ namespace Xbim.ISO_12006_3_V4.Samples
                 var mmDef = h.New<xtdSIUnit>(si => {
                     si.Prefix = xtdSIPrefix.MILLI;
                     si.Name = xtdSIUnitName.METRE;
-                    si.UnitType = xtdUnitEnum.LENGTHUNIT;
                     h.Comment(si, "New entity types introduced to describe units. This is a simple SI unit.");
                 });
 
@@ -31,14 +30,12 @@ namespace Xbim.ISO_12006_3_V4.Samples
                         e.Exponent = 1;
                         e.Unit = h.New<xtdSIUnit>(si => {
                             si.Name = xtdSIUnitName.METRE;
-                            si.UnitType = xtdUnitEnum.LENGTHUNIT;
                         });
                     }));
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
                         e.Exponent = -1;
                         e.Unit = h.New<xtdSIUnit>(si => {
                             si.Name = xtdSIUnitName.SECOND;
-                            si.UnitType = xtdUnitEnum.TIMEUNIT;
                         });
                     }));
                     h.Comment(du, "Speed is derived from length unit of metres and time unit of seconds with appropriate exponents");

@@ -166,7 +166,7 @@ END_ENTITY;
 
 ENTITY xtdDerivedUnitElement;
 	Unit : xtdNamedUnit;
-	Exponent : INTEGER;
+	Exponent : REAL;
 END_ENTITY;
 
 ENTITY xtdMonetaryUnit;
@@ -178,10 +178,9 @@ ENTITY xtdNamedUnit
     (xtdContextDependentUnit
     ,xtdConversionBasedUnit
     ,xtdSIUnit));
-	Dimensions : xtdDimensionalExponents;
-	UnitType : xtdUnitEnum;
- WHERE
-	WR1 : xtdCorrectDimensions (SELF.UnitType, SELF.Dimensions);
+ DERIVE
+	Dimensions : xtdDimensionalExponents := xtdDimensionsForNamedUnit (SELF);
+	UnitType : xtdUnitEnum := xtdUnitEnumForNamedUnit (SELF);
 END_ENTITY;
 
 ENTITY xtdContextDependentUnit
@@ -195,7 +194,7 @@ ENTITY xtdConversionBasedUnit
  SUBTYPE OF (xtdNamedUnit);
 	Name : xtdLabel;
 	ConversionFactor : xtdNumber;
-	BaseUnit: xtdUnitDefinition;
+	BaseUnit: xtdNamedUnit;
 END_ENTITY;
 
 ENTITY xtdConversionBasedUnitWithOffset
@@ -207,8 +206,6 @@ ENTITY xtdSIUnit
  SUBTYPE OF (xtdNamedUnit);
 	Prefix : OPTIONAL xtdSIPrefix;
 	Name : xtdSIUnitName;
- DERIVE
-	SELF\xtdNamedUnit.Dimensions : xtdDimensionalExponents := xtdDimensionsForSiUnit (SELF.Name);
 END_ENTITY;
 
 TYPE xtdConstraintTypeEnum = ENUMERATION OF
@@ -287,13 +284,13 @@ TYPE xtdSIUnitName = ENUMERATION OF
 END_TYPE;
 
 ENTITY xtdDimensionalExponents;
-	LengthExponent : INTEGER;
-	MassExponent : INTEGER;
-	TimeExponent : INTEGER;
-	ElectricCurrentExponent : INTEGER;
-	ThermodynamicTemperatureExponent : INTEGER;
-	AmountOfSubstanceExponent : INTEGER;
-	LuminousIntensityExponent : INTEGER;
+	LengthExponent : REAL;
+	MassExponent : REAL;
+	TimeExponent : REAL;
+	ElectricCurrentExponent : REAL;
+	ThermodynamicTemperatureExponent : REAL;
+	AmountOfSubstanceExponent : REAL;
+	LuminousIntensityExponent : REAL;
 END_ENTITY;
 
 TYPE xtdUnitEnum = ENUMERATION OF
@@ -386,230 +383,137 @@ TYPE xtdDerivedUnitEnum = ENUMERATION OF
 END_TYPE;
 
 (*
-          Functions verifying correct dimensions of units
+          Functions returning correct dimensional exponents and unit types of units
    -------------------------------------------------------------
 *)
 
-FUNCTION xtdCorrectDimensions
-(m   : xtdUnitEnum; Dim : xtdDimensionalExponents) : LOGICAL;  
-CASE m OF
-  LENGTHUNIT : IF
-    Dim = (xtdDimensionalExponents (1, 0, 0, 0, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
+FUNCTION xtdDimensionsForNamedUnit
+  (unit : xtdNamedUnit )     : xtdDimensionalExponents;
+    IF 'XTDSIUNIT' IN TYPEOF(unit) THEN
+        RETURN (xtdDimensionsForSiUnit(unit));
     END_IF;
-  MASSUNIT : IF
-    Dim = (xtdDimensionalExponents (0, 1, 0, 0, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
+	IF 'XTDCONVERSIONBASEDUNIT' IN TYPEOF(unit) THEN
+        RETURN (unit\xtdConversionBasedUnit.BaseUnit.Dimensions);
     END_IF;
-  TIMEUNIT : IF
-    Dim = (xtdDimensionalExponents (0, 0, 1, 0, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
+	IF 'XTDCONTEXTDEPENDENTUNIT' IN TYPEOF(unit) THEN
+        RETURN (xtdDimensionalExponents(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
     END_IF;
-  ELECTRICCURRENTUNIT : IF
-    Dim = (xtdDimensionalExponents (0, 0, 0, 1, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  THERMODYNAMICTEMPERATUREUNIT : IF
-    Dim = (xtdDimensionalExponents (0, 0, 0, 0, 1, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  AMOUNTOFSUBSTANCEUNIT : IF
-    Dim = (xtdDimensionalExponents (0, 0, 0, 0, 0, 1, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  LUMINOUSINTENSITYUNIT : IF
-    Dim = (xtdDimensionalExponents (0, 0, 0, 0, 0, 0, 1))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  PLANEANGLEUNIT : IF
-    Dim = (xtdDimensionalExponents (0, 0, 0, 0, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  SOLIDANGLEUNIT : IF
-    Dim = (xtdDimensionalExponents (0, 0, 0, 0, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  AREAUNIT : IF
-    Dim = (xtdDimensionalExponents (2, 0, 0, 0, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  VOLUMEUNIT : IF
-    Dim = (xtdDimensionalExponents (3, 0, 0, 0, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
+END_FUNCTION;
 
-  ABSORBEDDOSEUNIT : IF
-    Dim = (xtdDimensionalExponents (2, 0, -2, 0, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
+FUNCTION xtdUnitTypeForNamedUnit
+  (unit : xtdNamedUnit )     : xtdDimensionalExponents;
+    IF 'XTDSIUNIT' IN TYPEOF(unit) THEN
+        RETURN (xtdUnitTypeForSiUnit(unit));
     END_IF;
-  RADIOACTIVITYUNIT : IF
-    Dim = (xtdDimensionalExponents (0, 0, -1, 0, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
+	IF 'XTDCONVERSIONBASEDUNIT' IN TYPEOF(unit) THEN
+        RETURN (unit\xtdConversionBasedUnit.BaseUnit.UnitType);
     END_IF;
-  ELECTRICCAPACITANCEUNIT : IF
-    Dim = (xtdDimensionalExponents (-2, -1, 4, 2, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
+	IF 'XTDCONTEXTDEPENDENTUNIT' IN TYPEOF(unit) THEN
+        RETURN (xtdUnitEnum.USERDEFINED);
     END_IF;
-  DOSEEQUIVALENTUNIT : IF
-    Dim = (xtdDimensionalExponents (2, 0, -2, 0, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  ELECTRICCHARGEUNIT : IF
-    Dim = (xtdDimensionalExponents (0, 0, 1, 1, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  ELECTRICCONDUCTANCEUNIT : IF
-    Dim = (xtdDimensionalExponents (-2, -1, 3, 2, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  ELECTRICVOLTAGEUNIT : IF
-    Dim = (xtdDimensionalExponents (2, 1, -3, -1, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  ELECTRICRESISTANCEUNIT : IF
-    Dim = (xtdDimensionalExponents (2, 1, -3, -2, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  ENERGYUNIT : IF
-    Dim = (xtdDimensionalExponents (2, 1, -2, 0, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  FORCEUNIT : IF
-    Dim = (xtdDimensionalExponents (1, 1, -2, 0, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  FREQUENCYUNIT : IF
-    Dim = (xtdDimensionalExponents (0, 0, -1, 0, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  INDUCTANCEUNIT : IF
-    Dim = (xtdDimensionalExponents (2, 1, -2, -2, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  ILLUMINANCEUNIT : IF
-    Dim = (xtdDimensionalExponents (-2, 0, 0, 0, 0, 0, 1))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  LUMINOUSFLUXUNIT : IF
-    Dim = (xtdDimensionalExponents (0, 0, 0, 0, 0, 0, 1))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  MAGNETICFLUXUNIT : IF
-    Dim = (xtdDimensionalExponents (2, 1, -2, -1, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  MAGNETICFLUXDENSITYUNIT : IF
-    Dim = (xtdDimensionalExponents (0, 1, -2, -1, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  POWERUNIT : IF
-    Dim = (xtdDimensionalExponents (2, 1, -3, 0, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-  PRESSUREUNIT : IF
-    Dim = (xtdDimensionalExponents (-1, 1, -2, 0, 0, 0, 0))
-      THEN RETURN(TRUE);
-      ELSE RETURN(FALSE);
-    END_IF;
-
-  OTHERWISE :
-    RETURN (UNKNOWN);
-END_CASE;
 END_FUNCTION;
 
 FUNCTION xtdDimensionsForSiUnit
 (n : xtdSiUnitName )     : xtdDimensionalExponents;
   CASE n OF
     METRE          : RETURN (xtdDimensionalExponents
-                             (1, 0, 0, 0, 0, 0, 0));
+                             (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
     SQUARE_METRE   : RETURN (xtdDimensionalExponents
-                             (2, 0, 0, 0, 0, 0, 0));
+                             (2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
     CUBIC_METRE    : RETURN (xtdDimensionalExponents
-                             (3, 0, 0, 0, 0, 0, 0));
+                             (3.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
     GRAM           : RETURN (xtdDimensionalExponents
-                             (0, 1, 0, 0, 0, 0, 0));
+                             (0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0));
     SECOND         : RETURN (xtdDimensionalExponents
-                             (0, 0, 1, 0, 0, 0, 0));
+                             (0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0));
     AMPERE         : RETURN (xtdDimensionalExponents
-                             (0, 0, 0, 1, 0, 0, 0));
+                             (0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0));
     KELVIN         : RETURN (xtdDimensionalExponents
-                             (0, 0, 0, 0, 1, 0, 0));
+                             (0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0));
     MOLE           : RETURN (xtdDimensionalExponents
-                             (0, 0, 0, 0, 0, 1, 0));
+                             (0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0));
     CANDELA        : RETURN (xtdDimensionalExponents
-                             (0, 0, 0, 0, 0, 0, 1));
+                             (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0));
     RADIAN         : RETURN (xtdDimensionalExponents
-                             (0, 0, 0, 0, 0, 0, 0));
+                             (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
     STERADIAN      : RETURN (xtdDimensionalExponents
-                             (0, 0, 0, 0, 0, 0, 0));
+                             (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
     HERTZ          : RETURN (xtdDimensionalExponents
-                             (0, 0, -1, 0, 0, 0, 0));
+                             (0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.0));
     NEWTON         : RETURN (xtdDimensionalExponents
-                             (1, 1, -2, 0, 0, 0, 0));
+                             (1.0, 1.0, -2.0, 0.0, 0.0, 0.0, 0.0));
     PASCAL         : RETURN (xtdDimensionalExponents
-                             (-1, 1, -2, 0, 0, 0, 0));
+                             (-1.0, 1.0, -2.0, 0.0, 0.0, 0.0, 0.0));
     JOULE          : RETURN (xtdDimensionalExponents
-                             (2, 1, -2, 0, 0, 0, 0));
+                             (2.0, 1.0, -2.0, 0.0, 0.0, 0.0, 0.0));
     WATT           : RETURN (xtdDimensionalExponents
-                             (2, 1, -3, 0, 0, 0, 0));
+                             (2.0, 1.0, -3.0, 0.0, 0.0, 0.0, 0.0));
     COULOMB        : RETURN (xtdDimensionalExponents
-                             (0, 0, 1, 1, 0, 0, 0));
+                             (0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0));
     VOLT           : RETURN (xtdDimensionalExponents
-                             (2, 1, -3, -1, 0, 0, 0));
+                             (2.0, 1.0, -3.0, -1.0, 0.0, 0.0, 0.0));
     FARAD          : RETURN (xtdDimensionalExponents
-                             (-2, -1, 4, 2, 0, 0, 0));
+                             (-2.0, -1.0, 4.0.0, 2.0, 0.0, 0.0, 0.0));
     OHM            : RETURN (xtdDimensionalExponents
-                             (2, 1, -3, -2, 0, 0, 0));
+                             (2.0, 1.0, -3.0, -2.0, 0.0, 0.0, 0.0));
     SIEMENS        : RETURN (xtdDimensionalExponents
-                             (-2, -1, 3, 2, 0, 0, 0));
+                             (-2.0, -1.0, 3.0, 2.0, 0.0, 0.0, 0.0));
     WEBER          : RETURN (xtdDimensionalExponents
-                             (2, 1, -2, -1, 0, 0, 0));
+                             (2.0, 1.0, -2.0, -1.0, 0.0, 0.0, 0.0));
     TESLA          : RETURN (xtdDimensionalExponents
-                             (0, 1, -2, -1, 0, 0, 0));
+                             (0.0, 1.0, -2.0, -1.0, 0.0, 0.0, 0.0));
     HENRY          : RETURN (xtdDimensionalExponents
-                             (2, 1, -2, -2, 0, 0, 0));
+                             (2.0, 1.0, -2.0, -2.0, 0.0, 0.0, 0.0));
     DEGREE_CELSIUS : RETURN (xtdDimensionalExponents
-                             (0, 0, 0, 0, 1, 0, 0));
+                             (0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0));
     LUMEN          : RETURN (xtdDimensionalExponents
-                             (0, 0, 0, 0, 0, 0, 1));
+                             (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0));
     LUX            : RETURN (xtdDimensionalExponents
-                             (-2, 0, 0, 0, 0, 0, 1));
+                             (-2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0));
     BECQUEREL      : RETURN (xtdDimensionalExponents
-                             (0, 0, -1, 0, 0, 0, 0));
+                             (0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.0));
     GRAY           : RETURN (xtdDimensionalExponents
-                             (2, 0, -2, 0, 0, 0, 0));
+                             (2.0, 0.0, -2.0, 0.0, 0.0, 0.0, 0.0));
     SIEVERT        : RETURN (xtdDimensionalExponents
-                             (2, 0, -2, 0, 0, 0, 0));
+                             (2.0, 0.0, -2.0, 0.0, 0.0, 0.0, 0.0));
     OTHERWISE      : RETURN (xtdDimensionalExponents
-                             (0, 0, 0, 0, 0, 0, 0));
+                             (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
+  END_CASE;
+END_FUNCTION;
+
+FUNCTION xtdUnitTypeForSiUnit
+(n : xtdSiUnitName )     : xtdUnitEnum;
+  CASE n OF
+    GRAY			: RETURN xtdUnitEnum.ABSORBEDDOSEUNIT;
+    BECQUEREL		: RETURN xtdUnitEnum.RADIOACTIVITYUNIT;
+    MOLE			: RETURN xtdUnitEnum.AMOUNTOFSUBSTANCEUNIT;
+    SQUARE_METRE	: RETURN xtdUnitEnum.AREAUNIT;
+    FARAD			: RETURN xtdUnitEnum.ELECTRICCAPACITANCEUNIT;
+    DEGREE_CELSIUS	: RETURN xtdUnitEnum.THERMODYNAMICTEMPERATUREUNIT;
+    SIEVERT			: RETURN xtdUnitEnum.DOSEEQUIVALENTUNIT;
+    COULOMB			: RETURN xtdUnitEnum.ELECTRICCHARGEUNIT;
+    SIEMENS			: RETURN xtdUnitEnum.ELECTRICCONDUCTANCEUNIT;
+    AMPERE			: RETURN xtdUnitEnum.ELECTRICCURRENTUNIT;
+    VOLT			: RETURN xtdUnitEnum.ELECTRICVOLTAGEUNIT;
+    OHM				: RETURN xtdUnitEnum.ELECTRICRESISTANCEUNIT;
+    JOULE			: RETURN xtdUnitEnum.ENERGYUNIT;
+    NEWTON			: RETURN xtdUnitEnum.FORCEUNIT;
+    HERTZ			: RETURN xtdUnitEnum.FREQUENCYUNIT;
+    LUX				: RETURN xtdUnitEnum.ILLUMINANCEUNIT;
+    HENRY			: RETURN xtdUnitEnum.INDUCTANCEUNIT;
+    METRE			: RETURN xtdUnitEnum.LENGTHUNIT;
+    LUMEN			: RETURN xtdUnitEnum.LUMINOUSFLUXUNIT;
+    CANDELA			: RETURN xtdUnitEnum.LUMINOUSINTENSITYUNIT;
+    WEBER			: RETURN xtdUnitEnum.MAGNETICFLUXUNIT;
+    TESLA			: RETURN xtdUnitEnum.MAGNETICFLUXDENSITYUNIT;
+    GRAM			: RETURN xtdUnitEnum.MASSUNIT;
+    RADIAN			: RETURN xtdUnitEnum.PLANEANGLEUNIT;
+    WATT			: RETURN xtdUnitEnum.POWERUNIT;
+    PASCAL			: RETURN xtdUnitEnum.PRESSUREUNIT;
+    STERADIAN		: RETURN xtdUnitEnum.SOLIDANGLEUNIT;
+    KELVIN			: RETURN xtdUnitEnum.THERMODYNAMICTEMPERATUREUNIT;
+    SECOND			: RETURN xtdUnitEnum.TIMEUNIT;
+    CUBIC_METRE		: RETURN xtdUnitEnum.VOLUMEUNIT;
   END_CASE;
 END_FUNCTION;
 

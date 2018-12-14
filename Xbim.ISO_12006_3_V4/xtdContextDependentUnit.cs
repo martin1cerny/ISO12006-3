@@ -34,7 +34,7 @@ namespace Xbim.ISO_12006_3_V4
 {
 	[ExpressType("xtdContextDependentUnit", 12)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @xtdContextDependentUnit : xtdNamedUnit, IInstantiableEntity, IxtdContextDependentUnit, IContainsEntityReferences, IEquatable<@xtdContextDependentUnit>
+	public  partial class @xtdContextDependentUnit : xtdNamedUnit, IInstantiableEntity, IxtdContextDependentUnit, IEquatable<@xtdContextDependentUnit>
 	{
 		#region IxtdContextDependentUnit explicit implementation
 		xtdLabel IxtdContextDependentUnit.Name { 
@@ -55,7 +55,7 @@ namespace Xbim.ISO_12006_3_V4
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Mandatory, EntityAttributeType.None, EntityAttributeType.None, null, null, 3)]
+		[EntityAttribute(1, EntityAttributeState.Mandatory, EntityAttributeType.None, EntityAttributeType.None, null, null, 1)]
 		public xtdLabel @Name 
 		{ 
 			get 
@@ -66,7 +66,7 @@ namespace Xbim.ISO_12006_3_V4
 			} 
 			set
 			{
-				SetValue( v =>  _name = v, _name, value,  "Name", 3);
+				SetValue( v =>  _name = v, _name, value,  "Name", 1);
 			} 
 		}	
 		#endregion
@@ -80,10 +80,6 @@ namespace Xbim.ISO_12006_3_V4
 			switch (propIndex)
 			{
 				case 0: 
-				case 1: 
-					base.Parse(propIndex, value, nestedIndex); 
-					return;
-				case 2: 
 					_name = value.StringVal;
 					return;
 				default:
@@ -98,17 +94,6 @@ namespace Xbim.ISO_12006_3_V4
 	        return this == other;
 	    }
         #endregion
-
-		#region IContainsEntityReferences
-		IEnumerable<IPersistEntity> IContainsEntityReferences.References 
-		{
-			get 
-			{
-				if (@Dimensions != null)
-					yield return @Dimensions;
-			}
-		}
-		#endregion
 
 		#region Custom code (will survive code regeneration)
 		//## Custom code

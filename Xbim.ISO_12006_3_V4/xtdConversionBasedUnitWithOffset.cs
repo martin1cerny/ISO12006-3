@@ -55,7 +55,7 @@ namespace Xbim.ISO_12006_3_V4
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(6, EntityAttributeState.Mandatory, EntityAttributeType.None, EntityAttributeType.None, null, null, 6)]
+		[EntityAttribute(4, EntityAttributeState.Mandatory, EntityAttributeType.None, EntityAttributeType.None, null, null, 4)]
 		public xtdReal @ConversionOffset 
 		{ 
 			get 
@@ -66,7 +66,7 @@ namespace Xbim.ISO_12006_3_V4
 			} 
 			set
 			{
-				SetValue( v =>  _conversionOffset = v, _conversionOffset, value,  "ConversionOffset", 6);
+				SetValue( v =>  _conversionOffset = v, _conversionOffset, value,  "ConversionOffset", 4);
 			} 
 		}	
 		#endregion
@@ -82,11 +82,9 @@ namespace Xbim.ISO_12006_3_V4
 				case 0: 
 				case 1: 
 				case 2: 
-				case 3: 
-				case 4: 
 					base.Parse(propIndex, value, nestedIndex); 
 					return;
-				case 5: 
+				case 3: 
 					_conversionOffset = value.RealVal;
 					return;
 				default:
@@ -107,8 +105,6 @@ namespace Xbim.ISO_12006_3_V4
 		{
 			get 
 			{
-				if (@Dimensions != null)
-					yield return @Dimensions;
 				if (@BaseUnit != null)
 					yield return @BaseUnit;
 			}

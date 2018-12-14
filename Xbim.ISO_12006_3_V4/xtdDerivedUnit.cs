@@ -118,34 +118,41 @@ namespace Xbim.ISO_12006_3_V4
 		{
 			get 
 			{
-                //## Getter for Dimensions
+				//## Getter for Dimensions
                 var elements = this.Elements;
-                var f = new EntityFactoryIso120063Version4();
-                var result = f.New<xtdDimensionalExponents>(Model, -1, true);
+                var result = new List<double> { 0, 0, 0, 0, 0, 0, 0};
                 if (!elements.Any())
-                    return result;
+                    return new xtdDimensionalExponents(null, -1, true);
 
                 foreach (var unitElement in elements)
                 {
-                    result.LengthExponent = result.LengthExponent +
+                    result[0] = result[0] +
                           (unitElement.Exponent * unitElement.Unit.Dimensions.LengthExponent);
-                    result.MassExponent = +result.MassExponent +
+                    result[1] = result[1] +
                           (unitElement.Exponent * unitElement.Unit.Dimensions.MassExponent);
-                    result.TimeExponent = result.TimeExponent +
+                    result[2] = result[2] +
                           (unitElement.Exponent * unitElement.Unit.Dimensions.TimeExponent);
-                    result.ElectricCurrentExponent = result.ElectricCurrentExponent +
+                    result[3] = result[3] +
                           (unitElement.Exponent * unitElement.Unit.Dimensions.ElectricCurrentExponent);
-                    result.ThermodynamicTemperatureExponent = result.ThermodynamicTemperatureExponent +
+                    result[4] = result[4] +
                           (unitElement.Exponent * unitElement.Unit.Dimensions.ThermodynamicTemperatureExponent);
-                    result.AmountOfSubstanceExponent = result.AmountOfSubstanceExponent +
+                    result[5] = result[5] +
                           (unitElement.Exponent * unitElement.Unit.Dimensions.AmountOfSubstanceExponent);
-                    result.LuminousIntensityExponent = result.LuminousIntensityExponent +
+                    result[6] = result[6] +
                           (unitElement.Exponent * unitElement.Unit.Dimensions.LuminousIntensityExponent);
                 }
-                return result;
+                return new xtdDimensionalExponents(
+                    result[0],
+                    result[1],
+                    result[2],
+                    result[3],
+                    result[4],
+                    result[5],
+                    result[6]
+                    );
                 //##
-            }
-        }
+			}
+		}
 
 		#endregion
 

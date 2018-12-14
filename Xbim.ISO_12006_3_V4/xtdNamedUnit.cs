@@ -27,8 +27,8 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 	// ReSharper disable once PartialTypeWithSinglePart
 	public partial interface @IxtdNamedUnit : IPersistEntity, xtdUnitDefinition
 	{
-		IxtdDimensionalExponents @Dimensions { get;  set; }
-		xtdUnitEnum @UnitType { get;  set; }
+		xtdDimensionalExponents @Dimensions  { get ; }
+		xtdUnitEnum @UnitType  { get ; }
 	
 	}
 }
@@ -40,17 +40,6 @@ namespace Xbim.ISO_12006_3_V4
 	public abstract partial class @xtdNamedUnit : PersistEntity, IxtdNamedUnit, IEquatable<@xtdNamedUnit>
 	{
 		#region IxtdNamedUnit explicit implementation
-		IxtdDimensionalExponents IxtdNamedUnit.Dimensions { 
- 
- 
-			get { return @Dimensions; } 
-			set { Dimensions = value as xtdDimensionalExponents;}
-		}	
-		xtdUnitEnum IxtdNamedUnit.UnitType { 
- 
-			get { return @UnitType; } 
-			set { UnitType = value;}
-		}	
 		 
 		#endregion
 
@@ -59,61 +48,63 @@ namespace Xbim.ISO_12006_3_V4
 		{
 		}
 
-		#region Explicit attribute fields
-		private xtdDimensionalExponents _dimensions;
-		private xtdUnitEnum _unitType;
-		#endregion
-	
-		#region Explicit attribute properties
-		[EntityAttribute(1, EntityAttributeState.Mandatory, EntityAttributeType.Class, EntityAttributeType.None, null, null, 1)]
-		public virtual xtdDimensionalExponents @Dimensions 
-		{ 
+
+
+		#region Derived attributes
+		[EntityAttribute(0, EntityAttributeState.Derived, EntityAttributeType.Class, EntityAttributeType.None, null, null, 0)]
+		public xtdDimensionalExponents @Dimensions 
+		{
 			get 
 			{
-				if(_activated) return _dimensions;
-				Activate();
-				return _dimensions;
-			} 
-			set
-			{
-				if (value != null && !(ReferenceEquals(Model, value.Model)))
-					throw new XbimException("Cross model entity assignment.");
-				SetValue( v =>  _dimensions = v, _dimensions, value,  "Dimensions", 1);
-			} 
-		}	
-		[EntityAttribute(2, EntityAttributeState.Mandatory, EntityAttributeType.Enum, EntityAttributeType.None, null, null, 2)]
+                //## Getter for Dimensions
+                if (this is xtdSIUnit si)
+                {
+                    return si.xtdDimensionsForSiUnit(si.Name);
+                }
+                if (this is xtdConversionBasedUnit conv)
+                {
+                    return conv.BaseUnit.Dimensions;
+                }
+                if (this is xtdContextDependentUnit cont)
+                {
+                    return new xtdDimensionalExponents(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+                }
+                throw new ArgumentOutOfRangeException("typeof(xtdNamedUnit)");
+                //##
+            }
+		}
+
+		[EntityAttribute(0, EntityAttributeState.Derived, EntityAttributeType.Enum, EntityAttributeType.None, null, null, 0)]
 		public xtdUnitEnum @UnitType 
-		{ 
+		{
 			get 
 			{
-				if(_activated) return _unitType;
-				Activate();
-				return _unitType;
-			} 
-			set
-			{
-				SetValue( v =>  _unitType = v, _unitType, value,  "UnitType", 2);
-			} 
-		}	
+                //## Getter for UnitType
+                if (this is xtdSIUnit si)
+                {
+                    return si.xtdUnitTypeForSiUnit(si.Name);
+                }
+                if (this is xtdConversionBasedUnit conv)
+                {
+                    return conv.BaseUnit.UnitType;
+                }
+                if (this is xtdContextDependentUnit cont)
+                {
+                    return xtdUnitEnum.USERDEFINED;
+                }
+                throw new ArgumentOutOfRangeException("typeof(xtdNamedUnit)");
+                //##
+            }
+		}
+
 		#endregion
-
-
 
 
 		#region IPersist implementation
 		public override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
-			switch (propIndex)
-			{
-				case 0: 
-					_dimensions = (xtdDimensionalExponents)(value.EntityVal);
-					return;
-				case 1: 
-                    _unitType = (xtdUnitEnum) System.Enum.Parse(typeof (xtdUnitEnum), value.EnumVal, true);
-					return;
-				default:
-					throw new XbimParserException(string.Format("Attribute index {0} is out of range for {1}", propIndex + 1, GetType().Name.ToUpper()));
-			}
+			//there are no attributes defined for this entity
+            throw new System.IndexOutOfRangeException("There are no attributes defined for this entity");
 		}
 		#endregion
 
