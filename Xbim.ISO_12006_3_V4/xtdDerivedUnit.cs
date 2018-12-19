@@ -28,7 +28,6 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 	public partial interface @IxtdDerivedUnit : IPersistEntity, xtdUnitDefinition
 	{
 		IItemSet<IxtdDerivedUnitElement> @Elements { get; }
-		xtdLabel? @Name { get;  set; }
 		xtdDimensionalExponents @Dimensions  { get ; }
 	
 	}
@@ -44,11 +43,6 @@ namespace Xbim.ISO_12006_3_V4
 		IItemSet<IxtdDerivedUnitElement> IxtdDerivedUnit.Elements { 
 			get { return new Common.Collections.ProxyItemSet<xtdDerivedUnitElement, IxtdDerivedUnitElement>( @Elements); } 
 		}	
-		xtdLabel? IxtdDerivedUnit.Name { 
- 
-			get { return @Name; } 
-			set { Name = value;}
-		}	
 		 
 		#endregion
 
@@ -60,7 +54,6 @@ namespace Xbim.ISO_12006_3_V4
 
 		#region Explicit attribute fields
 		private readonly ItemSet<xtdDerivedUnitElement> _elements;
-		private xtdLabel? _name;
 		#endregion
 	
 		#region Explicit attribute properties
@@ -72,20 +65,6 @@ namespace Xbim.ISO_12006_3_V4
 				if(_activated) return _elements;
 				Activate();
 				return _elements;
-			} 
-		}	
-		[EntityAttribute(2, EntityAttributeState.Optional, EntityAttributeType.None, EntityAttributeType.None, null, null, 2)]
-		public xtdLabel? @Name 
-		{ 
-			get 
-			{
-				if(_activated) return _name;
-				Activate();
-				return _name;
-			} 
-			set
-			{
-				SetValue( v =>  _name = v, _name, value,  "Name", 2);
 			} 
 		}	
 		#endregion
@@ -143,9 +122,6 @@ namespace Xbim.ISO_12006_3_V4
 			{
 				case 0: 
 					_elements.InternalAdd((xtdDerivedUnitElement)value.EntityVal);
-					return;
-				case 1: 
-					_name = value.StringVal;
 					return;
 				default:
 					throw new XbimParserException(string.Format("Attribute index {0} is out of range for {1}", propIndex + 1, GetType().Name.ToUpper()));

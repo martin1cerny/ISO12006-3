@@ -8,46 +8,6 @@ namespace Xbim.ISO_12006_3_V4
     // ReSharper disable once InconsistentNaming
     public partial class xtdSIUnit
     {
-        internal xtdUnitEnum xtdUnitTypeForSiUnit(xtdSIUnitName name)
-        {
-            switch (name)
-            {
-                case xtdSIUnitName.GRAY: return xtdUnitEnum.ABSORBEDDOSEUNIT;
-                case xtdSIUnitName.BECQUEREL: return xtdUnitEnum.RADIOACTIVITYUNIT;
-                case xtdSIUnitName.MOLE: return xtdUnitEnum.AMOUNTOFSUBSTANCEUNIT;
-                case xtdSIUnitName.SQUARE_METRE: return xtdUnitEnum.AREAUNIT;
-                case xtdSIUnitName.FARAD: return xtdUnitEnum.ELECTRICCAPACITANCEUNIT;
-                case xtdSIUnitName.DEGREE_CELSIUS: return xtdUnitEnum.THERMODYNAMICTEMPERATUREUNIT;
-                case xtdSIUnitName.SIEVERT: return xtdUnitEnum.DOSEEQUIVALENTUNIT;
-                case xtdSIUnitName.COULOMB: return xtdUnitEnum.ELECTRICCHARGEUNIT;
-                case xtdSIUnitName.SIEMENS: return xtdUnitEnum.ELECTRICCONDUCTANCEUNIT;
-                case xtdSIUnitName.AMPERE: return xtdUnitEnum.ELECTRICCURRENTUNIT;
-                case xtdSIUnitName.VOLT: return xtdUnitEnum.ELECTRICVOLTAGEUNIT;
-                case xtdSIUnitName.OHM: return xtdUnitEnum.ELECTRICRESISTANCEUNIT;
-                case xtdSIUnitName.JOULE: return xtdUnitEnum.ENERGYUNIT;
-                case xtdSIUnitName.NEWTON: return xtdUnitEnum.FORCEUNIT;
-                case xtdSIUnitName.HERTZ: return xtdUnitEnum.FREQUENCYUNIT;
-                case xtdSIUnitName.LUX: return xtdUnitEnum.ILLUMINANCEUNIT;
-                case xtdSIUnitName.HENRY: return xtdUnitEnum.INDUCTANCEUNIT;
-                case xtdSIUnitName.METRE: return xtdUnitEnum.LENGTHUNIT;
-                case xtdSIUnitName.LUMEN: return xtdUnitEnum.LUMINOUSFLUXUNIT;
-                case xtdSIUnitName.CANDELA: return xtdUnitEnum.LUMINOUSINTENSITYUNIT;
-                case xtdSIUnitName.WEBER: return xtdUnitEnum.MAGNETICFLUXUNIT;
-                case xtdSIUnitName.TESLA: return xtdUnitEnum.MAGNETICFLUXDENSITYUNIT;
-                case xtdSIUnitName.GRAM: return xtdUnitEnum.MASSUNIT;
-                case xtdSIUnitName.RADIAN: return xtdUnitEnum.PLANEANGLEUNIT;
-                case xtdSIUnitName.WATT: return xtdUnitEnum.POWERUNIT;
-                case xtdSIUnitName.PASCAL: return xtdUnitEnum.PRESSUREUNIT;
-                case xtdSIUnitName.STERADIAN: return xtdUnitEnum.SOLIDANGLEUNIT;
-                case xtdSIUnitName.KELVIN: return xtdUnitEnum.THERMODYNAMICTEMPERATUREUNIT;
-                case xtdSIUnitName.SECOND: return xtdUnitEnum.TIMEUNIT;
-                case xtdSIUnitName.CUBIC_METRE: return xtdUnitEnum.VOLUMEUNIT;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(name), "Unexpected unit name");
-            }
-        }
-
         private static readonly Dictionary<xtdSIUnitName, xtdDimensionalExponents> ExponentsCache = new Dictionary<xtdSIUnitName, xtdDimensionalExponents>(); 
         internal xtdDimensionalExponents xtdDimensionsForSiUnit(xtdSIUnitName name)
         {
@@ -57,8 +17,6 @@ namespace Xbim.ISO_12006_3_V4
             switch (name)
             {
                 case xtdSIUnitName.METRE: result = GetOrCreateExponents(new List<int> { 1, 0, 0, 0, 0, 0, 0 }); break;
-                case xtdSIUnitName.SQUARE_METRE: result = GetOrCreateExponents(new List<int> { 2, 0, 0, 0, 0, 0, 0 }); break;
-                case xtdSIUnitName.CUBIC_METRE: result = GetOrCreateExponents(new List<int> { 3, 0, 0, 0, 0, 0, 0 }); break;
                 case xtdSIUnitName.GRAM: result = GetOrCreateExponents(new List<int> { 0, 1, 0, 0, 0, 0, 0 }); break;
                 case xtdSIUnitName.SECOND: result = GetOrCreateExponents(new List<int> { 0, 0, 1, 0, 0, 0, 0 }); break;
                 case xtdSIUnitName.AMPERE: result = GetOrCreateExponents(new List<int> { 0, 0, 0, 1, 0, 0, 0 }); break;
@@ -129,8 +87,6 @@ namespace Xbim.ISO_12006_3_V4
             get
             {
                 var exponential = 1;
-                if (UnitType == xtdUnitEnum.AREAUNIT) exponential = 2;
-                if (UnitType == xtdUnitEnum.VOLUMEUNIT) exponential = 3;
                 if (Prefix.HasValue)
                 {
                     double factor;
@@ -263,9 +219,6 @@ namespace Xbim.ISO_12006_3_V4
 					case xtdSIUnitName.COULOMB:
 						value = prefix + "C";
 						break;
-					case xtdSIUnitName.CUBIC_METRE:
-						value = prefix + "m" + '\u00B3'; //((char)0x00B3)
-						break;
 					case xtdSIUnitName.DEGREE_CELSIUS:
 						value = prefix + '\u00B0' + "C"; //((char)0x00B0)
 						break;
@@ -323,9 +276,6 @@ namespace Xbim.ISO_12006_3_V4
 					case xtdSIUnitName.SIEVERT:
 						value = prefix + "Sv";
 						break;
-					case xtdSIUnitName.SQUARE_METRE:
-                        value = prefix + "m" + '\u00B2'; //((char)0x00B2)might need to look at this for other cultures
-                        break;
 					case xtdSIUnitName.STERADIAN:
 						value = prefix + "sr";
 						break;

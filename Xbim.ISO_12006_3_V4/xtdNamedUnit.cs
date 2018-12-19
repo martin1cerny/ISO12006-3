@@ -28,7 +28,6 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 	public partial interface @IxtdNamedUnit : IPersistEntity, xtdUnitDefinition
 	{
 		xtdDimensionalExponents @Dimensions  { get ; }
-		xtdUnitEnum @UnitType  { get ; }
 	
 	}
 }
@@ -63,34 +62,15 @@ namespace Xbim.ISO_12006_3_V4
                 }
                 if (this is xtdConversionBasedUnit conv)
                 {
-                    return conv.BaseUnit.Dimensions;
+                    if (conv.BaseUnit is xtdNamedUnit nu)
+                        return nu.Dimensions;
+                    if (conv.BaseUnit is xtdDerivedUnit du)
+                        return du.Dimensions;
+                    throw new ArgumentOutOfRangeException("typeof(xtdConversionBasedUnit.BaseUnit)");
                 }
                 if (this is xtdContextDependentUnit cont)
                 {
                     return new xtdDimensionalExponents(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-                }
-                throw new ArgumentOutOfRangeException("typeof(xtdNamedUnit)");
-                //##
-			}
-		}
-
-		[EntityAttribute(0, EntityAttributeState.Derived, EntityAttributeType.Enum, EntityAttributeType.None, null, null, 0)]
-		public xtdUnitEnum @UnitType 
-		{
-			get 
-			{
-				//## Getter for UnitType
-                if (this is xtdSIUnit si)
-                {
-                    return si.xtdUnitTypeForSiUnit(si.Name);
-                }
-                if (this is xtdConversionBasedUnit conv)
-                {
-                    return conv.BaseUnit.UnitType;
-                }
-                if (this is xtdContextDependentUnit cont)
-                {
-                    return xtdUnitEnum.USERDEFINED;
                 }
                 throw new ArgumentOutOfRangeException("typeof(xtdNamedUnit)");
                 //##

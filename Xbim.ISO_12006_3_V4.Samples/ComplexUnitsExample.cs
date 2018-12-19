@@ -18,15 +18,18 @@ namespace Xbim.ISO_12006_3_V4.Samples
                         {
                             cbu.Name = "litre";
                             cbu.ConversionFactor = 0.001;
-                            cbu.BaseUnit = h.New<xtdSIUnit>(si => {
-                                si.Name = xtdSIUnitName.CUBIC_METRE;
+                            cbu.BaseUnit = h.New<xtdDerivedUnit>(m3 => {
+                                m3.Elements.Add(h.New<xtdDerivedUnitElement>(m3e => {
+                                    m3e.Exponent = 3;
+                                    m3e.Unit = h.New<xtdSIUnit>(u => u.Name = xtdSIUnitName.METRE);
+                                }));
                             });
                         });
                     }));
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
-                        e.Exponent = -1;
+                        e.Exponent = -2;
                         e.Unit = h.New<xtdSIUnit>(si => {
-                            si.Name = xtdSIUnitName.SQUARE_METRE;
+                            si.Name = xtdSIUnitName.METRE;
                         });
                     }));
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
@@ -62,9 +65,9 @@ namespace Xbim.ISO_12006_3_V4.Samples
                         });
                     }));
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
-                        e.Exponent = -1;
+                        e.Exponent = -2;
                         e.Unit = h.New<xtdSIUnit>(si => {
-                            si.Name = xtdSIUnitName.SQUARE_METRE;
+                            si.Name = xtdSIUnitName.METRE;
                         });
                     }));
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
@@ -145,7 +148,7 @@ namespace Xbim.ISO_12006_3_V4.Samples
                 // parts per million
                 h.New<xtdContextDependentUnit>(u => {
                     u.Name = "PARTS_PER_MILLION";
-                    h.Comment(u, "pieces per pack");
+                    h.Comment(u, "parts per milion");
                     h.Comment(u, $"Derived dimensional exponents: {u.Dimensions}");
                 });
 

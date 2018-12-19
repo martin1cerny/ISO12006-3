@@ -27,7 +27,7 @@ namespace Xbim.ISO_12006_3_V4.Interfaces
 	{
 		xtdLabel @Name { get;  set; }
 		xtdNumber @ConversionFactor { get;  set; }
-		IxtdNamedUnit @BaseUnit { get;  set; }
+		IxtdUnitDefinition @BaseUnit { get;  set; }
 	
 	}
 }
@@ -49,11 +49,11 @@ namespace Xbim.ISO_12006_3_V4
 			get { return @ConversionFactor; } 
 			set { ConversionFactor = value;}
 		}	
-		IxtdNamedUnit IxtdConversionBasedUnit.BaseUnit { 
+		IxtdUnitDefinition IxtdConversionBasedUnit.BaseUnit { 
  
  
 			get { return @BaseUnit; } 
-			set { BaseUnit = value as xtdNamedUnit;}
+			set { BaseUnit = value as xtdUnitDefinition;}
 		}	
 		 
 		#endregion
@@ -66,7 +66,7 @@ namespace Xbim.ISO_12006_3_V4
 		#region Explicit attribute fields
 		private xtdLabel _name;
 		private xtdNumber _conversionFactor;
-		private xtdNamedUnit _baseUnit;
+		private xtdUnitDefinition _baseUnit;
 		#endregion
 	
 		#region Explicit attribute properties
@@ -99,7 +99,7 @@ namespace Xbim.ISO_12006_3_V4
 			} 
 		}	
 		[EntityAttribute(3, EntityAttributeState.Mandatory, EntityAttributeType.Class, EntityAttributeType.None, null, null, 3)]
-		public xtdNamedUnit @BaseUnit 
+		public xtdUnitDefinition @BaseUnit 
 		{ 
 			get 
 			{
@@ -131,7 +131,7 @@ namespace Xbim.ISO_12006_3_V4
 					_conversionFactor = value.NumberVal;
 					return;
 				case 2: 
-					_baseUnit = (xtdNamedUnit)(value.EntityVal);
+					_baseUnit = (xtdUnitDefinition)(value.EntityVal);
 					return;
 				default:
 					throw new XbimParserException(string.Format("Attribute index {0} is out of range for {1}", propIndex + 1, GetType().Name.ToUpper()));

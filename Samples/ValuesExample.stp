@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION ((''), '2;1');
-FILE_NAME ('', '2018-12-14T16:06:44', (''), (''), 'Processor version 5.0.0.0', 'Xbim.Common', '');
+FILE_NAME ('', '2018-12-19T12:43:34', (''), (''), 'Processor version 5.0.0.0', 'Xbim.Common', '');
 FILE_SCHEMA (('ISO_12006_3_VERSION_4'));
 ENDSEC;
 DATA;
@@ -9,7 +9,7 @@ DATA;
 /**
 * Definition of the language
 * XTDLANGUAGE=(LanguageNameInEnglish, LanguageNameInSelf, Comments, UniqueID)*/
-#1=XTDLANGUAGE('English',$,$,'2RMkhNBQzCBA07Uue5XZJF');
+#1=XTDLANGUAGE('English',$,$,'1dqvDtCeX7XgG7oCDGEH4L');
 
 /**
 * New entity types introduced to describe units. This is a simple SI unit.
@@ -18,8 +18,8 @@ DATA;
 
 /**
 * Speed is derived from length unit of metres and time unit of seconds with appropriate exponents
-* XTDDERIVEDUNIT=(Elements, Name)*/
-#3=XTDDERIVEDUNIT((#4,#6),$);
+* XTDDERIVEDUNIT=(Elements)*/
+#3=XTDDERIVEDUNIT((#4,#6));
 #4=XTDDERIVEDUNITELEMENT(#5,1.);
 #5=XTDSIUNIT($,.METRE.);
 #6=XTDDERIVEDUNITELEMENT(#7,-1.);
@@ -29,60 +29,60 @@ DATA;
 * xtdUnit is extended with 'Definition' which is a machine readable expression for the unit.
 * This makes it possible to external autometed systems to work with the data and definitions.
 * XTDUNIT=(VersionDate, VersionID, UniqueID, Descriptions, Names, Definition)*/
-#8=XTDUNIT('2018-12-14T16:06:44','2.1','2l0ZH9j$12cwaTga$_vb3c',$,(#9),#2);
-#9=XTDNAME(#1,'3mTuoETQz7IAkWx4J_rXl$','Millimetre');
-#10=XTDUNIT('2018-12-14T16:06:44','2.1','0Ev4q8Ijj4A9yXLJNyGvIS',$,(#11),#3);
-#11=XTDNAME(#1,'2KFAidcHLCa8xbCY8GPkpp','Metres per second');
+#8=XTDUNIT('2018-12-19T12:43:34','2.1','1DvSuMsun0DfFmDVdTzpQC',$,(#9),#2);
+#9=XTDNAME(#1,'2MIt9vTtfAvOc7VPZLV3rU','Millimetre');
+#10=XTDUNIT('2018-12-19T12:43:34','2.1','11E5lYzLj8YOeQXTca_As5',$,(#11),#3);
+#11=XTDNAME(#1,'13Kw2A_7HCZOw7aP5nvvmw','Metres per second');
 
 /**
 * Subject of the specification
 * XTDSUBJECT=(VersionDate, VersionID, UniqueID, Descriptions, Names)*/
-#12=XTDSUBJECT('2018-12-14T16:06:44','2.1','3xx0lE$LLDbwNCnzIIGGTB',(#14),(#13));
-#13=XTDNAME(#1,'28syvRvabDhPQd1G5we1pj','The Door');
-#14=XTDDESCRIPTION(#1,'31hvkPcZHD4vBZOfDIlYm_','Example of the door');
+#12=XTDSUBJECT('2018-12-19T12:43:34','2.1','22F8jRD_95wwotZFdmfZB1',(#14),(#13));
+#13=XTDNAME(#1,'1eJidqRYPFj8x$gQKudT6Z','The Door');
+#14=XTDDESCRIPTION(#1,'3ZvUML5Pn6WQK_r_7Mb13p','Example of the door');
 
 /**
 * Property can either be related to subject with value or constraint or both
 * XTDPROPERTY=(VersionDate, VersionID, UniqueID, Descriptions, Names)*/
-#15=XTDPROPERTY('2018-12-14T16:06:44','2.1','3tCLn95MrCUwBZogqasl$Q',(#17),(#16));
-#16=XTDNAME(#1,'3tmXNSDHbBAf0DVEtNZzjP','Width');
-#17=XTDDESCRIPTION(#1,'0GLOgD$xjEgxKUQAV4G81L','Clear widt of the door');
-#18=XTDPROPERTY('2018-12-14T16:06:44','2.1','3xG2It$fH07gvZQiT$jhlQ',(#20),(#19));
-#19=XTDNAME(#1,'2g2$MWxlv1CwShkSJqOn4s','Quality');
-#20=XTDDESCRIPTION(#1,'2uwjRQThHAZABAWnsIbPnS','Quality grading');
-#21=XTDPROPERTY('2018-12-14T16:06:44','2.1','3xk9Asd8f3qwDT$wCgZQt5',(#23),(#22));
-#22=XTDNAME(#1,'1Wcq9Aikn1h9uHZozGdgr9','Opening Speed');
-#23=XTDDESCRIPTION(#1,'3cgzXSsZfF8x0s1pRMWT9l','Speed of automatic opening of the door');
+#15=XTDPROPERTY('2018-12-19T12:43:34','2.1','3vWNG0t1v6kun_OGyG1UjS',(#17),(#16));
+#16=XTDNAME(#1,'2uHsW9L2b1kgBI3I_I1aqO','Width');
+#17=XTDDESCRIPTION(#1,'1CzmoAYI55gfUhJ2OPoLEj','Clear widt of the door');
+#18=XTDPROPERTY('2018-12-19T12:43:34','2.1','21TOa$W2PDzxJTtN1INoyQ',(#20),(#19));
+#19=XTDNAME(#1,'0XmHZVIsr2PfSITpjI7ZsU','Quality');
+#20=XTDDESCRIPTION(#1,'3E6nGdd9D30hAEGbGT0jxD','Quality grading');
+#21=XTDPROPERTY('2018-12-19T12:43:34','2.1','1dKJYF$eLATBVHWXHLE6ej',(#23),(#22));
+#22=XTDNAME(#1,'0agfB0PGvCh8UkfnDIf4vg','Opening Speed');
+#23=XTDDESCRIPTION(#1,'13dZs7bF58vhxXgIPtWCOH','Speed of automatic opening of the door');
 
 /**
 * This measure has value reliably encoded as a real number and has machine readable units
 * XTDMEASUREWITHUNIT=(VersionDate, VersionID, UniqueID, Descriptions, Names, UnitComponent, ValueDomain)*/
-#24=XTDMEASUREWITHUNIT('2018-12-14T16:06:44','2.1','1D95ZxNhr9ruRuaZN9$vqU',(#26),(#25),#8,(#27));
-#25=XTDNAME(#1,'2UXFSLBNj0MPofZHlezb5N','Width measure');
-#26=XTDDESCRIPTION(#1,'3dCt7kxdf8GwcR6yEa45_5','Width of the door');
-#27=XTDVALUE('2018-12-14T16:06:44','2.1','0FsXkwBGD48uH6wa$YGQ1o',$,(),$,XTDREAL(800.),$,$);
+#24=XTDMEASUREWITHUNIT('2018-12-19T12:43:34','2.1','19GzK2h$19GQVrJAGgtp97',(#26),(#25),#8,(#27));
+#25=XTDNAME(#1,'2qAgqVLALDtBC7oTcYzVpm','Width measure');
+#26=XTDDESCRIPTION(#1,'15IE1ZaezBER$Tei3YmUiy','Width of the door');
+#27=XTDVALUE('2018-12-19T12:43:34','2.1','1gR08KEoH2hvteWl0wKvKD',$,(),$,XTDREAL(800.),$,$);
 
 /**
 * This measure represents the grade as an enumeration value
 * XTDMEASUREWITHUNIT=(VersionDate, VersionID, UniqueID, Descriptions, Names, UnitComponent, ValueDomain)*/
-#28=XTDMEASUREWITHUNIT('2018-12-14T16:06:44','2.1','1sMC5eQBn9_x$IdrKzG1QA',(#30),(#29),#8,(#31));
-#29=XTDNAME(#1,'2PI66jwzn20OvH0A68YSX4','Quality grade');
-#30=XTDDESCRIPTION(#1,'0ZHDDFHUr2t8CDxK5pTVGr','Quality must be expressed as one of the values [A,B,C,D,E]');
-#31=XTDVALUE('2018-12-14T16:06:44','2.1','3OsqkrTdb3SwznuU0nyV9L',$,(),$,XTDLABEL('C'),$,$);
+#28=XTDMEASUREWITHUNIT('2018-12-19T12:43:34','2.1','1yxn1epvP1DQFgZebCfi$l',(#30),(#29),#8,(#31));
+#29=XTDNAME(#1,'2slXNveT538x0yj$NlSHe9','Quality grade');
+#30=XTDDESCRIPTION(#1,'2o28wyWT57pggWcQy8GP6z','Quality must be expressed as one of the values [A,B,C,D,E]');
+#31=XTDVALUE('2018-12-19T12:43:34','2.1','0kH4KbkEvEpObdJIL$omI$',$,(),$,XTDLABEL('C'),$,$);
 
 /**
 * This measure represents the speed with well defined units
 * XTDMEASUREWITHUNIT=(VersionDate, VersionID, UniqueID, Descriptions, Names, UnitComponent, ValueDomain)*/
-#32=XTDMEASUREWITHUNIT('2018-12-14T16:06:44','2.1','1xuljkjU50vQIZHrI1cAxY',(#34),(#33),#10,(#35));
-#33=XTDNAME(#1,'0414_SZiXDbPK8XMdXI1__','Speed');
-#34=XTDDESCRIPTION(#1,'2ARACGnm90_wfknVd64Qmx','Speed under normal conditions');
-#35=XTDVALUE('2018-12-14T16:06:44','2.1','31D991dtb7Q9c0Q7Rn29gJ',$,(),$,XTDREAL(1.3456),$,$);
+#32=XTDMEASUREWITHUNIT('2018-12-19T12:43:34','2.1','21tyYa_Lj2mR4uPq9t4a4K',(#34),(#33),#10,(#35));
+#33=XTDNAME(#1,'1FY4Whg196qhtjfOmOPySb','Speed');
+#34=XTDDESCRIPTION(#1,'1mIDVjATX0QeQ5RXfJhir8','Speed under normal conditions');
+#35=XTDVALUE('2018-12-19T12:43:34','2.1','1qyfaOd491ReBWYTK4I2k3',$,(),$,XTDREAL(1.3456),$,$);
 
 /**
 * Relations expressing measures of the properties with units for certain subject
 * XTDRELASSIGNSPROPERTYWITHVALUES=(VersionDate, VersionID, UniqueID, Descriptions, Names, ViewSelector, RelatedProperty, RelatingObject, RelatedValues, RelatedUnit)*/
-#36=XTDRELASSIGNSPROPERTYWITHVALUES('2018-12-14T16:06:44','2.1','0xyGr0OW92zxuYcO5JLS0L',$,(),$,#15,#12,(),#8);
-#37=XTDRELASSIGNSPROPERTYWITHVALUES('2018-12-14T16:06:44','2.1','225R1R$yP4oh5u6o6yOBRw',$,(),$,#18,#12,(),$);
-#38=XTDRELASSIGNSPROPERTYWITHVALUES('2018-12-14T16:06:44','2.1','2eocBwPRj9Mv6C67Mm_85b',$,(),$,#21,#12,(),#10);
+#36=XTDRELASSIGNSPROPERTYWITHVALUES('2018-12-19T12:43:34','2.1','3HW4jG3hX49vc692FwC0tX',$,(),$,#15,#12,(),#8);
+#37=XTDRELASSIGNSPROPERTYWITHVALUES('2018-12-19T12:43:34','2.1','3fo1pFAP9A9PSVDdy51D_c',$,(),$,#18,#12,(),$);
+#38=XTDRELASSIGNSPROPERTYWITHVALUES('2018-12-19T12:43:34','2.1','3Z_x4dG3LDfhdY6YUqagsM',$,(),$,#21,#12,(),#10);
 ENDSEC;
 END-ISO-10303-21;

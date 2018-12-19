@@ -10,7 +10,6 @@ xtdExternalObject,70
 xtdExternalSchema,69
 xtdDerivedUnit,8
 xtdDerivedUnitElement,9
-xtdMonetaryUnit,10
 xtdNamedUnit,11
 xtdContextDependentUnit,12
 xtdConversionBasedUnit,13
@@ -53,7 +52,6 @@ xtdConstraintTypeEnum,62
 xtdLogicalOperatorEnum,63
 xtdSIPrefix,64
 xtdSIUnitName,65
-xtdUnitEnum,66
 xtdToleranceTypeEnum,68
 xtdNumber,49
 xtdInteger,50

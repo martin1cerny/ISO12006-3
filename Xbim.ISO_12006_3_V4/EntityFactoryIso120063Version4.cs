@@ -63,7 +63,6 @@ namespace Xbim.ISO_12006_3_V4
 				case "XTDEXTERNALSCHEMA": return new xtdExternalSchema ( model, entityLabel, activated );
 				case "XTDDERIVEDUNIT": return new xtdDerivedUnit ( model, entityLabel, activated );
 				case "XTDDERIVEDUNITELEMENT": return new xtdDerivedUnitElement ( model, entityLabel, activated );
-				case "XTDMONETARYUNIT": return new xtdMonetaryUnit ( model, entityLabel, activated );
 				case "XTDCONTEXTDEPENDENTUNIT": return new xtdContextDependentUnit ( model, entityLabel, activated );
 				case "XTDCONVERSIONBASEDUNIT": return new xtdConversionBasedUnit ( model, entityLabel, activated );
 				case "XTDCONVERSIONBASEDUNITWITHOFFSET": return new xtdConversionBasedUnitWithOffset ( model, entityLabel, activated );
@@ -119,7 +118,6 @@ namespace Xbim.ISO_12006_3_V4
 				case 69: return new xtdExternalSchema ( model, entityLabel, activated );
 				case 8: return new xtdDerivedUnit ( model, entityLabel, activated );
 				case 9: return new xtdDerivedUnitElement ( model, entityLabel, activated );
-				case 10: return new xtdMonetaryUnit ( model, entityLabel, activated );
 				case 12: return new xtdContextDependentUnit ( model, entityLabel, activated );
 				case 13: return new xtdConversionBasedUnit ( model, entityLabel, activated );
 				case 14: return new xtdConversionBasedUnitWithOffset ( model, entityLabel, activated );

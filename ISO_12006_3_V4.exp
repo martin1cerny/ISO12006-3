@@ -163,33 +163,35 @@ END_ENTITY;
   communication between people where it is more important to agree on names
   and definitions. But once those units are used to describe values and those 
   values are to be used for validation or to inform a data content in other
-  automated systems this is not sufficient. Following structures are identical 
-  to definitions used in IFC where this are is essential to make exchange of the
-  data reliable and unambiguous.
+  automated systems this is not sufficient. Following structures are inspired 
+  by definitions used in IFC and ISO 10303-41. These are simplified compared to
+  definitions in IFC but are fully compatible with them except for the very rare
+  cases of rooted units (like "hour to the power of one half"). Following definitions
+  don't allow any ambiguity and can secure reliable exchange of information.
 *)
 
+(* This select type should be used as a mandatory attribute of xtdUnit which provides
+   machine readable definition where people can than agree on multilingual names, 
+   descriptions and relations *)
 TYPE xtdUnitDefinition = SELECT
 	(xtdDerivedUnit
-	,xtdMonetaryUnit
 	,xtdNamedUnit);
 END_TYPE;
 
+(* This unit doesn't have any 'Name' attribute as that should be defined in xtdUnit where this
+   is used as the machine readable definition *)
 ENTITY xtdDerivedUnit;
 	Elements : SET [1:?] OF xtdDerivedUnitElement;
-	Name : OPTIONAL xtdLabel;
  DERIVE
 	Dimensions : xtdDimensionalExponents := xtdDeriveDimensionalExponents(Elements);
  WHERE
 	WR1 : (SIZEOF (Elements) > 1) OR ((SIZEOF (Elements) = 1) AND (Elements[1].Exponent <> 1 ));
 END_ENTITY;
 
+(* Element of the derived unit *)
 ENTITY xtdDerivedUnitElement;
 	Unit : xtdNamedUnit;
 	Exponent : REAL;
-END_ENTITY;
-
-ENTITY xtdMonetaryUnit;
-	Currency : xtdLabel;
 END_ENTITY;
 
 ENTITY xtdNamedUnit
@@ -199,21 +201,26 @@ ENTITY xtdNamedUnit
     ,xtdSIUnit));
  DERIVE
 	Dimensions : xtdDimensionalExponents := xtdDimensionsForNamedUnit (SELF);
-	UnitType : xtdUnitEnum := xtdUnitEnumForNamedUnit (SELF);
 END_ENTITY;
 
+(* Context dependent units are not related to SI units and are supposed to have dimensionality = 1 
+   The name should be the agreed symbol for this unit. Name should be defined in xtdUnit using this
+   as the definition.
+*)
 ENTITY xtdContextDependentUnit
  SUBTYPE OF (xtdNamedUnit);
 	Name : xtdLabel;
 END_ENTITY;
 
+(* Conversion based units are litre, hour, minute, feet and others which are
+   related to SI units by the conversion factor and/or offset (xtdConversionBasedUnitWithOffset) *)
 ENTITY xtdConversionBasedUnit
  SUPERTYPE OF (ONEOF
     (xtdConversionBasedUnitWithOffset))
  SUBTYPE OF (xtdNamedUnit);
 	Name : xtdLabel;
 	ConversionFactor : xtdNumber;
-	BaseUnit: xtdNamedUnit;
+	BaseUnit: xtdUnitDefinition;
 END_ENTITY;
 
 ENTITY xtdConversionBasedUnitWithOffset
@@ -221,6 +228,7 @@ ENTITY xtdConversionBasedUnitWithOffset
 	ConversionOffset : xtdReal;
 END_ENTITY;
 
+(* Both prefix and name are fixed enumerations *)
 ENTITY xtdSIUnit
  SUBTYPE OF (xtdNamedUnit);
 	Prefix : OPTIONAL xtdSIPrefix;
@@ -246,12 +254,13 @@ TYPE xtdSIPrefix = ENUMERATION OF
 	,ATTO);
 END_TYPE;
 
+(* Compared to IFC this doesn't contain .CUBIC_METRE. and .SQUARE_METRE. because 
+   these are ambiguous when combined with the prefix *)
 TYPE xtdSIUnitName = ENUMERATION OF
 	(AMPERE
 	,BECQUEREL
 	,CANDELA
 	,COULOMB
-	,CUBIC_METRE
 	,DEGREE_CELSIUS
 	,FARAD
 	,GRAM
@@ -271,7 +280,6 @@ TYPE xtdSIUnitName = ENUMERATION OF
 	,SECOND
 	,SIEMENS
 	,SIEVERT
-	,SQUARE_METRE
 	,STERADIAN
 	,TESLA
 	,VOLT
@@ -279,6 +287,8 @@ TYPE xtdSIUnitName = ENUMERATION OF
 	,WEBER);
 END_TYPE;
 
+(* Dimensional exponents are defined as INTEGER in IFC but as REAL in ISO_10303-41. 
+   INTEGER values wouldn't allow to express rare cases of rooted unit (like an hour to the power of one half)*)
 ENTITY xtdDimensionalExponents;
 	LengthExponent : REAL;
 	MassExponent : REAL;
@@ -288,39 +298,6 @@ ENTITY xtdDimensionalExponents;
 	AmountOfSubstanceExponent : REAL;
 	LuminousIntensityExponent : REAL;
 END_ENTITY;
-
-TYPE xtdUnitEnum = ENUMERATION OF
-	(ABSORBEDDOSEUNIT
-	,AMOUNTOFSUBSTANCEUNIT
-	,AREAUNIT
-	,DOSEEQUIVALENTUNIT
-	,ELECTRICCAPACITANCEUNIT
-	,ELECTRICCHARGEUNIT
-	,ELECTRICCONDUCTANCEUNIT
-	,ELECTRICCURRENTUNIT
-	,ELECTRICRESISTANCEUNIT
-	,ELECTRICVOLTAGEUNIT
-	,ENERGYUNIT
-	,FORCEUNIT
-	,FREQUENCYUNIT
-	,ILLUMINANCEUNIT
-	,INDUCTANCEUNIT
-	,LENGTHUNIT
-	,LUMINOUSFLUXUNIT
-	,LUMINOUSINTENSITYUNIT
-	,MAGNETICFLUXDENSITYUNIT
-	,MAGNETICFLUXUNIT
-	,MASSUNIT
-	,PLANEANGLEUNIT
-	,POWERUNIT
-	,PRESSUREUNIT
-	,RADIOACTIVITYUNIT
-	,SOLIDANGLEUNIT
-	,THERMODYNAMICTEMPERATUREUNIT
-	,TIMEUNIT
-	,VOLUMEUNIT
-	,USERDEFINED);
-END_TYPE;
 
 (*
           Functions returning correct dimensional exponents and unit types of units
@@ -340,28 +317,12 @@ FUNCTION xtdDimensionsForNamedUnit
     END_IF;
 END_FUNCTION;
 
-FUNCTION xtdUnitTypeForNamedUnit
-  (unit : xtdNamedUnit )     : xtdDimensionalExponents;
-    IF 'XTDSIUNIT' IN TYPEOF(unit) THEN
-        RETURN (xtdUnitTypeForSiUnit(unit));
-    END_IF;
-	IF 'XTDCONVERSIONBASEDUNIT' IN TYPEOF(unit) THEN
-        RETURN (unit\xtdConversionBasedUnit.BaseUnit.UnitType);
-    END_IF;
-	IF 'XTDCONTEXTDEPENDENTUNIT' IN TYPEOF(unit) THEN
-        RETURN (xtdUnitEnum.USERDEFINED);
-    END_IF;
-END_FUNCTION;
 
 FUNCTION xtdDimensionsForSiUnit
 (n : xtdSiUnitName )     : xtdDimensionalExponents;
   CASE n OF
     METRE          : RETURN (xtdDimensionalExponents
                              (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
-    SQUARE_METRE   : RETURN (xtdDimensionalExponents
-                             (2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
-    CUBIC_METRE    : RETURN (xtdDimensionalExponents
-                             (3.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
     GRAM           : RETURN (xtdDimensionalExponents
                              (0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0));
     SECOND         : RETURN (xtdDimensionalExponents
@@ -418,42 +379,6 @@ FUNCTION xtdDimensionsForSiUnit
                              (2.0, 0.0, -2.0, 0.0, 0.0, 0.0, 0.0));
     OTHERWISE      : RETURN (xtdDimensionalExponents
                              (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
-  END_CASE;
-END_FUNCTION;
-
-FUNCTION xtdUnitTypeForSiUnit
-(n : xtdSiUnitName )     : xtdUnitEnum;
-  CASE n OF
-    GRAY			: RETURN xtdUnitEnum.ABSORBEDDOSEUNIT;
-    BECQUEREL		: RETURN xtdUnitEnum.RADIOACTIVITYUNIT;
-    MOLE			: RETURN xtdUnitEnum.AMOUNTOFSUBSTANCEUNIT;
-    SQUARE_METRE	: RETURN xtdUnitEnum.AREAUNIT;
-    FARAD			: RETURN xtdUnitEnum.ELECTRICCAPACITANCEUNIT;
-    DEGREE_CELSIUS	: RETURN xtdUnitEnum.THERMODYNAMICTEMPERATUREUNIT;
-    SIEVERT			: RETURN xtdUnitEnum.DOSEEQUIVALENTUNIT;
-    COULOMB			: RETURN xtdUnitEnum.ELECTRICCHARGEUNIT;
-    SIEMENS			: RETURN xtdUnitEnum.ELECTRICCONDUCTANCEUNIT;
-    AMPERE			: RETURN xtdUnitEnum.ELECTRICCURRENTUNIT;
-    VOLT			: RETURN xtdUnitEnum.ELECTRICVOLTAGEUNIT;
-    OHM				: RETURN xtdUnitEnum.ELECTRICRESISTANCEUNIT;
-    JOULE			: RETURN xtdUnitEnum.ENERGYUNIT;
-    NEWTON			: RETURN xtdUnitEnum.FORCEUNIT;
-    HERTZ			: RETURN xtdUnitEnum.FREQUENCYUNIT;
-    LUX				: RETURN xtdUnitEnum.ILLUMINANCEUNIT;
-    HENRY			: RETURN xtdUnitEnum.INDUCTANCEUNIT;
-    METRE			: RETURN xtdUnitEnum.LENGTHUNIT;
-    LUMEN			: RETURN xtdUnitEnum.LUMINOUSFLUXUNIT;
-    CANDELA			: RETURN xtdUnitEnum.LUMINOUSINTENSITYUNIT;
-    WEBER			: RETURN xtdUnitEnum.MAGNETICFLUXUNIT;
-    TESLA			: RETURN xtdUnitEnum.MAGNETICFLUXDENSITYUNIT;
-    GRAM			: RETURN xtdUnitEnum.MASSUNIT;
-    RADIAN			: RETURN xtdUnitEnum.PLANEANGLEUNIT;
-    WATT			: RETURN xtdUnitEnum.POWERUNIT;
-    PASCAL			: RETURN xtdUnitEnum.PRESSUREUNIT;
-    STERADIAN		: RETURN xtdUnitEnum.SOLIDANGLEUNIT;
-    KELVIN			: RETURN xtdUnitEnum.THERMODYNAMICTEMPERATUREUNIT;
-    SECOND			: RETURN xtdUnitEnum.TIMEUNIT;
-    CUBIC_METRE		: RETURN xtdUnitEnum.VOLUMEUNIT;
   END_CASE;
 END_FUNCTION;
 
