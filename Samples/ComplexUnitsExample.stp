@@ -1,21 +1,25 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION ((''), '2;1');
-FILE_NAME ('', '2018-12-19T12:43:34', (''), (''), 'Processor version 5.0.0.0', 'Xbim.Common', '');
+FILE_NAME ('', '2018-12-20T12:32:13', (''), (''), 'Processor version 5.0.0.0', 'Xbim.Common', '');
 FILE_SCHEMA (('ISO_12006_3_VERSION_4'));
 ENDSEC;
 DATA;
 
 /**
+* Litre is m3/1000
+* XTDCONVERSIONBASEDUNIT=(Name, ConversionFactor, BaseUnit)*/
+#1=XTDCONVERSIONBASEDUNIT('litre',0.001,#2);
+#2=XTDDERIVEDUNIT((#3));
+#3=XTDDERIVEDUNITELEMENT(#4,3.);
+#4=XTDSIUNIT($,.METRE.);
+
+/**
 * litre per metre squared second
 * Dimensional exponents: [1.00 0.00 -1.00 0.00 0.00 0.00 0.00]
 * XTDDERIVEDUNIT=(Elements)*/
-#1=XTDDERIVEDUNIT((#2,#7,#9));
-#2=XTDDERIVEDUNITELEMENT(#3,1.);
-#3=XTDCONVERSIONBASEDUNIT('litre',0.001,#4);
-#4=XTDDERIVEDUNIT((#5));
-#5=XTDDERIVEDUNITELEMENT(#6,3.);
-#6=XTDSIUNIT($,.METRE.);
+#5=XTDDERIVEDUNIT((#6,#7,#9));
+#6=XTDDERIVEDUNITELEMENT(#1,1.);
 #7=XTDDERIVEDUNITELEMENT(#8,-2.);
 #8=XTDSIUNIT($,.METRE.);
 #9=XTDDERIVEDUNITELEMENT(#10,-1.);

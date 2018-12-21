@@ -10,21 +10,25 @@ namespace Xbim.ISO_12006_3_V4.Samples
         {
             using (var h = new ModelHelper())
             {
+                // litre
+                var litre = h.New<xtdConversionBasedUnit>(cbu =>
+                {
+                    cbu.Name = "litre";
+                    cbu.ConversionFactor = 0.001;
+                    cbu.BaseUnit = h.New<xtdDerivedUnit>(m3 => {
+                        m3.Elements.Add(h.New<xtdDerivedUnitElement>(m3e => {
+                            m3e.Exponent = 3;
+                            m3e.Unit = h.New<xtdSIUnit>(u => u.Name = xtdSIUnitName.METRE);
+                        }));
+                    });
+                    h.Comment(cbu, "Litre is m3/1000");
+                });
+
                 // litre per metre squared second
                 h.New<xtdDerivedUnit>(du => {
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
                         e.Exponent = 1;
-                        e.Unit = h.New<xtdConversionBasedUnit>(cbu =>
-                        {
-                            cbu.Name = "litre";
-                            cbu.ConversionFactor = 0.001;
-                            cbu.BaseUnit = h.New<xtdDerivedUnit>(m3 => {
-                                m3.Elements.Add(h.New<xtdDerivedUnitElement>(m3e => {
-                                    m3e.Exponent = 3;
-                                    m3e.Unit = h.New<xtdSIUnit>(u => u.Name = xtdSIUnitName.METRE);
-                                }));
-                            });
-                        });
+                        e.Unit = litre;
                     }));
                     du.Elements.Add(h.New<xtdDerivedUnitElement>(e => {
                         e.Exponent = -2;

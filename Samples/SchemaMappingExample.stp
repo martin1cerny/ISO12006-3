@@ -1,7 +1,7 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION ((''), '2;1');
-FILE_NAME ('', '2018-12-19T12:43:34', (''), (''), 'Processor version 5.0.0.0', 'Xbim.Common', '');
+FILE_NAME ('', '2018-12-20T12:32:13', (''), (''), 'Processor version 5.0.0.0', 'Xbim.Common', '');
 FILE_SCHEMA (('ISO_12006_3_VERSION_4'));
 ENDSEC;
 DATA;
@@ -9,17 +9,17 @@ DATA;
 /**
 * Definition of the language
 * XTDLANGUAGE=(LanguageNameInEnglish, LanguageNameInSelf, Comments, UniqueID)*/
-#1=XTDLANGUAGE('English',$,$,'0v4wMZwDT9nehIi1zJEMFn');
+#1=XTDLANGUAGE('English',$,$,'2wRFNVuEb9KRmbFzIIyJW$');
 
 /**
 * Subject of the specification
 * XTDSUBJECT=(VersionDate, VersionID, UniqueID, Descriptions, Names)*/
-#2=XTDSUBJECT('2018-12-19T12:43:34','2.1','25zRAUlwD1Ah0ejqI$5tl1',(#4),(#3));
-#3=XTDNAME(#1,'2D2oseDSDA2B2lnDvjT$FE','The Door');
-#4=XTDDESCRIPTION(#1,'1WDCjeaz55m8c88wGWZ2Ev','Example of the door');
-#5=XTDSUBJECT('2018-12-19T12:43:34','2.1','3XhnsNfyT6lugK$5icp_$_',(#7),(#6));
-#6=XTDNAME(#1,'3wC4DO3q14Cx7KK1Fb2uF8','The Floor');
-#7=XTDDESCRIPTION(#1,'1Bx_cCVkf549yzHNmXUMHd','Example of the floor');
+#2=XTDSUBJECT('2018-12-20T12:32:13','2.1','01kfXsJwH0tPhxmxnV$YDn',(#4),(#3));
+#3=XTDNAME(#1,'3DLWlHBbX1Ehp$H1e2w74O','The Door');
+#4=XTDDESCRIPTION(#1,'2vst_cwtL5dA_uo3I824Eb','Example of the door');
+#5=XTDSUBJECT('2018-12-20T12:32:13','2.1','0FuiQR2aP0Kwpx50pH84sc',(#7),(#6));
+#6=XTDNAME(#1,'03NjHJ5zfCVeoVh1Mbl9ew','The Floor');
+#7=XTDDESCRIPTION(#1,'2G8T76p29BjOTjXIziBl6z','Example of the floor');
 
 /**
 * Information identifying external schema so that external automation systems can identify relevant mappings
@@ -35,7 +35,7 @@ DATA;
 /**
 * Relation defining external objects in external schemas
 * XTDRELMAPPING=(VersionDate, VersionID, UniqueID, Descriptions, Names, ViewSelector, RelatingObject, RelatedExternalObject)*/
-#11=XTDRELMAPPING('2018-12-19T12:43:34','2.1','2tXhehBFbBqu68DqCJduVC',$,(),$,#2,#9);
-#12=XTDRELMAPPING('2018-12-19T12:43:34','2.1','1tIvderT1CiQXjGKVhIW11',$,(),$,#5,#10);
+#11=XTDRELMAPPING('2018-12-20T12:32:13','2.1','1LZSnD2gL8FwyOoeKvUZYD',$,(),$,#2,#9);
+#12=XTDRELMAPPING('2018-12-20T12:32:13','2.1','2xFW$pw2nE9xe3AGAf_0gr',$,(),$,#5,#10);
 ENDSEC;
 END-ISO-10303-21;
